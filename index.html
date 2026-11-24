@@ -1,8 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>MyAlternates Web</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -593,7 +589,55 @@ tr[hidden]{display:none}
   .auth-form{align-items:flex-start;padding-block:24px 32px;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
   .otp{gap:8px}
   .otp input{width:calc((100% - 40px) / 6);height:54px}
-  .menu{position:fixed;left:12px;right:12px;width:auto;top:70px}
+  .menu{position:fixed;left:12px;right:12px;width:auto;top:118px}
+  /* phone header: row 1 = title + icons, row 2 = full-width account switcher */
+  .top{flex-wrap:wrap;row-gap:10px;gap:8px}
+  .top .titles{flex:1 1 0;min-width:0}
+  .top h1{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .greet{font-size:12px}
+  .iconbtn{width:38px;height:38px;border-radius:10px}
+  .acct{order:10;flex:1 1 100%}
+  .acctbtn{width:100%;height:48px;border-radius:14px}
+  .acctbtn .acct-name{display:flex;min-width:0}
+  .acct-name > *{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  .acct-chev{margin-left:auto}
+  /* hero tiles: tighter, values never squeeze the labels */
+  .pfh{padding:18px;border-radius:18px;gap:16px}
+  .pfh-val{font-size:2.1rem}
+  .pfh-tile{padding:12px;gap:10px}
+  .pfh-tile .ic{width:34px;height:34px;border-radius:10px}
+  .pfh-tile b{font-size:1.05rem}
+  .pfh-tile .l,.pfh-tile.cap .l{font-size:13.5px}
+  .pfh-tile .s,.pfh-tile.cap .s{font-size:12px}
+  .pfh-day{padding:12px;gap:10px}
+  .pfh-day .v{font-size:1.2rem}
+  .capring-row{gap:12px;padding:12px}
+  /* no sideways scrolling */
+  .main,.content{min-width:0;max-width:100vw;overflow-x:clip}
+  .content > *{min-width:0;max-width:100%}
+  .card-h{gap:8px}
+  .fs-dialog{max-height:88vh}
+  /* quick actions: three compact tiles in one row */
+  .qa{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:8px}
+  .qa button,.qa a{flex-direction:column;justify-content:center;text-align:center;padding:12px 6px;gap:6px;font-size:12.5px;position:relative}
+  .qa-badge{position:absolute;top:6px;right:6px;margin:0;font-size:10px;padding:2px 6px}
+  /* donut cards: chart on top, full-width legend so names are not cut */
+  .split{flex-direction:column;align-items:stretch;gap:16px}
+  .split > .donut{align-self:center}
+  .legend{width:100%}
+  .legend div{font-size:13.5px}
+  /* transaction tables become two-line rows: scheme + amount, date + type */
+  .txtbl thead{display:none}
+  .txtbl tbody tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;padding:11px 14px;border-bottom:1px solid var(--line2)}
+  .txtbl tbody tr[hidden]{display:none}
+  .txtbl tbody tr:last-child{border-bottom:none}
+  .txtbl td{border:none;padding:0 !important;font-size:13.5px}
+  .txtbl td:nth-child(1){grid-column:1;grid-row:1;font-weight:600}
+  .txtbl td:nth-child(3){grid-column:1;grid-row:2;font-size:12.5px;color:var(--faint)}
+  .txtbl td:nth-child(4){grid-column:2;grid-row:2;justify-self:end;font-size:12.5px}
+  .txtbl td:nth-child(5){grid-column:2;grid-row:1;justify-self:end;text-align:right}
+  .txtbl tr[data-empty] td{grid-column:1 / -1;text-align:center}
+  .tblwrap:has(.txtbl){overflow-x:visible}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -781,8 +825,49 @@ const SECTORS_MORE = [['Healthcare', 6.42], ['Chemicals', 5.88], ['Automobile & 
 function listCard(title, rows, top, more, all){
   return `<section class="card"><div class="card-h"><h2>${title}</h2>${asOf('15 May 2026')}</div><div style="display:flex;flex-direction:column;gap:14px">${barList(rows, PF.inv, top)}</div>
     <div class="pf-extra" hidden style="flex-direction:column;gap:14px">${barList(more, PF.inv, top)}</div>
-    <button type="button" class="pf-more" data-all="${all} →" onclick="const x=this.previousElementSibling,o=x.hidden;x.hidden=!o;x.style.display=o?'flex':'none';this.textContent=o?'Show less ↑':this.dataset.all">${all} →</button></section>`;
+    <button type="button" class="pf-more" onclick="openListModal(this)">${all} →</button></section>`;
 }
+window.openTxModal = function(btn){
+  const card = btn.closest('section');
+  const title = card.querySelector('.card-h h2').textContent;
+  let body = '', count = 0;
+  const tpl = card.querySelector('template[data-all]');
+  if (tpl) { body = tpl.innerHTML; count = tpl.content.children.length; }
+  else {
+    const t = card.querySelector('select[data-k="t"]'), y = card.querySelector('select[data-k="y"]');
+    const tv = t ? t.value : 'all', yv = y ? y.value : 'all';
+    const wrap = card.querySelector('.tblwrap').cloneNode(true);
+    wrap.querySelectorAll('tbody tr:not([data-empty])').forEach(r => { const ok = (tv === 'all' || r.dataset.t === tv) && (yv === 'all' || r.dataset.y === yv); r.hidden = !(ok && count++ < 10); });
+    const em = wrap.querySelector('tr[data-empty]'); if (em) em.hidden = count > 0;
+    count = Math.min(count, 10);
+    const f = [tv !== 'all' ? tv : '', yv !== 'all' ? yv : ''].filter(Boolean).join(' · ');
+    body = (f ? `<div class="muted" style="font-size:12.5px">Filtered: ${f}</div>` : '') + wrap.outerHTML;
+  }
+  const m = document.createElement('div');
+  m.className = 'fs-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', title);
+  m.innerHTML = `<div class="fs-dialog" style="width:min(860px,100%);display:flex;flex-direction:column;max-height:86vh;overflow:hidden"><div class="fs-dhead"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><b style="font-size:16px">${title}</b><span class="muted" style="font-size:12.5px">${count ? `Latest ${count}` : ``}</span></div><button type="button" class="iconbtn" data-close aria-label="Close">✕</button></div><div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px;overflow-y:auto">${body}</div></div>`;
+  const close = () => { m.remove(); document.removeEventListener('keydown', onKey); btn.focus(); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) close(); });
+  document.addEventListener('keydown', onKey);
+  document.body.appendChild(m);
+  m.querySelector('[data-close]').focus();
+};
+window.openListModal = function(btn){
+  const card = btn.closest('section');
+  const title = card.querySelector('.card-h h2').textContent.replace(/^Top 5 /, 'All ');
+  const asof = card.querySelector('.card-h .asof');
+  const lists = [...card.children].filter(el => el.tagName === 'DIV' && !el.classList.contains('card-h')).map(el => el.innerHTML).join('');
+  const m = document.createElement('div');
+  m.className = 'fs-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', title);
+  m.innerHTML = `<div class="fs-dialog" style="width:min(580px,100%)"><div class="fs-dhead"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><b style="font-size:16px">${title}</b>${asof ? asof.outerHTML : ''}</div><button type="button" class="iconbtn" data-close aria-label="Close">✕</button></div><div style="padding:18px;display:flex;flex-direction:column;gap:14px">${lists}</div></div>`;
+  const close = () => { m.remove(); document.removeEventListener('keydown', onKey); btn.focus(); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) close(); });
+  document.addEventListener('keydown', onKey);
+  document.body.appendChild(m);
+  m.querySelector('[data-close]').focus();
+};
 function holdingsCard(h = HOLDINGS, hm = HOLDINGS_MORE, sc = SECTORS, sm = SECTORS_MORE){ return listCard('Top 5 Holdings', h, Math.ceil(h[0][1] * 1.4), hm, 'View All Holdings') + listCard('Top 5 Sectors', sc, Math.ceil(sc[0][1] * 1.12), sm, 'View All Sectors'); }
 function donutCard(title, note, items, big, small){
   return `<section class="card"><div class="card-h"><h2>${title}</h2><span class="side-note">${note}</span></div><div class="split" style="flex:1;justify-content:center">${donut(items, big, small)}${legend(items)}</div></section>`;
@@ -806,14 +891,28 @@ const PMS_TX = [
   { scheme: 'Buoyant - Opportunities', amc: 'Buoyant Capital', date: '22 Aug 2024', type: 'Addition', amt: '₹50,00,000' },
   { scheme: 'Stallion Asset - Core Fund', amc: 'Stallion Asset', date: '14 Mar 2023', type: 'Addition', amt: '₹55,00,000' }
 ];
+window.txFilter = function(el){
+  const sec = el.closest('section');
+  const t = sec.querySelector('select[data-k="t"]').value, y = sec.querySelector('select[data-k="y"]').value;
+  let shown = 0, match = 0;
+  sec.querySelectorAll('tbody tr:not([data-empty])').forEach(r => {
+    const ok = (t === 'all' || r.dataset.t === t) && (y === 'all' || r.dataset.y === y);
+    if (ok) match++;
+    r.hidden = !(ok && shown++ < 5);
+  });
+  sec.querySelector('tr[data-empty]').hidden = match > 0;
+  const c = sec.querySelector('[data-count]');
+  if (c) c.textContent = match > 5 ? 'Showing latest 5 of ' + match : match ? 'Showing ' + match + ' of ' + match : '';
+};
 function txCard(rows, title = 'Recent Transactions', types = ['Addition', 'Withdrawn']){
   const ic = up => `<span style="width:18px;height:18px;border-radius:50%;border:1.6px solid ${up ? 'var(--up)' : 'var(--down)'};color:${up ? 'var(--up)' : 'var(--down)'};display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">${svg(up ? 'arrowup' : 'arrowdown', 11, 2.6)}</span>`;
   return `<section class="card"><div class="card-h" style="align-items:center"><h2>${title}</h2>
-      <select aria-label="Filter transactions by type" onchange="let n=0;this.closest('section').querySelectorAll('tbody tr').forEach(r => { const ok = this.value === 'all' || r.dataset.t === this.value; r.hidden = !(ok && n++ < 5); })" style="height:34px;border:1px solid var(--gold-line);border-radius:9px;padding:0 10px;background:var(--gold-soft);color:var(--gold-ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer"><option value="all">All</option>${types.map(v => `<option value="${v}">${v}</option>`).join('')}</select></div>
-    <div class="tblwrap" style="border:1px solid var(--line);border-radius:12px;margin:0"><table><thead><tr><th style="padding-left:16px">Scheme Name</th><th class="hide-sm">AMC Name</th><th>Transaction Date</th><th>Type</th><th class="r" style="padding-right:16px">Amount</th></tr></thead><tbody>
-      ${rows.map((t, i) => { const up = t.type === types[0]; return `<tr data-t="${t.type}"${i >= 5 ? ' hidden' : ''}><td style="padding-left:16px">${t.scheme}</td><td class="hide-sm muted">${t.amc}</td><td class="num">${t.date}</td><td><span style="display:inline-flex;align-items:center;gap:8px;font-weight:600">${ic(up)}${t.type}</span></td><td class="r num" style="padding-right:16px"><b style="font-weight:600">${t.amt}</b></td></tr>`; }).join('')}
+      <span style="display:flex;gap:8px;flex-wrap:wrap"><select data-k="t" aria-label="Filter transactions by type" onchange="txFilter(this)" style="height:34px;border:1px solid var(--gold-line);border-radius:9px;padding:0 10px;background:var(--gold-soft);color:var(--gold-ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer"><option value="all">All types</option>${types.map(v => `<option value="${v}">${v}</option>`).join('')}</select><select data-k="y" aria-label="Filter transactions by year" onchange="txFilter(this)" style="height:34px;border:1px solid var(--gold-line);border-radius:9px;padding:0 10px;background:var(--gold-soft);color:var(--gold-ink);font:inherit;font-size:13px;font-weight:600;cursor:pointer"><option value="all">All years</option>${[...new Set(rows.map(t => t.date.slice(-4)))].sort().reverse().map(y => `<option value="${y}">${y}</option>`).join('')}</select></span></div>
+    <div class="tblwrap" style="border:1px solid var(--line);border-radius:12px;margin:0"><table class="txtbl"><thead><tr><th style="padding-left:16px">Scheme Name</th><th class="hide-sm">AMC Name</th><th>Transaction Date</th><th>Type</th><th class="r" style="padding-right:16px">Amount</th></tr></thead><tbody>
+      ${rows.map((t, i) => { const up = t.type === types[0]; return `<tr data-t="${t.type}" data-y="${t.date.slice(-4)}"${i >= 5 ? ' hidden' : ''}><td style="padding-left:16px">${t.scheme}</td><td class="hide-sm muted">${t.amc}</td><td class="num">${t.date}</td><td><span style="display:inline-flex;align-items:center;gap:8px;font-weight:600">${ic(up)}${t.type}</span></td><td class="r num" style="padding-right:16px"><b style="font-weight:600">${t.amt}</b></td></tr>`; }).join('')}
+      <tr data-empty hidden><td colspan="5" class="muted" style="padding:18px 16px;text-align:center">No transactions for this type and year.</td></tr>
     </tbody></table></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><a href="#txns" style="font-size:13px;font-weight:600">View All Transactions →</a>${rows.length > 5 ? `<span class="muted" style="font-size:12px">Showing latest 5 of ${rows.length}</span>` : ''}</div></section>`;
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><button type="button" onclick="openTxModal(this)" style="all:unset;cursor:pointer;font-size:13px;font-weight:600;color:var(--gold-ink)">View All Transactions →</button><span data-count class="muted" style="font-size:12px">${rows.length > 5 ? `Showing latest 5 of ${rows.length}` : ''}</span></div></section>`;
 }
 function miniStats(items){
   const tone = { up: ['#ECFDF3', 'var(--up)'], down: ['#FEF2F2', 'var(--down)'] };
@@ -874,7 +973,7 @@ function prodCards(list, base, baseLbl){
   return `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%, 14rem),1fr))">${list.map(p => { const gift = p.k === 'gift', share = p.cap ? p.cap.pct : p.value / base * 100;
     return `<a href="#${p.route}" class="card prodcard"><div style="display:flex;align-items:center;gap:12px"><span class="tile" style="background:${p.bg};color:${p.fg};width:46px;height:46px;border-radius:14px">${p.abbr}</span><div style="flex:1;min-width:0"><b style="font-size:1.05rem">${p.name}</b><div class="muted" style="font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.sub}</div></div></div>
     <div class="num" style="font-size:1.5rem;font-weight:600;letter-spacing:-.4px">${gift ? usd(p.value / FX) : cr(p.value)}</div>
-    <div style="display:flex;align-items:center;gap:10px"><div class="bar" style="flex:1"><span style="width:${share.toFixed(1)}%;background:${p.color}"></span></div><span class="muted" style="font-size:.8rem;white-space:nowrap">${p.cap ? share + '% called' : share.toFixed(1) + '% of ' + baseLbl}</span></div>
+    <div style="display:flex;align-items:center;gap:10px"><div class="bar" style="flex:1"><span style="width:${share.toFixed(1)}%;background:${p.color}"></span></div><span class="muted" style="font-size:.8rem;white-space:nowrap">${p.cap ? share + '% called' : share.toFixed(1) + '%' + (baseLbl ? ' of ' + baseLbl : '')}</span></div>
     <span class="${p.retCls}" style="font-size:.78rem;font-weight:600;align-self:flex-start">${p.ret}</span></a>`; }).join('')}</div>`;
 }
 const quickActions = () => `<section class="card" style="padding:12px"><div class="qa" aria-label="Quick actions" style="grid-template-columns:repeat(3,minmax(0,1fr))">
@@ -950,7 +1049,7 @@ V.home = () => {
   <div class="card-h"><h2>Invested Products</h2><span class="side-note">Tap a product for details</span></div>
   ${prodCards(list, val, dom.map(p => SHORT[p.k]).join('+'))}
   ${quickActions()}
-  <section class="card"><div class="card-h"><h2>Recent transactions</h2><a href="#txns" style="font-size:.85rem;font-weight:600">View all</a></div>${recent.slice(0, 5).map(txRow).join('') || '<p class="muted" style="margin:0">No recent transactions.</p>'}</section>
+  <section class="card"><div class="card-h"><h2>Recent transactions</h2><button type="button" onclick="openTxModal(this)" style="all:unset;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--gold-ink)">View all</button></div>${recent.slice(0, 5).map(txRow).join('') || '<p class="muted" style="margin:0">No recent transactions.</p>'}<template data-all>${recent.slice(0, 10).map(txRow).join('')}</template></section>
   </div>`;
 };
 V.family = () => {
@@ -966,14 +1065,14 @@ V.family = () => {
   return `<div class="pf">
   ${dashHero(fp, true)}
   <section class="card"><div class="card-h"><h2>Member-wise</h2><span class="side-note">${dom.length ? dom.map(p => SHORT[p.k]).join(' + ') + ' · ' : ''}select a member to view their dashboard</span></div>
-    <div class="pf-3" style="gap:12px">${mems.map(m => { const sh = tv ? (m.v / tv * 100) : 0; return `<button type="button" data-member="${m.id}" class="memcard"><div style="display:flex;align-items:center;gap:12px"><span class="avatar" style="width:40px;height:40px;font-size:13px">${m.ini}</span><div style="flex:1;min-width:0;text-align:left"><b>${m.name}</b> <span class="muted" style="font-size:12px">· ${m.rel}</span><div class="muted" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.prods.join(' · ')}</div></div><span class="muted" style="font-size:16px">›</span></div>
-      ${m.v ? `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><b class="num" style="font-size:1.35rem">${inr(m.v)}</b><span class="num" style="font-size:12.5px;font-weight:600;color:var(--gold-ink)">${sh.toFixed(2)}%</span></div>
+    <div class="pf-3" style="gap:12px">${mems.map(m => { const sh = tv ? (m.v / tv * 100) : 0; return `<button type="button" data-member="${m.id}" class="memcard"><div style="display:flex;align-items:center;gap:12px"><span class="avatar" style="width:40px;height:40px;font-size:13px">${m.ini}</span><div style="flex:1;min-width:0;text-align:left"><b>${m.name}</b> <span class="muted" style="font-size:12px">· ${m.rel}</span></div><span class="muted" style="font-size:16px">›</span></div>
+      ${m.v ? `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><b class="num" style="font-size:1.35rem">${inr(m.v)}</b><span class="muted" style="font-size:11.5px;font-weight:600">${m.prods.filter(x => ['PMS', 'MF', 'SIF'].includes(x)).join('+')}</span></span><span class="num" style="font-size:12.5px;font-weight:600;color:var(--gold-ink)">${sh.toFixed(2)}%</span></div>
       <div class="bar"><span style="width:${sh}%;background:linear-gradient(90deg,#B8962E,#E8C65A)"></span></div>` : ''}
       <div class="muted" style="font-size:12px;text-align:left;min-height:1.2em">${m.extra ? (m.v ? '+ ' : '') + m.extra : ''}</div></button>`; }).join('')}</div></section>
   <div class="card-h"><h2>Family Invested Products</h2><span class="side-note">Totals of all members · tap for details</span></div>
-  ${prodCards(fp, val, 'family ' + dom.map(p => SHORT[p.k]).join('+'))}
+  ${prodCards(fp, val, dom.map(p => SHORT[p.k]).join('+'))}
   ${quickActions()}
-  <section class="card"><div class="card-h"><h2>Recent family transactions</h2><a href="#txns" style="font-size:.85rem;font-weight:600">View all</a></div>${FAM_TXNS.filter(t => fp.some(p => SHORT[p.k] === t.prod) && fm.some(m => m.rel === t.scheme.split(' · ')[0])).sort((x, y) => new Date(y.date) - new Date(x.date)).slice(0, 5).map(txRow).join('') || '<p class="muted" style="margin:0">No recent transactions.</p>'}</section>
+  <section class="card"><div class="card-h"><h2>Recent family transactions</h2><button type="button" onclick="openTxModal(this)" style="all:unset;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--gold-ink)">View all</button></div>${(ft => (ft.slice(0, 5).map(txRow).join('') || '<p class="muted" style="margin:0">No recent transactions.</p>') + `<template data-all>${ft.slice(0, 10).map(txRow).join('')}</template>`)(FAM_TXNS.filter(t => fp.some(p => SHORT[p.k] === t.prod) && fm.some(m => m.rel === t.scheme.split(' · ')[0])).sort((x, y) => new Date(y.date) - new Date(x.date)))}</section>
   </div>`;
 };
 const ANN = [
@@ -1631,3 +1730,5 @@ document.addEventListener('keydown', e => {
 });
 render();
 </script>
+
+</body></html>
