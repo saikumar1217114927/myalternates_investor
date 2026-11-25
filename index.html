@@ -297,6 +297,15 @@ tr.click:hover td{background:var(--gold-soft)}
 .ann-facts div{background:var(--gold-soft);border-radius:10px;padding:9px 11px;min-width:0}
 .ann.mine .ann-facts div{background:var(--gold-soft)}
 .ann-facts span{display:block;font-size:11.5px;color:var(--faint)}.ann-facts b{font-size:13.5px;font-weight:600}
+.ann-rm{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;padding-top:12px;margin-top:2px;border-top:1px dashed var(--line)}
+.ann-rm-tx{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);min-width:0;flex:1 1 240px}
+.ann-rm-tx b{color:var(--ink);font-weight:600}
+.ann-rm-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#F3D57A;background:linear-gradient(135deg,#151B28,#2A3142);box-shadow:0 0 0 2px var(--gold-line)}
+.ann-rm-acts{display:flex;gap:8px;flex-shrink:0}
+.ann-rm-acts a{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 13px;border-radius:9px;font-size:12.5px;font-weight:600;text-decoration:none}
+.ann-rm-call{background:var(--gold);color:#151B28!important}
+.ann-rm-mail{border:1px solid var(--line);background:var(--surface);color:var(--ink)!important}
+.ann-rm-mail:hover{border-color:var(--gold-line);background:var(--gold-soft)}
 .ann-toggle{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer}
 .ann-toggle input{position:absolute;opacity:0;width:1px;height:1px}
 .ann-toggle .sw{width:38px;height:22px;border-radius:11px;background:#D1D5DB;position:relative;transition:background .15s}
@@ -1112,6 +1121,8 @@ V.announcements = () => {
           ${m ? `<span class="ann-inv">${svg('arrowup', 0)}<span><b>You have invested</b><small>${a.invested}</small></span></span>` : ''}</div>
         <div class="ann-title">${a.title}</div><p class="ann-body">${a.body}</p>
         <div class="ann-facts">${a.facts.map(([l, v]) => `<div><span>${l}</span><b class="num">${v}</b></div>`).join('')}</div>
+        <div class="ann-rm"><span class="ann-rm-tx"><span class="ann-rm-av">${RM.name.split(' ').map(x => x[0]).join('')}</span><span>Questions on this alert? Contact your RM <b>${RM.name}</b></span></span>
+          <span class="ann-rm-acts"><a class="ann-rm-call" href="tel:${RM.mobile.replace(/\s/g, '')}">${svg('phone', 14, 2)}Call</a><a class="ann-rm-mail" href="mailto:${RM.email}?subject=${encodeURIComponent('Query: ' + a.fund + ' - ' + a.title)}">${svg('mail', 14, 2)}Email</a></span></div>
       </article>`; }).join('')}
       <p class="muted ann-empty" hidden style="margin:0;text-align:center;padding:20px">No alerts match this filter.</p></div>
   </section></div>`;
@@ -1141,23 +1152,39 @@ V.holdings = () => {
       <li>Sidebar, product cards, member cards and recent transactions hide products the investor does not hold.</li></ul></section>
   </div>`;
 };
+// Family · Combined product pages: combined values, one row per member investment (Spouse and HUF figures are sample)
+function famHero(label, tot, inv, day, xirr, base, unit, netSub, bench){
+  const k = tot / (base.at(-1) * unit), trend = base.map(t => +(t * k).toFixed(3));
+  return { label: 'Family · ' + label + ' · Current Value', value: inr(tot), valN: tot, netN: inv, asOn: '07 Jun 2026', dayAmt: inr(day), dayPct: '+' + (day / (tot - day) * 100).toFixed(2) + '%',
+    trend, from: cr(trend[0] * unit), to: cr(tot), net: inr(inv), netSub, gain: inr(tot - inv), gainPct: '+' + ((tot - inv) / inv * 100).toFixed(2) + '%', xirr, bench };
+}
+const famAgg = (rows, key) => { const g = {}; rows.forEach(x => { g[x[key]] = (g[x[key]] || 0) + x.val; }); return Object.keys(g).map(k => [k, g[k]]); };
+const famDate = d => new Date(d).getTime();
 V.pms = () => {
-  const tot = PMS_SCHEMES.reduce((a, s) => a + s.val, 0);
+  const fam = S.account === 'family';
+  const ROWS = fam ? [...PMS_SCHEMES.map(x => ({ ...x, who: 'Self' })),
+    { ...PMS_SCHEMES[1], who: 'Spouse', since: '10 Jun 2024', val: 8200000, inv: 7500000, ret: '+9.33%' },
+    { ...PMS_SCHEMES[2], who: 'HUF', since: '04 Nov 2024', val: 4850000, inv: 4500000, ret: '+7.78%' }] : PMS_SCHEMES;
+  const tot = ROWS.reduce((a, s) => a + s.val, 0), invT = ROWS.reduce((a, s) => a + s.inv, 0);
+  const TX = fam ? [...PMS_TX.map(x => ({ ...x, scheme: x.scheme + ' · Self' })),
+    { scheme: 'Stallion Asset - Core Fund · Spouse', amc: 'Stallion Asset', date: '12 May 2026', type: 'Addition', amt: '₹25,00,000' },
+    { scheme: 'Stallion Asset - Core Fund · Spouse', amc: 'Stallion Asset', date: '10 Jun 2024', type: 'Addition', amt: '₹50,00,000' },
+    { scheme: 'Buoyant - Opportunities · HUF', amc: 'Buoyant Capital', date: '04 Nov 2024', type: 'Addition', amt: '₹45,00,000' }].sort((x, y) => famDate(y.date) - famDate(x.date)) : PMS_TX;
   const sh = ['#D4AF37', 'var(--chart-dark)', '#E7D69A'];
-  const amc = PMS_SCHEMES.map((s, i) => ({ name: s.amc, color: sh[i], v: s.val / tot * 100 }));
-  const sch = PMS_SCHEMES.map((s, i) => ({ name: s.name, color: sh[i], v: s.val / tot * 100 }));
+  const amc = famAgg(ROWS, 'amc').map(([name, v], i) => ({ name, color: sh[i], v: v / tot * 100 }));
+  const sch = famAgg(ROWS, 'name').map(([name, v], i) => ({ name, color: sh[i], v: v / tot * 100 }));
   const asset = [{ name: 'Equity', color: '#D4AF37', v: 96.14, dp: 2 }, { name: 'Cash', color: 'var(--chart-dark)', v: 3.86, dp: 2 }];
   return `<div class="pf">
-  ${pfHero({ label: 'PMS Portfolio · Current Value', value: '₹1,62,77,489', valN: 16277489, netN: 15500000, asOn: '07 Jun 2026', dayAmt: '₹1,21,840', dayPct: '+0.75%', trend: [1.548, 1.552, 1.541, 1.566, 1.574, 1.569, 1.588, 1.596, 1.590, 1.607, 1.615, 1.628], from: '₹1.55 Cr', to: '₹1.63 Cr', net: '₹1,55,00,000', netSub: 'Total inflow less outflow', gain: '₹7,77,489', gainPct: '+5.02%', xirr: '+4.12%', bench: 'NIFTY 50 · +3.40%' })}
-  ${miniStats([['Inflow', '₹1.55 Cr', 'arrowup', 'up'], ['Outflow', '₹360', 'arrowdown', 'down'], ['AMCs', '3', 'grid'], ['Strategies', '3', 'act']])}
+  ${pfHero(fam ? famHero('PMS', tot, invT, 219740, '+4.86%', [1.548, 1.552, 1.541, 1.566, 1.574, 1.569, 1.588, 1.596, 1.590, 1.607, 1.615, 1.628], 1e7, 'Self ₹1.55 Cr · Spouse ₹75.00 L · HUF ₹45.00 L', 'NIFTY 50 · +3.40%') : { label: 'PMS Portfolio · Current Value', value: '₹1,62,77,489', valN: 16277489, netN: 15500000, asOn: '07 Jun 2026', dayAmt: '₹1,21,840', dayPct: '+0.75%', trend: [1.548, 1.552, 1.541, 1.566, 1.574, 1.569, 1.588, 1.596, 1.590, 1.607, 1.615, 1.628], from: '₹1.55 Cr', to: '₹1.63 Cr', net: '₹1,55,00,000', netSub: 'Total inflow less outflow', gain: '₹7,77,489', gainPct: '+5.02%', xirr: '+4.12%', bench: 'NIFTY 50 · +3.40%' })}
+  ${miniStats([['Inflow', fam ? cr(invT) : '₹1.55 Cr', 'arrowup', 'up'], ['Outflow', '₹360', 'arrowdown', 'down'], ['AMCs', '3', 'grid'], ['Strategies', '3', 'act']])}
   ${perfCard(PERF_PMS, 'NIFTY 50')}
-  <section class="card"><div class="card-h"><h2>Invested Schemes</h2><span class="side-note">3 AMCs · 3 schemes</span></div><div class="tblwrap"><table><thead><tr><th>Scheme</th><th class="hide-sm">Category</th><th class="hide-sm">Inception</th><th class="hide-sm r">Net investment</th><th class="r">Current value</th><th class="hide-sm r">Gain</th><th class="hide-sm r">Weight</th><th class="r">Returns (SI)</th></tr></thead><tbody>
-    ${PMS_SCHEMES.map(s => `<tr class="click" data-go="pms-scheme"><td><div style="display:flex;align-items:center;gap:12px">${logo(s.logo)}<div style="min-width:0"><b style="font-weight:600">${s.name}</b><div class="muted" style="font-size:12px">${s.amc}</div></div></div></td><td class="hide-sm"><span class="cat">${s.cat}</span></td><td class="hide-sm muted">${s.since}</td><td class="hide-sm r num">${inr(s.inv)}</td><td class="r num"><b style="font-weight:600">${inr(s.val)}</b></td><td class="hide-sm r num up-t">${inr(s.val - s.inv)}</td><td class="hide-sm r num muted">${(s.val / tot * 100).toFixed(1)}%</td><td class="r num up-t"><b style="font-weight:600">${s.ret}</b></td></tr>`).join('')}
+  <section class="card"><div class="card-h"><h2>Invested Schemes</h2><span class="side-note">${fam ? ROWS.length + ' AMCs · ' + ROWS.length + ' Schemes' : '3 AMCs · 3 schemes'}</span></div><div class="tblwrap"><table><thead><tr><th>Scheme</th>${fam ? '<th>Member</th>' : ''}<th class="hide-sm">Category</th><th class="hide-sm">Inception</th><th class="hide-sm r">Net investment</th><th class="r">Current value</th><th class="hide-sm r">Gain</th><th class="hide-sm r">Weight</th><th class="r">Returns (SI)</th></tr></thead><tbody>
+    ${ROWS.map(s => `<tr class="click" data-go="pms-scheme"><td><div style="display:flex;align-items:center;gap:12px">${logo(s.logo)}<div style="min-width:0"><b style="font-weight:600">${s.name}</b><div class="muted" style="font-size:12px">${s.amc}</div></div></div></td>${fam ? `<td><span class="pf-tag">${s.who}</span></td>` : ''}<td class="hide-sm"><span class="cat">${s.cat}</span></td><td class="hide-sm muted">${s.since}</td><td class="hide-sm r num">${inr(s.inv)}</td><td class="r num"><b style="font-weight:600">${inr(s.val)}</b></td><td class="hide-sm r num up-t">${inr(s.val - s.inv)}</td><td class="hide-sm r num muted">${(s.val / tot * 100).toFixed(1)}%</td><td class="r num up-t"><b style="font-weight:600">${s.ret}</b></td></tr>`).join('')}
   </tbody></table></div></section>
   <div class="pf-3">${donutCard('AMC Summary', '% of current value', amc, '3', 'AMCs')}${donutCard('Scheme Summary', '% of current value', sch, '3', 'Schemes')}${donutCard('Asset Allocation', asOf('15 May 2026'), asset, '96.1%', 'Equity')}</div>
   ${catCard()}
   <div class="pf-2">${holdingsCard()}</div>
-  ${txCard(PMS_TX)}
+  ${txCard(TX)}
   </div>`;
 };
 V['pms-scheme'] = () => `<div class="pf">
@@ -1169,8 +1196,8 @@ V['pms-scheme'] = () => `<div class="pf">
   ${txCard(PMS_TX.filter(t => t.scheme === 'Bonanza - Edge'), 'Transactions')}
   </div>`;
 function capTable(list, money, route){
-  return `<section class="card"><div class="card-h"><h2>Invested Schemes</h2><span class="side-note">${new Set(list.map(s => s.amc)).size} AMCs · ${list.length} schemes</span></div><div class="tblwrap"><table><thead><tr><th>Scheme</th><th class="hide-sm">Category</th><th class="hide-sm">Inception</th><th class="hide-sm r">Committed</th><th class="hide-sm r">Called</th><th class="r">Current value</th></tr></thead><tbody>
-    ${list.map(s => `<tr class="click" data-go="${route}"><td><div style="display:flex;align-items:center;gap:12px">${logo(s.logo)}<div style="min-width:0"><b>${s.name}</b><div class="muted" style="font-size:12px">${s.amc}</div></div></div></td><td class="hide-sm"><span class="cat">${s.cat}</span></td><td class="hide-sm muted">${s.since}</td><td class="hide-sm r num">${money(s.commit)}</td><td class="hide-sm r num">${money(s.called)}</td><td class="r num"><b>${money(s.val)}</b></td></tr>`).join('')}
+  return `<section class="card"><div class="card-h"><h2>Invested Schemes</h2><span class="side-note">${new Set(list.map(s => s.amc)).size} AMCs · ${list.length} schemes</span></div><div class="tblwrap"><table><thead><tr><th>Scheme</th>${S.account === 'family' ? '<th>Member</th>' : ''}<th class="hide-sm">Category</th><th class="hide-sm">Inception</th><th class="hide-sm r">Committed</th><th class="hide-sm r">Called</th><th class="r">Current value</th></tr></thead><tbody>
+    ${list.map(s => `<tr class="click" data-go="${route}"><td><div style="display:flex;align-items:center;gap:12px">${logo(s.logo)}<div style="min-width:0"><b>${s.name}</b><div class="muted" style="font-size:12px">${s.amc}</div></div></div></td>${S.account === 'family' ? `<td><span class="pf-tag">${s.who || 'Self'}</span></td>` : ''}<td class="hide-sm"><span class="cat">${s.cat}</span></td><td class="hide-sm muted">${s.since}</td><td class="hide-sm r num">${money(s.commit)}</td><td class="hide-sm r num">${money(s.called)}</td><td class="r num"><b>${money(s.val)}</b></td></tr>`).join('')}
   </tbody></table></div></section>`;
 }
 const AIF_TX = [
@@ -1202,7 +1229,7 @@ function capSummaries(list){
 V.aif = () => `<div class="pf">${capHero({ label: 'AIF Portfolio · Current Value', value: '₹2,73,53,605', asOn: '08 Oct 2026', commit: '₹4.00 Cr', called: '₹3.35 Cr', pend: '₹65.00 L', pctCalled: 83.75 })}${capTable(AIF_SCHEMES, cr, 'aif-scheme')}${capSummaries(AIF_SCHEMES)}${txCard(AIF_TX, 'Drawdowns &amp; Withdrawals', ['Drawdown', 'Withdrawn'])}</div>`;
 V.gift = () => `<div class="pf">${capHero({ label: 'GIFT IFSC Portfolio · Current Value', usdTag: true, value: '$382,400', asOn: '08 Oct 2026', commit: '$500,000', called: '$350,000', pend: '$150,000', pctCalled: 70 })}${capTable(GIFT_SCHEMES, usd, 'gift-scheme')}${capSummaries(GIFT_SCHEMES)}${txCard(GIFT_TX, 'Drawdowns &amp; Withdrawals', ['Drawdown', 'Withdrawn'])}</div>`;
 function drawdowns(rows){
-  return `<section class="card"><div class="card-h"><h2>Drawdown History</h2><span class="chip">All years ▾</span></div>${rows.map(r => `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line2)"><span class="tile" style="background:var(--gold-soft);color:var(--gold-ink)">${svg('arrowdown', 18, 2)}</span><div style="flex:1"><b>Drawdown</b><div class="muted" style="font-size:12px">${r[0]}</div></div><b class="num">${r[1]}</b></div>`).join('')}</section>`;
+  return `<section class="card"><div class="card-h"><h2>Transactions</h2><span class="chip">All years ▾</span></div>${rows.map(r => `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line2)"><span class="tile" style="background:var(--gold-soft);color:var(--gold-ink)">${svg('arrowdown', 18, 2)}</span><div style="flex:1"><b>Drawdown</b><div class="muted" style="font-size:12px">${r[0]}</div></div><b class="num">${r[1]}</b></div>`).join('')}</section>`;
 }
 const FACTSHEETS = {
   aif: { fund: 'Motilal Oswal - Growth Opportunities Fund Series II', amc: 'Motilal Oswal Asset Management-AIF', cat: 'CAT III', ccy: '₹',
@@ -1219,12 +1246,12 @@ const EYE_IC = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stro
 const DL_IC = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
 function factsheetCard(key){
   const F = FACTSHEETS[key], cur = F.list[0], prev = F.list.slice(1);
-  const btns = (i, f) => f.pub ? `<button type="button" class="btn ghost fs-btn" onclick="fsView('${key}', ${i})">${EYE_IC}View</button><button type="button" class="btn fs-btn" onclick="fsDownload('${key}', ${i})">${DL_IC}Download</button>` : `<span class="fs-na">Not available</span>`;
+  const btns = (i, f) => f.pub ? `<button type="button" class="btn fs-btn" onclick="fsDownload('${key}', ${i})">${DL_IC}Download PDF</button>` : `<span class="fs-na">Not available</span>`;
   return `<section class="card pf-card"><div class="card-h"><h2>Factsheet</h2>${asOf(cur.asOn)}</div>
     <div class="fs-main${cur.pub ? '' : ' na'}"><span class="fs-ic">${PDF_IC}</span>
       <div class="fs-info"><div class="fs-title">${F.fund} · ${cur.month}</div>
-        ${cur.pub ? `<div class="fs-meta"><span class="fs-ok">● Available</span><span>Published ${cur.pub}</span><span>PDF · ${cur.size}</span></div>` : `<div class="fs-meta"><span class="fs-no">● Not available</span><span>The fund has not published the factsheet as on ${cur.asOn} yet. You will see it here once it is uploaded.</span></div>`}</div>
-      <div class="fs-acts">${cur.pub ? btns(0, cur) : `<button type="button" class="btn ghost fs-btn" disabled>${EYE_IC}View</button><button type="button" class="btn fs-btn" disabled>${DL_IC}Download</button>`}</div></div>
+        ${cur.pub ? `<div class="fs-meta"><span class="fs-ok">● Available</span><span>As on ${cur.asOn}</span><span>PDF · ${cur.size}</span></div>` : `<div class="fs-meta"><span class="fs-no">● Not available</span><span>The fund has not published the factsheet as on ${cur.asOn} yet. You will see it here once it is uploaded.</span></div>`}</div>
+      <div class="fs-acts">${cur.pub ? btns(0, cur) : `<button type="button" class="btn fs-btn" disabled>${DL_IC}Download PDF</button>`}</div></div>
     <div class="fs-foot"><span class="muted" style="font-size:13px">${prev.length} previous factsheet${prev.length === 1 ? '' : 's'} · ${prev.filter(f => f.pub).length} available</span><button type="button" class="btn ghost fs-btn" onclick="fsHistory('${key}')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>Factsheet history</button></div></section>`;
 }
 function fsView(key, i){
@@ -1232,15 +1259,15 @@ function fsView(key, i){
   m.querySelector('.fs-doc').innerHTML = `<div class="fsd-head"><div><div class="fsd-k">Factsheet · ${f.month}</div><h3>${F.fund}</h3><div class="fsd-amc">${F.amc} · ${F.cat}</div></div><span class="fsd-asof">As on ${f.asOn}</span></div>
     <div class="fsd-grid">${F.facts.map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('')}</div>
     <div class="fsd-sec">Top 5 holdings</div>${F.top.map(([n, w]) => `<div class="fsd-bar"><span>${n}</span><i style="--w:${w * 9}%"></i><b>${w.toFixed(1)}%</b></div>`).join('')}
-    <p class="fsd-note">Sample factsheet preview for the demo. Figures are illustrative. Published ${f.pub}.</p>`;
+    <p class="fsd-note">Sample factsheet preview for the demo. Figures are illustrative.</p>`;
   m.querySelector('[data-fs-dl]').onclick = () => fsDownload(key, i);
   m.hidden = false; m.querySelector('.fs-close').focus();
 }
 function fsHistory(key){
   const F = FACTSHEETS[key], m = document.getElementById('fsHist');
-  const btns = (i, f) => f.pub ? `<button type="button" class="btn ghost fs-btn" onclick="fsHistClose();fsView('${key}', ${i})">${EYE_IC}View</button><button type="button" class="btn fs-btn" onclick="fsDownload('${key}', ${i})">${DL_IC}Download</button>` : `<span class="fs-na">Not available</span>`;
+  const btns = (i, f) => f.pub ? `<button type="button" class="btn fs-btn" onclick="fsDownload('${key}', ${i})">${DL_IC}Download</button>` : `<span class="fs-na">Not available</span>`;
   m.querySelector('.fs-hsub').textContent = F.fund;
-  m.querySelector('.fs-hlist').innerHTML = F.list.map((f, i) => `<div class="fs-row${f.pub ? '' : ' na'}"><span class="fs-ic sm">${PDF_IC}</span><div class="fs-info"><b>${f.month}</b>${i === 0 ? ' <span class="fs-latest">Latest</span>' : ''}<div class="muted" style="font-size:12px">As on ${f.asOn}${f.pub ? ' · Published ' + f.pub + ' · ' + f.size : ' · Not published yet'}</div></div><div class="fs-acts">${btns(i, f)}</div></div>`).join('');
+  m.querySelector('.fs-hlist').innerHTML = F.list.map((f, i) => `<div class="fs-row${f.pub ? '' : ' na'}"><span class="fs-ic sm">${PDF_IC}</span><div class="fs-info"><b>${f.month}</b>${i === 0 ? ' <span class="fs-latest">Latest</span>' : ''}<div class="muted" style="font-size:12px">As on ${f.asOn}${f.pub ? ' · PDF · ' + f.size : ' · Not available yet'}</div></div><div class="fs-acts">${btns(i, f)}</div></div>`).join('');
   m.hidden = false; m.querySelector('.fs-close').focus();
 }
 function fsHistClose(){ document.getElementById('fsHist').hidden = true; }
@@ -1272,9 +1299,9 @@ function fsDownload(key, i){
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { const m = document.getElementById('fsModal'); if (m && !m.hidden) fsClose(); const h = document.getElementById('fsHist'); if (h && !h.hidden) fsHistClose(); } });
 V['aif-scheme'] = () => `${schemeHeader({ logoKey: 'motilal', label: 'AIF SCHEME', name: 'Motilal Oswal - Growth Opportunities Fund Series II', amc: 'Motilal Oswal Asset Management-AIF', cat: 'CAT III', since: '20 Aug 2021' })}
-  <div class="pf">${capHero({ label: 'Scheme · Current Value', value: '₹1,49,91,391', asOn: '10 Dec 2025', commit: '₹1.00 Cr', called: '₹1.00 Cr', pend: '₹0', pctCalled: 100 })}${drawdowns([['03 Jun 2022', '₹25,00,000'], ['21 Jan 2022', '₹25,00,000'], ['20 Aug 2021', '₹50,00,000']])}${factsheetCard('aif')}</div>`;
+  <div class="pf">${capHero({ label: 'Scheme · Current Value', value: '₹1,49,91,391', asOn: '10 Dec 2025', commit: '₹1.00 Cr', called: '₹1.00 Cr', pend: '₹0', pctCalled: 100 })}${factsheetCard('aif')}${drawdowns([['03 Jun 2022', '₹25,00,000'], ['21 Jan 2022', '₹25,00,000'], ['20 Aug 2021', '₹50,00,000']])}</div>`;
 V['gift-scheme'] = () => `${schemeHeader({ logoKey: 'aequitas', label: 'GIFT IFSC SCHEME', name: 'Aequitas GIFT IFSC Fund', amc: 'Aequitas Investments IFSC', cat: 'CAT III', since: '12 Mar 2024' })}
-  <div class="pf">${capHero({ label: 'Scheme · Current Value', usdTag: true, value: '$248,900', asOn: '08 Oct 2026', commit: '$250,000', called: '$200,000', pend: '$50,000', pctCalled: 80 })}${drawdowns([['20 Feb 2025', '$40,000'], ['18 Sep 2024', '$60,000'], ['12 Mar 2024', '$100,000']])}${factsheetCard('gift')}</div>`;
+  <div class="pf">${capHero({ label: 'Scheme · Current Value', usdTag: true, value: '$248,900', asOn: '08 Oct 2026', commit: '$250,000', called: '$200,000', pend: '$50,000', pctCalled: 80 })}${factsheetCard('gift')}${drawdowns([['20 Feb 2025', '$40,000'], ['18 Sep 2024', '$60,000'], ['12 Mar 2024', '$100,000']])}</div>`;
 function navHero(value, day, up, net, gainLabel, gain){
   return `<section class="hero"><span class="ring1"></span><span class="ring2"></span><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span class="lbl">Current Value</span>${asOf('07 Jun 2026', true, 'NAV as on')}</div>
     <div class="big num">${value}</div><div><span class="pill ${up ? 'up' : 'down'}">${day} <span style="font-weight:400;color:var(--on-dark-2)">today</span></span></div>
@@ -1323,17 +1350,23 @@ V['mf-scheme'] = () => {
   </div>`;
 };
 V.mf = () => {
-  const D = MF_DATA, tot = D.schemes.reduce((a, x) => a + x.val, 0), inv = D.schemes.reduce((a, x) => a + x.inv, 0);
+  const fam = S.account === 'family';
+  const ROWS = fam ? [...MF_DATA.schemes.map((x, i) => ({ ...x, who: 'Self', idx: i })),
+    { ...MF_DATA.schemes[0], who: 'Spouse', idx: 0, mode: 'SIP ₹25,000 / month', since: '16 Sep 2024', inv: 2500000, val: 2800000, ret: '+12.0%' }] : MF_DATA.schemes;
+  const D = { ...MF_DATA, schemes: ROWS, tx: fam ? [...MF_DATA.tx.map(x => ({ ...x, scheme: x.scheme + ' · Self' })),
+    { scheme: 'Motilal Oswal Midcap Fund · Spouse', amc: 'Motilal Oswal Mutual Fund', date: '05 Jun 2026', type: 'Addition', amt: '₹25,000' },
+    { scheme: 'Motilal Oswal Midcap Fund · Spouse', amc: 'Motilal Oswal Mutual Fund', date: '16 Sep 2024', type: 'Addition', amt: '₹25,000' }].sort((x, y) => famDate(y.date) - famDate(x.date)) : MF_DATA.tx };
+  const tot = D.schemes.reduce((a, x) => a + x.val, 0), inv = D.schemes.reduce((a, x) => a + x.inv, 0);
   const sh = ['#D4AF37', 'var(--chart-dark)'];
-  const amc = D.schemes.map((x, i) => ({ name: x.amc, color: sh[i], v: x.val / tot * 100 }));
-  const sch = D.schemes.map((x, i) => ({ name: x.name, color: sh[i], v: x.val / tot * 100 }));
+  const amc = famAgg(ROWS, 'amc').map(([name, v], i) => ({ name, color: sh[i], v: v / tot * 100 }));
+  const sch = famAgg(ROWS, 'name').map(([name, v], i) => ({ name, color: sh[i], v: v / tot * 100 }));
   const asset = [{ name: 'Equity', color: '#D4AF37', v: 96.60, dp: 2 }, { name: 'Cash', color: 'var(--chart-dark)', v: 3.40, dp: 2 }];
   return `<div class="pf">
-  ${pfHero({ label: 'Mutual Funds · Current Value', value: inr(tot), valN: tot, netN: inv, asOn: '07 Jun 2026', dayAmt: '₹4,210', dayPct: '+0.34%', trend: [11.62, 11.70, 11.55, 11.81, 11.92, 11.86, 12.04, 12.13, 12.08, 12.26, 12.37, 12.49], from: '₹11.62 L', to: '₹12.49 L', net: inr(inv), netSub: 'SIP ₹6.00 L · Lumpsum ₹4.00 L', gain: inr(tot - inv), gainPct: '+' + ((tot - inv) / inv * 100).toFixed(2) + '%', xirr: '+14.20%' })}
-  ${miniStats([['Inflow', '₹10.00 L', 'arrowup', 'up'], ['Outflow', '₹0', 'arrowdown', 'down'], ['AMCs', '2', 'grid'], ['Schemes', '2', 'act']])}
+  ${pfHero(fam ? famHero('Mutual Funds', tot, inv, 14010, '+13.10%', [11.62, 11.70, 11.55, 11.81, 11.92, 11.86, 12.04, 12.13, 12.08, 12.26, 12.37, 12.49], 1e5, 'Self ₹10.00 L · Spouse ₹25.00 L') : { label: 'Mutual Funds · Current Value', value: inr(tot), valN: tot, netN: inv, asOn: '07 Jun 2026', dayAmt: '₹4,210', dayPct: '+0.34%', trend: [11.62, 11.70, 11.55, 11.81, 11.92, 11.86, 12.04, 12.13, 12.08, 12.26, 12.37, 12.49], from: '₹11.62 L', to: '₹12.49 L', net: inr(inv), netSub: 'SIP ₹6.00 L · Lumpsum ₹4.00 L', gain: inr(tot - inv), gainPct: '+' + ((tot - inv) / inv * 100).toFixed(2) + '%', xirr: '+14.20%' })}
+  ${miniStats([['Inflow', fam ? cr(inv) : '₹10.00 L', 'arrowup', 'up'], ['Outflow', '₹0', 'arrowdown', 'down'], ['AMCs', '2', 'grid'], ['Schemes', '2', 'act']])}
   ${perfCard(D.perf, 'NIFTY 500 TRI')}
-  <section class="card"><div class="card-h"><h2>Invested Schemes</h2><span class="side-note">Regular plans · 2 AMCs · 2 schemes</span></div><div class="tblwrap"><table><thead><tr><th>Scheme</th><th class="hide-sm">Category</th><th class="hide-sm">Mode</th><th class="hide-sm r">Net investment</th><th class="r">Current value</th><th class="hide-sm r">Gain</th><th class="hide-sm r">Weight</th><th class="r">Returns (XIRR)</th></tr></thead><tbody>
-    ${D.schemes.map((x, i) => `<tr class="click" data-go="mf-scheme" data-idx="${i}"><td><div style="display:flex;align-items:center;gap:12px">${logo(x.logo)}<div style="min-width:0"><b style="font-weight:600">${x.name}</b><div class="muted" style="font-size:12px">${x.amc}</div></div></div></td><td class="hide-sm"><span class="cat">${x.cat}</span></td><td class="hide-sm muted">${x.mode}</td><td class="hide-sm r num">${inr(x.inv)}</td><td class="r num"><b style="font-weight:600">${inr(x.val)}</b></td><td class="hide-sm r num up-t">${inr(x.val - x.inv)}</td><td class="hide-sm r num muted">${(x.val / tot * 100).toFixed(1)}%</td><td class="r num up-t"><b style="font-weight:600">${x.ret}</b></td></tr>`).join('')}
+  <section class="card"><div class="card-h"><h2>Invested Schemes</h2><span class="side-note">Regular plans · ${fam ? ROWS.length + ' AMCs · ' + ROWS.length + ' Schemes' : '2 AMCs · 2 schemes'}</span></div><div class="tblwrap"><table><thead><tr><th>Scheme</th>${fam ? '<th>Member</th>' : ''}<th class="hide-sm">Category</th><th class="hide-sm">Mode</th><th class="hide-sm r">Net investment</th><th class="r">Current value</th><th class="hide-sm r">Gain</th><th class="hide-sm r">Weight</th><th class="r">Returns (XIRR)</th></tr></thead><tbody>
+    ${D.schemes.map((x, i) => `<tr class="click" data-go="mf-scheme" data-idx="${x.idx ?? i}"><td><div style="display:flex;align-items:center;gap:12px">${logo(x.logo)}<div style="min-width:0"><b style="font-weight:600">${x.name}</b><div class="muted" style="font-size:12px">${x.amc}</div></div></div></td>${fam ? `<td><span class="pf-tag">${x.who}</span></td>` : ''}<td class="hide-sm"><span class="cat">${x.cat}</span></td><td class="hide-sm muted">${x.mode}</td><td class="hide-sm r num">${inr(x.inv)}</td><td class="r num"><b style="font-weight:600">${inr(x.val)}</b></td><td class="hide-sm r num up-t">${inr(x.val - x.inv)}</td><td class="hide-sm r num muted">${(x.val / tot * 100).toFixed(1)}%</td><td class="r num up-t"><b style="font-weight:600">${x.ret}</b></td></tr>`).join('')}
   </tbody></table></div></section>
   <div class="pf-3">${donutCard('AMC Summary', '% of current value', amc, '2', 'AMCs')}${donutCard('Scheme Summary', '% of current value', sch, '2', 'Schemes')}${donutCard('Asset Allocation', asOf('31 May 2026'), asset, '96.6%', 'Equity')}</div>
   ${catCard(D.cats)}
@@ -1356,8 +1389,8 @@ V.sif = () => {
   ${pfHero({ label: 'SIF · Current Value', value: inr(tot), valN: tot, netN: inv, asOn: '07 Jun 2026', down: true, dayAmt: x0.day, dayPct: x0.dayPct, trend: x0.trend, from: x0.from, to: x0.to, net: inr(inv), netSub: 'Lumpsum · 15 Oct 2025', gain: inr(tot - inv), gainPct: '+' + ((tot - inv) / inv * 100).toFixed(2) + '%', xirr: x0.xirr })}
   ${miniStats([['Inflow', '₹25.00 L', 'arrowup', 'up'], ['Outflow', '₹0', 'arrowdown', 'down'], ['AMCs', '1', 'grid'], ['Strategies', '1', 'act']])}
   ${perfCard(D.perf, 'Hybrid 50:50 Index')}
-  <section class="card"><div class="card-h"><h2>Invested Strategies</h2><span class="side-note">1 AMC · 1 strategy</span></div><div class="tblwrap"><table><thead><tr><th>Strategy</th><th class="hide-sm">Category</th><th class="hide-sm">Inception</th><th class="hide-sm r">Net investment</th><th class="r">Current value</th><th class="hide-sm r">Gain</th><th class="hide-sm r">Weight</th><th class="r">Returns (SI)</th></tr></thead><tbody>
-    ${D.schemes.map((x, i) => `<tr class="click" data-go="sif-scheme" data-idx="${i}"><td><div style="display:flex;align-items:center;gap:12px">${logo(x.logo)}<div style="min-width:0"><b style="font-weight:600">${x.name}</b><div class="muted" style="font-size:12px">${x.amc}</div></div></div></td><td class="hide-sm"><span class="cat">${x.cat}</span></td><td class="hide-sm muted">${x.since}</td><td class="hide-sm r num">${inr(x.inv)}</td><td class="r num"><b style="font-weight:600">${inr(x.val)}</b></td><td class="hide-sm r num up-t">${inr(x.val - x.inv)}</td><td class="hide-sm r num muted">${(x.val / tot * 100).toFixed(1)}%</td><td class="r num up-t"><b style="font-weight:600">${x.ret}</b></td></tr>`).join('')}
+  <section class="card"><div class="card-h"><h2>Invested Strategies</h2><span class="side-note">1 AMC · 1 strategy</span></div><div class="tblwrap"><table><thead><tr><th>Strategy</th>${S.account === 'family' ? '<th>Member</th>' : ''}<th class="hide-sm">Category</th><th class="hide-sm">Inception</th><th class="hide-sm r">Net investment</th><th class="r">Current value</th><th class="hide-sm r">Gain</th><th class="hide-sm r">Weight</th><th class="r">Returns (SI)</th></tr></thead><tbody>
+    ${D.schemes.map((x, i) => `<tr class="click" data-go="sif-scheme" data-idx="${i}"><td><div style="display:flex;align-items:center;gap:12px">${logo(x.logo)}<div style="min-width:0"><b style="font-weight:600">${x.name}</b><div class="muted" style="font-size:12px">${x.amc}</div></div></div></td>${S.account === 'family' ? `<td><span class="pf-tag">${x.who || 'Self'}</span></td>` : ''}<td class="hide-sm"><span class="cat">${x.cat}</span></td><td class="hide-sm muted">${x.since}</td><td class="hide-sm r num">${inr(x.inv)}</td><td class="r num"><b style="font-weight:600">${inr(x.val)}</b></td><td class="hide-sm r num up-t">${inr(x.val - x.inv)}</td><td class="hide-sm r num muted">${(x.val / tot * 100).toFixed(1)}%</td><td class="r num up-t"><b style="font-weight:600">${x.ret}</b></td></tr>`).join('')}
   </tbody></table></div></section>
   <div class="pf-3">${donutCard('AMC Summary', '% of current value', amc, '1', 'AMC')}${donutCard('Strategy Summary', '% of current value', sch, '1', 'Strategy')}${donutCard('Asset Allocation', asOf('31 May 2026'), D.asset, '62.4%', 'Equity long')}</div>
   ${txCard(D.tx)}
@@ -1599,13 +1632,10 @@ V.profile = () => {
     <div class="prof-theme"><div class="pfh-eyebrow">Appearance</div>${themeSwitch()}</div></section>
   <div class="pf-2 prof-grid">
     <section class="card pf-card"><div class="card-h"><h2>Personal details</h2><span class="muted" style="font-size:12px">Contact info masked for privacy</span></div>
-      <div class="prows">${row('user', 'Full name', P.name)}${row('mail', 'Email address', P.email)}${row('phone', 'Mobile number', P.mobile)}${row('cal', 'Date of birth', P.dob)}${row('pin', 'Address', P.address.join('<br>'))}</div>
-      <div class="pkvs">${kv('PAN', P.pan)}${kv('Tax status', P.tax)}${kv('Bank account', P.bank)}${kv('Nominee', P.nominee)}</div>
-      <a class="btn ghost" href="#requests" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;align-self:flex-start">Request a change in details</a></section>
+      <div class="prows">${row('user', 'Full name', P.name)}${row('mail', 'Email address', P.email)}${row('phone', 'Mobile number', P.mobile)}${row('cal', 'Date of birth', P.dob)}${row('pin', 'Address', P.address.join('<br>'))}</div></section>
     <section class="card pf-card rm-card"><div class="card-h"><h2>Your Relationship Manager</h2></div>
       <div class="rm-top"><div class="rm-photo">${RM_IMG}<span class="rm-online" title="Available now"></span></div><div><div class="rm-name">${RM.name}</div><div class="muted">${RM.role}</div><div class="rm-branch">${RM.branch}</div></div></div>
-      <div class="prows">${row('phone', 'Mobile', RM.mobile)}${row('mail', 'Email', RM.email)}${row('cal', 'Available', RM.hours)}</div>
-      <div class="pkvs">${kv('Experience', RM.exp)}${kv('Specialises in', RM.clients)}</div>
+      <div class="prows">${row('phone', 'Mobile', RM.mobile)}${row('mail', 'Email', RM.email)}</div>
       <div class="rm-actions"><a class="btn" href="tel:${RM.mobile.replace(/\s/g, '')}">${svg('phone', 16, 2)}Call</a><a class="btn ghost" href="mailto:${RM.email}">${svg('mail', 16, 2)}Email</a><a class="btn ghost" href="#requests">${svg('req', 16, 2)}Service request</a></div></section>
   </div>
   ${hasFamily() ? `<section class="card pf-card"><div class="card-h"><h2>Linked family members</h2></div><div class="fam-links">${famMembers().filter(m => m.id !== 'self').map(m => `<div class="fam-link"><span class="avatar" style="background:var(--line2)">${m.ini}</span><div><b>${m.name}</b><div class="muted" style="font-size:13px">${m.rel} · ${m.products}</div></div></div>`).join('')}</div></section>` : ''}
