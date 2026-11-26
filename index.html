@@ -393,6 +393,395 @@ tr[hidden]{display:none}
 .fs-hlist{padding:4px 18px 14px}
 .fs-hlist .fs-row:first-child{border-top:none}
 .fs-latest{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#151B28;background:var(--gold);padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.brk{display:flex;flex-direction:column;gap:20px}
+.brk-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brk-tabs{display:inline-flex;gap:4px;padding:5px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.brk-tabs button{border:none;background:transparent;height:38px;padding:0 18px;border-radius:10px;font:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.brk-tabs button[aria-selected="true"]{background:#151B28;color:#F3D57A}
+.brk-badge{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--gold);color:#151B28;font-size:11.5px;display:inline-flex;align-items:center;justify-content:center}
+.card.brk-per{display:flex;flex-direction:row;justify-content:space-between;align-items:center;text-align:left;gap:14px;flex-wrap:wrap;padding:16px 20px}
+.brk-perbtns{display:flex;gap:12px;flex-wrap:wrap}
+.brk-dd{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--faint);font-weight:500}
+.brk-dd select{height:42px;min-width:220px;padding:0 38px 0 14px;border-radius:12px;border:1px solid var(--gold-line);background-color:var(--gold-soft);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23B08A1E' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;color:var(--ink);font:inherit;font-size:14px;font-weight:600;appearance:none;-webkit-appearance:none;cursor:pointer}
+.brk-dd select option{background:var(--surface);color:var(--ink)}
+.brk-dd select:focus{outline:2px solid var(--gold);outline-offset:1px}
+@media (max-width:760px){.brk-perbtns,.brk-dd{width:100%}.brk-dd select{width:100%;min-width:0}}
+.brk-alert{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border-radius:14px;background:linear-gradient(90deg,rgba(251,191,36,.22),var(--gold-soft) 55%);border:1.5px solid #F59E0B;animation:brkGlow 1.8s ease-in-out infinite}
+.brk-alert::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:35%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:brkSweep 3.2s ease-in-out infinite;pointer-events:none}
+:root[data-theme="dark"] .brk-alert::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.12),transparent)}
+.brk-alert > *{position:relative;z-index:1}
+.brk-alert-ic{position:relative;width:40px;height:40px;border-radius:12px;background:#F59E0B;color:#1F1500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brk-alert-ic::before{content:"";position:absolute;inset:-4px;border-radius:15px;border:2px solid #F59E0B;animation:brkRing 1.8s ease-out infinite}
+.brk-alert-ic svg{animation:brkWiggle 1.8s ease-in-out infinite;transform-origin:50% 80%}
+.brk-alert-tag{display:inline-flex;align-items:center;gap:6px;margin-right:8px;padding:2px 9px;border-radius:999px;background:#DC2626;color:#fff;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;vertical-align:2px}
+.brk-alert-tag i{width:6px;height:6px;border-radius:50%;background:#fff;animation:brkBlink 1s steps(2,start) infinite}
+@keyframes brkGlow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.45)}50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}}
+@keyframes brkSweep{0%{left:-40%}55%,100%{left:120%}}
+@keyframes brkRing{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+@keyframes brkWiggle{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(-14deg)}20%,40%{transform:rotate(14deg)}}
+@keyframes brkBlink{to{visibility:hidden}}
+@media (prefers-reduced-motion:reduce){.brk-alert,.brk-alert::after,.brk-alert-ic::before,.brk-alert-ic svg,.brk-alert-tag i{animation:none}.brk-alert::after{display:none}}
+.brk-top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(14px,1.4vw,24px)}
+.brk-hero{display:flex;flex-direction:column;gap:8px;padding:24px}
+.brk-hero .big{font-size:clamp(2rem,2vw + 1rem,2.8rem)}
+.brk-hlrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brk-hlrow .lbl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brk-hlbl{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:9px;background:#FBBF24;color:#1F1500;font-size:13px;font-weight:700;letter-spacing:.2px;box-shadow:0 0 0 4px rgba(251,191,36,.18);animation:brkPulse 2.4s ease-in-out infinite}
+.brk-hper{font-size:14px;font-weight:600;color:#fff}
+.brk-hmore{color:#FCD34D;font-weight:600}
+@keyframes brkPulse{0%,100%{box-shadow:0 0 0 4px rgba(251,191,36,.18)}50%{box-shadow:0 0 0 7px rgba(251,191,36,.06)}}
+@media (prefers-reduced-motion:reduce){.brk-hlbl{animation:none}}
+.brk-hchip{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px;margin:2px 0}
+.brk-hchip.pend{background:rgba(251,191,36,.16);color:#FCD34D}
+.brk-hchip.proc{background:rgba(96,165,250,.16);color:#93C5FD}
+.brk-hchip.paid{background:rgba(74,222,128,.15);color:#86EFAC}
+.brk-hsum{margin-top:6px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);font-size:12.5px;color:var(--on-dark-2)}
+.brk-hsum b{color:#fff}
+.brk-hsum button{all:unset;cursor:pointer;color:#F3D57A;font-weight:600;text-decoration:underline}
+.brk-rule{display:block;width:44px;height:2px;background:var(--gold);border-radius:2px;margin:6px 0 2px}
+.brk-hacts{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.brk-btn{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;font-size:13.5px;border-radius:10px;cursor:pointer;white-space:nowrap}
+.brk-btn.dk{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22);color:#fff}
+.brk-btn.dk:hover{border-color:var(--gold)}
+.brk-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.4vw,24px)}
+.brk-stat{border-top:3px solid var(--gold);display:flex;flex-direction:column;gap:6px;justify-content:center}
+.brk-stat .v{font-size:22px;font-weight:600}
+.brk-stats > .brk-stat:last-child:nth-child(odd){grid-column:1 / -1}
+.brk-plbl{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:8px;font-size:13px;font-weight:700;letter-spacing:.2px;background:var(--pbg);color:var(--pfg)}
+.brk-plbl i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.brk-stat{--pbg:var(--gold-soft);--pfg:var(--gold-ink)}
+.brk-p-pms{--pbg:#FBF5E2;--pfg:#7A5F0E;border-top-color:#D4AF37}
+.brk-p-mf{--pbg:#ECFDF5;--pfg:#065F46;border-top-color:#10B981}
+.brk-p-sif{--pbg:#FDF2F8;--pfg:#9D174D;border-top-color:#EC4899}
+.brk-p-aif{--pbg:#EFF6FF;--pfg:#1E3A8A;border-top-color:#3B82F6}
+.brk-p-gift{--pbg:#F5F3FF;--pfg:#5B21B6;border-top-color:#8B5CF6}
+:root[data-theme="dark"] .brk-p-pms{--pbg:rgba(212,175,55,.16);--pfg:#F3D57A}
+:root[data-theme="dark"] .brk-p-mf{--pbg:rgba(16,185,129,.16);--pfg:#6EE7B7}
+:root[data-theme="dark"] .brk-p-sif{--pbg:rgba(236,72,153,.16);--pfg:#F9A8D4}
+:root[data-theme="dark"] .brk-p-aif{--pbg:rgba(59,130,246,.18);--pfg:#93C5FD}
+:root[data-theme="dark"] .brk-p-gift{--pbg:rgba(139,92,246,.18);--pfg:#C4B5FD}
+
+.sdd{position:relative;display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--faint);font-weight:500;min-width:0}
+.sdd-btn{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--gold-line);background:var(--gold-soft);color:var(--ink);font-size:14px;font-weight:600;width:100%}
+.sdd-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sdd-btn svg{color:#B08A1E;flex-shrink:0}
+.sdd-btn:focus-visible,.sdd-btn[aria-expanded="true"]{outline:2px solid var(--gold);outline-offset:1px}
+.sdd-btn.on{border-color:var(--gold)}
+.sdd-pop{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:40;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 34px -12px rgba(17,24,39,.28);padding:8px;min-width:220px}
+.sdd-pop[hidden]{display:none}
+.sdd-q{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;border:1px solid var(--line);border-radius:9px;color:var(--faint);margin-bottom:6px}
+.sdd-q:focus-within{border-color:var(--gold)}
+.sdd-q input{all:unset;flex:1;min-width:0;font-size:13.5px;color:var(--ink)}
+.sdd-ul{list-style:none;margin:0;padding:0;max-height:260px;overflow:auto}
+.sdd-ul button{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;padding:9px 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sdd-ul button:hover,.sdd-ul button:focus-visible{background:var(--gold-soft)}
+.sdd-ul button.sel{font-weight:700;color:#8A6A10;background:var(--gold-soft)}
+.sdd-none{padding:10px;font-size:13px;color:var(--faint)}
+.sdd-more{font-size:11.5px;color:var(--faint);padding:6px 10px 2px}.sdd-more:empty{display:none}
+.chart-cap{display:flex;flex-direction:column;gap:2px;margin-top:6px}.chart-cap b{font-size:15px;font-weight:600}.chart-cap span{font-size:12.5px;color:var(--faint)}
+.brk-si-f{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:1100px){.brk-si-f{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.brk-si-f .brk-dd select{width:100%;min-width:0}
+.brk-si-focus{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.brk-si-focus b{color:var(--ink)}
+.brk-si-cards{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,1fr));gap:12px}
+.brk-si-card{display:flex;flex-direction:column;gap:4px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2);min-width:0}
+.brk-si-card span{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.brk-si-card span i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.brk-si-card b{font-size:21px;font-weight:600;letter-spacing:-.3px}
+.brk-si-card small{font-size:12px;color:var(--faint)}
+.brk-si-card.main{background:#151B28;border-color:#151B28;color:#fff}
+.brk-si-card.main span{color:#C9CED8}.brk-si-card.main b{color:#F3D57A;font-size:25px}.brk-si-card.main small{color:#9AA3B2}
+.brk-si-card.paid span{color:var(--up)}.brk-si-card.proc span{color:#2563EB}.brk-si-card.pend span{color:var(--amber)}
+.brk-si-chart{display:flex;align-items:flex-end;gap:8px;height:190px;padding:10px 4px 0;border-bottom:1px solid var(--line);overflow-x:auto}
+.brk-si-chart .col{flex:1 0 46px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px}
+.brk-si-chart .bar{width:70%;max-width:38px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#E6C65C,#D4AF37)}
+.brk-si-chart .col:last-child .bar{background:linear-gradient(180deg,#2A3346,#151B28)}
+.brk-si-chart .val{font-size:10.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.brk-si-chart .lab{font-size:10.5px;color:var(--faint);text-align:center;line-height:1.2;min-height:26px;padding-bottom:4px}
+.brk-si-tbl{max-height:380px;overflow:auto}
+.brk-si-tbl thead th{position:sticky;top:0;background:var(--surface);z-index:1}
+@media (max-width:1100px){.brk-si-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.brk-si-f{grid-template-columns:minmax(0,1fr)}.brk-si-cards{grid-template-columns:minmax(0,1fr)}}
+.bd{display:flex;flex-direction:column;gap:20px}
+.bd-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.bd-head h2{margin:0;font-size:22px;font-weight:600}.bd-head p{margin:2px 0 0;color:var(--faint);font-size:13px}
+.bd-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:16px 18px}
+.bd-filters .brk-dd select{width:100%;min-width:0}
+.bd-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.4vw,22px)}
+.bd-kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;box-shadow:0 1px 2px rgba(17,24,39,.04)}
+.bd-ic{width:44px;height:44px;border-radius:10px;background:#D4AF37;color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.bd-kpi > b{font-size:22px;font-weight:600}
+.bd-kpi > span{font-size:13px;color:var(--muted)}
+.bd-kpi-f{align-self:stretch;display:flex;justify-content:space-between;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12.5px}
+.bd-kpi-f span{color:var(--muted)}.bd-kpi-f b{font-weight:600}
+.bd-t{margin:0;font-size:16px;font-weight:600}
+.bd-s{margin:-8px 0 0;color:var(--faint);font-size:13px}
+.bd-prods{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px}
+.bd-prod{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2)}
+.bd-prod.on{border-color:#D4AF37;box-shadow:0 0 0 2px rgba(212,175,55,.25)}
+.bd-prod-t{font-size:18px;font-weight:700;color:#C9A227}
+.bd-prod-s{font-size:12px;color:var(--faint)}
+.bd-kv{display:flex;justify-content:space-between;gap:8px;font-size:12.5px}.bd-kv span{color:var(--muted)}.bd-kv b{font-weight:600}
+.bd-out{margin-top:6px;height:38px;border-radius:999px;border:1.5px solid #D4AF37;background:transparent;color:#B08A1E;font:inherit;font-size:13px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.bd-out:hover:not([disabled]){background:var(--gold-soft)}.bd-out[disabled]{opacity:.45;cursor:not-allowed}
+.bd-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.bd-tile{padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);display:flex;flex-direction:column;gap:12px}
+.bd-tile-h{display:flex;justify-content:space-between;align-items:center}
+.bd-tile-h b{color:#C98A0C;font-size:13px}.bd-tile-h span{font-size:11px;color:var(--faint);border-bottom:1px dashed var(--faint)}
+.bd-tile-v{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;flex-wrap:wrap}
+.bd-tile-v i{font-style:normal;font-size:9px;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
+.bd-tile-v.up{color:var(--up)}.bd-tile-v.up i{background:rgba(21,128,61,.12)}
+.bd-tile-v.down{color:var(--down)}.bd-tile-v.down i{background:rgba(185,28,28,.12)}
+.bd-tiles.sm .bd-tile-v{font-size:15px}
+.bd-tile-v.amber{color:var(--amber)}.bd-tile-v.blue{color:#2563EB}.bd-tile-v.violet{color:#6D28D9}
+.bd-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.4vw,22px);align-items:start}
+.bd-two.wide{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr)}
+.bd-chartwrap{overflow-x:auto}
+.bd-chart{width:100%;min-width:620px;height:auto;display:block}
+.bd-chart .g{stroke:var(--line);stroke-width:1}
+.bd-chart .t{fill:var(--faint);font-size:11px;font-family:inherit}
+.bd-chart .a{fill:rgba(212,175,55,.14)}
+.bd-chart .l{fill:none;stroke:#D4AF37;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.bd-chart .d{fill:#D4AF37;stroke:var(--surface);stroke-width:1.5}
+.bd-link{all:unset;cursor:pointer;color:#B08A1E;font-size:13px;font-weight:600}
+.bd-link:hover{text-decoration:underline}
+.bd-list{display:flex;flex-direction:column}
+.bd-act{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line2)}
+.bd-act:last-child{border-bottom:none}
+.bd-av{width:38px;height:38px;border-radius:50%;background:var(--gold-soft);color:#C9A227;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.bd-av.st-await{background:#FEF3C7;color:#B45309}.bd-av.st-ops{background:#DBEAFE;color:#1E40AF}.bd-av.st-acc{background:#EDE9FE;color:#5B21B6}.bd-av.st-paid{background:#DCFCE7;color:#166534}.bd-av.st-rej{background:#FEE2E2;color:#991B1B}
+.bd-act .grow{flex:1;min-width:0}
+.bd-act .grow b{display:block;font-weight:600;font-size:14px}.bd-act .grow b small{font-weight:500;color:var(--faint);font-size:11.5px}
+.bd-act .grow div{font-size:12.5px;color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bd-act .r{text-align:right;flex-shrink:0}.bd-act .r b{font-weight:600}.bd-act .r div{font-size:12px;color:var(--faint)}
+@media (max-width:1100px){.bd-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.bd-two.wide{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:760px){.bd-filters,.bd-kpis,.bd-tiles,.bd-two{grid-template-columns:minmax(0,1fr)}}
+.bd-prods.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+a.bd-out{text-decoration:none}
+.dh-sel{position:relative;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 14px 0 8px;border-radius:12px;border:1px solid var(--line);background:var(--surface);box-shadow:0 1px 2px rgba(17,24,39,.04);color:#B08A1E}
+.dh-sel svg{width:34px;height:34px;padding:8px;border-radius:9px;background:var(--gold-soft)}
+.dh-sel select{border:none;background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--ink);padding-right:22px;appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23B08A1E' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right center}
+.dh-sel select option{background:var(--surface);color:var(--ink)}
+.dh-empty{padding:22px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);text-align:center;color:var(--muted)}
+.bd-actbtn{all:unset;cursor:pointer;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line2)}
+.bd-actbtn:last-child{border-bottom:none}
+.bd-actbtn:hover .grow b{color:var(--gold-ink)}
+@media (max-width:900px){.bd-prods.three{grid-template-columns:minmax(0,1fr)}}
+.li-crumb{display:flex;align-items:center;gap:10px}
+.li-back{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--muted)}
+.li-bc{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--muted);box-shadow:0 1px 2px rgba(17,24,39,.05)}
+.li-bc a{color:var(--muted);text-decoration:none}.li-bc a:hover{color:var(--ink)}.li-bc b{color:#C9A227;font-weight:600}
+table.li-tbl{min-width:1100px}
+.li-tbl td{vertical-align:middle;font-size:13.5px}
+.li-tbl input[type=checkbox]{width:16px;height:16px;accent-color:#D4AF37}
+.li-st{display:inline-block;padding:2px 8px;border-radius:6px;background:#DCFCE7;color:#166534;font-size:12px;font-weight:600}
+.da-f{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr);gap:12px;max-width:820px}
+.da-f .finput{height:42px;width:100%}
+table.da-tbl{min-width:980px}
+.da-tbl td{vertical-align:middle;font-size:13.5px}
+.da-prod{display:inline-block;padding:3px 8px;border-radius:6px;background:var(--line2);color:var(--ink);font-size:11px;font-weight:700;border:1px solid var(--line)}
+.da-amc{font-size:12.5px;font-weight:600}
+.da-pager{display:flex;align-items:center;justify-content:center;gap:4px;margin:4px auto 0;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);width:max-content;max-width:100%;flex-wrap:wrap}
+.da-pg,.da-nav{border:none;background:transparent;font:inherit;font-size:13.5px;min-width:28px;height:28px;border-radius:7px;cursor:pointer;color:var(--muted)}
+.da-pg.on{background:#D4AF37;color:#fff;font-weight:700}
+.da-nav{color:#B08A1E;font-weight:600;padding:0 8px}.da-nav[disabled]{color:var(--faint);opacity:.6;cursor:default}
+@media (max-width:760px){.da-f{grid-template-columns:minmax(0,1fr)}}
+.dh-head{justify-content:flex-end}
+.dhs{position:relative}
+.dhs-btn{display:flex;align-items:center;gap:14px;min-width:320px;height:64px;padding:0 16px 0 10px;border-radius:16px;border:1.5px solid var(--gold-line);background:linear-gradient(180deg,var(--surface),var(--gold-soft));box-shadow:0 1px 2px rgba(17,24,39,.05),0 10px 24px -16px rgba(122,95,14,.45);cursor:pointer;font:inherit;color:var(--ink);text-align:left;transition:border-color .15s, box-shadow .15s}
+.dhs-btn:hover,.dhs-btn[aria-expanded="true"]{border-color:#D4AF37;box-shadow:0 0 0 4px rgba(212,175,55,.16)}
+.dhs-ic{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#E6C65C,#C9A227);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 -2px 0 rgba(0,0,0,.08)}
+.dhs-ic.sm{width:36px;height:36px;border-radius:10px}
+.dhs-tx{display:flex;flex-direction:column;line-height:1.25;flex:1;min-width:0}
+.dhs-tx small{font-size:11.5px;color:var(--faint);font-weight:500;letter-spacing:.3px}
+.dhs-btn .dhs-tx small{text-transform:uppercase;letter-spacing:.9px;font-size:10.5px;font-weight:600;color:#B08A1E}
+.dhs-tx b{font-size:16px;font-weight:700;white-space:nowrap}
+.dhs-chev{width:30px;height:30px;border-radius:9px;background:var(--surface);border:1px solid var(--gold-line);color:#B08A1E;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.dhs-btn[aria-expanded="true"] .dhs-chev{transform:rotate(180deg)}
+.dhs-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:max(100%,340px);padding:8px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 24px 48px -20px rgba(17,24,39,.35);display:flex;flex-direction:column;gap:4px}
+.dhs-menu button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px}
+.dhs-menu button:hover{background:var(--surface-2)}
+.dhs-menu button.on{background:var(--gold-soft);box-shadow:inset 0 0 0 1px var(--gold-line)}
+.dhs-menu .dhs-tx b{font-size:14.5px}
+.dhs-tick{color:#B08A1E}
+@media (max-width:640px){.dhs,.dhs-btn{width:100%;min-width:0}}
+.dh-snap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.dh-snap-c{display:flex;flex-direction:column;gap:0;padding:22px 20px 18px;border-radius:16px;border:1px solid var(--line);background:var(--surface-2);box-shadow:0 2px 6px -2px rgba(17,24,39,.08)}
+.dh-snap-t{font-size:21px;font-weight:700;color:#C9A227;letter-spacing:-.2px}
+.dh-snap-c .bd-prod-s{margin:4px 0 14px}
+.dh-snap-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.dh-snap-row span{color:var(--muted)}.dh-snap-row b{font-weight:700}
+.dh-snap-c .bd-out{margin-top:18px;height:44px}
+@media (max-width:900px){.dh-snap{grid-template-columns:minmax(0,1fr)}}
+.bd-uppill{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:12.5px;font-weight:700;box-shadow:0 1px 2px rgba(17,24,39,.06)}
+.bd-plist{display:flex;flex-direction:column;gap:12px}
+.bd-pers{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2)}
+.bd-pers .bd-av{width:46px;height:46px;font-size:18px}
+.bd-pers .grow{flex:1;min-width:0}
+.bd-pn{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.bd-pn b{font-size:15px;font-weight:700}
+.bd-pers small{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;margin-top:2px}
+.bd-today{display:inline-block;padding:2px 8px;border-radius:999px;background:#D4AF37;color:#2A2006;font-size:10.5px;font-weight:800;letter-spacing:.6px}
+.bd-tom{display:inline-block;padding:2px 8px;border-radius:999px;background:var(--gold-soft);color:#B08A1E;font-size:10.5px;font-weight:800;letter-spacing:.6px}
+.bd-wish{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 16px;border:none;border-radius:10px;background:linear-gradient(180deg,#E8C35A,#D4AF37);color:#2A2006;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;flex-shrink:0}
+.bd-wish:hover{filter:brightness(1.05)}
+.bd-sec{font-size:11.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#64748B;margin-top:6px}
+.bd-up{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:var(--surface)}
+.bd-up:hover{border-color:var(--gold-line)}
+.bd-up .grow{flex:1;min-width:0}.bd-up .grow b{font-size:15px}
+.bd-dt{width:48px;height:52px;border-radius:10px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;flex-shrink:0}
+.bd-dt small{font-size:10.5px;font-weight:700;color:var(--muted)}.bd-dt b{font-size:18px}
+.bd-dt.on{border-color:#D4AF37;background:var(--gold-soft)}.bd-dt.on small{color:#B08A1E}
+.bd-all{display:inline-flex;align-items:center;gap:6px;padding-top:14px;border-top:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--ink);text-decoration:none}
+.bd-all:hover{color:#B08A1E}
+.bdm{width:min(460px,100%);position:relative;border-radius:24px}
+.bdm-x{position:absolute;right:14px;top:14px;border-radius:50%}
+.bdm-body{padding:26px 22px 20px;display:flex;flex-direction:column;gap:12px;text-align:center}
+.bdm-cake{width:64px;height:64px;margin:0 auto;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 0 6px rgba(212,175,55,.08)}
+.bdm-body h3{margin:0;font-size:20px}.bdm-body > p{margin:0;font-size:13px}
+.bdm-contact{text-align:left;padding:12px 14px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.bdm-ch{display:flex;justify-content:space-between;align-items:center}.bdm-ch span{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)}
+.bdm-cv{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bdm-cc{padding:2px 8px;border-radius:6px;background:var(--gold-soft);color:#B08A1E;font-size:12px;font-weight:700;border:1px solid var(--gold-line)}
+.bdm-edit{display:flex;gap:8px}.bdm-edit .finput{flex:1;height:38px}
+.bdm-opt{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);text-align:left;text-decoration:none;color:var(--ink);box-shadow:0 2px 6px -3px rgba(17,24,39,.12)}
+.bdm-opt:hover{border-color:var(--gold-line);background:var(--surface-2)}
+.bdm-opt .grow{flex:1;min-width:0;display:flex;flex-direction:column}.bdm-opt b{font-size:15px}.bdm-opt small{font-size:12px;color:var(--muted)}
+.bdm-oi{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bdm-oi.wa{background:#DCFCE7;color:#16A34A}.bdm-oi.em{background:#DBEAFE;color:#2563EB}.bdm-oi.sm{background:#FFEDD5;color:#EA580C}
+.bdm-ready{padding:2px 9px;border-radius:999px;border:1px solid #86EFAC;background:#F0FDF4;color:#16A34A;font-size:11.5px;font-weight:700}
+.bdp-pill{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 16px;border-radius:999px;background:var(--gold-soft);border:1px solid var(--gold-line);color:#B08A1E;font-size:13px;font-weight:700}
+.bdp-g{border-radius:16px;border:1px solid var(--line);background:var(--surface);box-shadow:0 1px 2px rgba(17,24,39,.04)}
+.bdp-g.today{border-color:var(--gold-line)}
+.bdp-h{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;align-items:center;gap:16px;padding:18px 20px}
+.bdp-h .grow{flex:1;min-width:0}
+.bdp-chev{color:var(--muted);transition:transform .2s}.bdp-h[aria-expanded="true"] .bdp-chev{transform:rotate(180deg)}
+@media (max-width:640px){.bd-pers{flex-wrap:wrap}.bd-wish{width:100%;justify-content:center}}
+.brk-tbl td{vertical-align:middle}
+.brk-perchip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold-ink);font-size:12.5px;font-weight:600;white-space:nowrap}
+.brk-ititle{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brk-more{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding-top:4px}
+.brk-gate{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:40px 20px;max-width:520px;width:100%;margin:24px auto}
+.brk-gate-ic{width:60px;height:60px;border-radius:18px;background:#151B28;color:#F3D57A;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--gold-soft)}
+.brk-gate-form{display:flex;flex-direction:column;align-items:center;gap:12px}
+.brk-pins{justify-content:center}
+.brk-stcell{vertical-align:middle;text-align:center}
+.brk-tbl th.c{text-align:center}
+.brk-stcell .brk-stw{align-items:center;margin:0 auto}
+.brk-stcell .brk-rej{text-align:left;margin:0 auto}
+.kebab-btn.need{position:relative;background:var(--gold-soft);border-color:var(--gold-line);color:var(--gold-ink)}
+.kb-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#F59E0B;box-shadow:0 0 0 2px var(--surface)}
+.kebab-menu{min-width:240px}
+.kebab-menu button{white-space:nowrap}
+.kebab-menu button.kb-main{color:var(--gold-ink);background:var(--gold-soft)}
+.brk-stw{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;min-width:0}
+.brk-stw small{font-size:11.5px;color:var(--faint);line-height:1.35}
+.brk-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;line-height:1.3;white-space:nowrap}
+.brk-pill i{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.brk-pill.await{background:#FEF3C7;color:#92400E}
+.brk-pill.ops{background:#DBEAFE;color:#1E40AF}
+.brk-pill.acc{background:#EDE9FE;color:#5B21B6}
+.brk-pill.paid{background:#DCFCE7;color:#166534}
+.brk-pill.rej{background:#FEE2E2;color:#991B1B}
+:root[data-theme="dark"] .brk-pill.await{background:rgba(251,191,36,.16);color:#FCD34D}
+:root[data-theme="dark"] .brk-pill.ops{background:rgba(96,165,250,.16);color:#93C5FD}
+:root[data-theme="dark"] .brk-pill.acc{background:rgba(167,139,250,.16);color:#C4B5FD}
+:root[data-theme="dark"] .brk-pill.paid{background:rgba(74,222,128,.15);color:#86EFAC}
+:root[data-theme="dark"] .brk-pill.rej{background:rgba(248,113,113,.16);color:#FCA5A5}
+.brk-rej{display:flex;gap:5px;align-items:flex-start;font-size:11.5px;color:var(--down);max-width:300px;line-height:1.4}
+.brk-rej svg{flex-shrink:0;margin-top:1px}
+.brk-rejbox{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.25);color:var(--down);font-size:13px;line-height:1.5}
+.brk-rejbox b{color:var(--ink)}.brk-rejbox div div{color:var(--muted)}
+.brk-hchip.rej{background:rgba(248,113,113,.16);color:#FCA5A5}
+.brk-via{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.brk-via label{cursor:pointer}
+.brk-via input{position:absolute;opacity:0;pointer-events:none}
+.brk-via span{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);font-size:13.5px;font-weight:600;color:var(--ink)}
+.brk-via span b{font-weight:500;color:var(--muted);width:100%;font-size:12.5px}
+.brk-via input:checked + span{border-color:var(--gold);background:var(--gold-soft)}
+.brk-via input:focus-visible + span{outline:2px solid var(--gold);outline-offset:2px}
+.brk-up-sum{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.brk-up-sum > div:first-child{display:flex;flex-direction:column;gap:2px}
+.brk-up-sum span{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--faint);font-weight:600}
+.brk-up-sum small{font-size:12px;color:var(--faint)}
+.brk-up-amts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.brk-up-amts > div{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:10px;background:var(--surface)}
+.brk-up-amts b{font-size:15px}
+.brk-up-form{display:flex;flex-direction:column;gap:14px}
+.brk-rev{display:flex;gap:5px;align-items:flex-start;text-align:left;font-size:11.5px;line-height:1.4;color:#B45309;max-width:300px;margin-top:4px}.brk-rev svg{flex-shrink:0;margin-top:1px}
+.brk-revbox{background:#FFFBEB !important;border-color:#FDE68A !important;color:#92400E !important}
+:root[data-theme="dark"] .brk-rev{color:#FBBF24}:root[data-theme="dark"] .brk-revbox{background:rgba(251,191,36,.12) !important;border-color:rgba(251,191,36,.3) !important;color:#FCD34D !important}
+.brk-gstinfo{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;color:var(--muted)}.brk-gstinfo svg{color:var(--gold-ink);flex-shrink:0}.brk-gstinfo b{color:var(--ink)}
+.brk-dets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.brk-dets > div{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.brk-dets > div.full{grid-column:1 / -1}
+.brk-dets span{font-size:11.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:var(--faint)}.brk-dets b{font-size:15px;font-weight:600}.brk-dets small{font-size:12px;color:var(--faint)}
+.brk-up-sum:has(.brk-dets){display:flex;flex-direction:column;gap:10px;padding:0;background:none;border:none}
+.brk-up-sum:has(.brk-dets) > .brk-dets{display:grid}
+@media (max-width:620px){.brk-dets{grid-template-columns:minmax(0,1fr)}}
+.brk-up-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.brk-up-grid label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600}
+.brk-up-grid .finput{height:44px;width:100%}
+.brk-drop{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px;border-radius:14px;border:1.5px dashed var(--gold-line);background:var(--gold-soft);cursor:pointer;text-align:center}
+.brk-drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.brk-drop:focus-within{outline:2px solid var(--gold);outline-offset:2px}
+.brk-drop-ic{width:44px;height:44px;border-radius:12px;background:var(--surface);color:var(--gold-ink);display:flex;align-items:center;justify-content:center}
+.brk-drop b{font-size:14px;word-break:break-all}.brk-drop small{font-size:12px;color:var(--faint)}
+@media (max-width:760px){.brk-via,.brk-up-grid{grid-template-columns:minmax(0,1fr)}.brk-up-amts{grid-template-columns:minmax(0,1fr)}}
+.brk-st{font-size:12.5px;font-weight:600;white-space:nowrap}
+.brk-st.ready{color:var(--amber)}.brk-st.signed{color:#2563EB}.brk-st.paid{color:var(--up)}
+.brk-acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:nowrap}
+.brk-acts .brk-btn.brk-ic{width:38px;padding:0;justify-content:center}
+.brk-acts .brk-btn{flex-shrink:0}
+.brk-tbl .brk-stw{min-width:200px}
+.brk-doc{width:32px;height:32px;border-radius:9px;background:#ECFDF5;color:#065F46;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brk-calc{display:flex;flex-direction:column}
+.brk-calc > div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.brk-calc > div span{color:var(--muted)}
+.brk-calc .tot span{color:var(--ink);font-weight:600}
+.brk-calc .pay{border:none;margin-top:6px;padding:14px;border-radius:12px;background:#151B28;color:#fff}
+.brk-calc .pay span{color:#D1D5DB}.brk-calc .pay b{color:#F3D57A;font-size:17px}
+.brk-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.brk-steps > div{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line2)}
+.brk-steps span{width:24px;height:24px;border-radius:50%;background:var(--gold);color:#151B28;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.brk-steps b{font-size:13.5px}.brk-steps small{font-size:12px;color:var(--faint)}
+.brk-dialog{width:min(820px,100%)}
+.brk-mbody{padding:18px;display:flex;flex-direction:column;gap:16px}
+.brk-prog{list-style:none;margin:0;padding:0;display:flex;gap:8px;counter-reset:s}
+.brk-prog li{flex:1;counter-increment:s;font-size:12.5px;font-weight:600;color:var(--faint);padding-top:8px;border-top:3px solid var(--line)}
+.brk-prog li::before{content:counter(s) ". "}
+.brk-prog li.on{color:var(--ink);border-color:var(--gold)}
+.brk-s1,.brk-s2{display:flex;flex-direction:column;gap:14px}
+.brk-doc-inv{padding:22px;border-radius:12px;background:#fff;color:#111827;border:1px solid #E5E7EB;display:flex;flex-direction:column;gap:14px;font-size:13.5px}
+.bi-head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.bi-k{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#7A5F0E;font-weight:700}
+.bi-head h3{margin:2px 0;font-size:19px}
+.bi-sm{font-size:12px;color:#4B5563}
+.bi-meta{text-align:right;font-size:12.5px;color:#4B5563;line-height:1.7}.bi-meta b{color:#111827}
+.bi-to{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:10px;background:#F9FAFB}
+.bi-to span,.bi-pay span{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#6B7280;font-weight:600}
+.bi-tbl{width:100%;border-collapse:collapse}
+.bi-tbl th{font-size:11.5px;text-align:left;color:#6B7280;border-bottom:1px solid #E5E7EB;padding:8px 6px}
+.bi-tbl td{padding:8px 6px;border-bottom:1px solid #F3F4F6}
+.bi-tbl .r{text-align:right;white-space:nowrap}
+.bi-tbl tfoot td{color:#4B5563}
+.bi-tbl .bi-total td{font-weight:700;color:#111827;font-size:15px;border-bottom:none}
+.bi-pay{display:flex;flex-direction:column;gap:2px;font-size:12.5px}
+.bi-sign{font-size:12.5px;color:#6B7280;border-top:1px dashed #D1D5DB;padding-top:10px}
+.brk-mfoot{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.brk-choice{margin:0;font-size:12.5px;text-align:right}
+@media (max-width:760px){.brk-choice{text-align:left}}
+.brk-esign{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.brk-es-ic{width:42px;height:42px;border-radius:12px;background:#151B28;color:#F3D57A;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brk-consent{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;cursor:pointer}
+.brk-consent input{margin-top:3px;width:17px;height:17px;accent-color:#D4AF37;flex-shrink:0}
+#brkSend{align-self:flex-start}#brkSend[disabled]{opacity:.45;cursor:not-allowed}
+.brk-otp{display:flex;flex-direction:column;gap:8px}
+.brk-err{font-size:12.5px;color:var(--down);font-weight:600}
+.brk-done{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:18px 8px}
+.brk-done-ic{width:64px;height:64px;border-radius:50%;background:rgba(21,128,61,.12);color:var(--up);display:flex;align-items:center;justify-content:center}
+.brk-done h3{margin:0;font-size:20px}.brk-done p{margin:0;line-height:1.6;font-size:13.5px}
+@media (max-width:1100px){.brk-top{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:760px){.brk-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.brk-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.brk-stat .v{font-size:18px}.brk-tabs{width:100%}.brk-tabs button{flex:1;padding:0 8px;justify-content:center}.brk-hero{padding:18px}.brk-acts .brk-btn{height:34px;padding:0 10px;font-size:12.5px}.bi-meta{text-align:left}.brk-doc-inv{padding:16px}}
 .fs-modal{position:fixed;inset:0;z-index:100;background:rgba(5,8,14,.6);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
 .fs-modal[hidden]{display:none}
 .fs-dialog{width:min(760px,100%);max-height:90vh;overflow:auto;background:var(--surface);border-radius:18px;border:1px solid var(--line);box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
@@ -654,6 +1043,9 @@ tr[hidden]{display:none}
 <div id="root"></div>
 <div class="fs-modal" id="fsHist" hidden onclick="if(event.target===this)fsHistClose()"><div class="fs-dialog" role="dialog" aria-modal="true" aria-label="Factsheet history"><div class="fs-dhead"><div><b>Factsheet history</b><div class="muted fs-hsub" style="font-size:12.5px"></div></div><button type="button" class="iconbtn fs-close" onclick="fsHistClose()" aria-label="Close history"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="fs-hlist"></div></div></div>
 <div class="fs-modal" id="fsModal" hidden onclick="if(event.target===this)fsClose()"><div class="fs-dialog" role="dialog" aria-modal="true" aria-label="Factsheet preview"><div class="fs-dhead"><b>Factsheet preview</b><div style="display:flex;gap:8px"><button type="button" class="btn fs-btn" data-fs-dl>Download PDF</button><button type="button" class="iconbtn fs-close" onclick="fsClose()" aria-label="Close preview"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div><div class="fs-doc"></div></div></div>
+<div class="fs-modal" id="brkModal" hidden onclick="if(event.target===this)brkClose()"><div class="fs-dialog brk-dialog" role="dialog" aria-modal="true" aria-label="Generate invoice and e-sign"><div class="fs-dhead"><b class="brk-mtitle">Invoice</b><button type="button" class="iconbtn fs-close" onclick="brkClose()" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="brk-mbody"></div></div></div>
+<div class="fs-modal" id="brkInvModal" hidden onclick="if(event.target===this)brkInvClose()"><div class="fs-dialog brk-dialog" role="dialog" aria-modal="true" aria-label="All investors"><div class="fs-dhead"><div><b class="brk-ititle">By investor</b><div class="muted brk-isub" style="font-size:12.5px"></div></div><button type="button" class="iconbtn fs-close" onclick="brkInvClose()" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="brk-ibody" style="padding:6px 18px 18px"></div></div></div>
+<div class="fs-modal" id="bdModal" hidden onclick="if(event.target===this)bdClose()"><div class="fs-dialog bdm" role="dialog" aria-modal="true" aria-label="Send birthday wishes"><button type="button" class="iconbtn bdm-x" onclick="bdClose()" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="bdm-body"></div></div></div>
 <div id="toast" class="toast" hidden></div>
 
 <script>
@@ -669,6 +1061,12 @@ const pct = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2) + '%';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const ring = items => { let c = 0; return 'conic-gradient(' + items.map(x => { const a = c; c += x.v; return x.color + ' ' + a.toFixed(2) + '% ' + c.toFixed(2) + '%'; }).join(', ') + ')'; };
 const I = {
+  eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  upload: '<path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/>',
+  rupee: '<path d="M6 4h12M6 9h12"/><path d="M9 4c4.5 0 6 2 6 5s-2.5 5-6 5H7l8 7"/>',
+  sign: '<path d="M3 20c3-1 4-4 6-4s1.5 3 4 3 3-3 5-3"/><path d="M14.5 4.5l5 5L11 18l-5 1 1-5z"/>',
+  xls: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7"/>',
   grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
   swap: '<path d="M7 4v16"/><path d="M3 8l4-4 4 4"/><path d="M17 20V4"/><path d="M21 16l-4 4-4-4"/>',
   req: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
@@ -764,21 +1162,32 @@ const FAM_TXNS = [
 ];
 // Distributor (figures from the preprod distributor dashboard; investor names are sample, PANs masked)
 const D_INVESTORS = [
-  { ini: 'NR', name: 'N. Ramesh', pan: 'AAHPR••••J', prods: ['AIF'], net: 9424574, cur: 12003735, mob: '98XXXXXX21', mail: 'n.ra••••@gmail.com', code: 'MYA-1042', rm: 'Direct' },
-  { ini: 'OE', name: 'Oceanview Energies Pvt Ltd', pan: 'AACCO••••K', prods: ['AIF'], net: 20000000, cur: 24419153, mob: '97XXXXXX08', mail: 'acc••••@oceanview.in', code: 'MYA-1057', rm: 'Direct' },
-  { ini: 'EA', name: 'Elizabeth A.', pan: 'ANNPA••••R', prods: ['AIF'], net: 10000000, cur: 17031463, mob: '99XXXXXX45', mail: 'eliz••••@yahoo.com', code: 'MYA-1063', rm: 'Sub-broker · Chennai' },
-  { ini: 'BS', name: 'B. Sundaram', pan: 'CDRPS••••H', prods: ['PMS', 'AIF'], net: 10000000, cur: 17031463, mob: '94XXXXXX77', mail: 'bsun••••@gmail.com', code: 'MYA-1071', rm: 'Direct' },
-  { ini: 'PN', name: 'P. Narayan', pan: 'AACPN••••Q', prods: ['AIF'], net: 20000000, cur: 29787512, mob: '90XXXXXX36', mail: 'pnar••••@outlook.com', code: 'MYA-1088', rm: 'Sub-broker · Bengaluru' },
-  { ini: 'RK', name: 'R. Krishnan', pan: 'AJKPK••••L', prods: ['PMS'], net: 9000000, cur: 12700000, mob: '98XXXXXX63', mail: 'rkri••••@gmail.com', code: 'MYA-1094', rm: 'Direct' },
-  { ini: 'MV', name: 'Meera Venkat', pan: 'BFXPV••••M', prods: ['PMS', 'MF'], net: 8200000, cur: 11300000, mob: '96XXXXXX19', mail: 'meer••••@gmail.com', code: 'MYA-1102', rm: 'Sub-broker · Chennai' },
-  { ini: 'AS', name: 'Arjun Sethi', pan: 'CQZPS••••D', prods: ['PMS'], net: 7600000, cur: 10600000, mob: '93XXXXXX50', mail: 'arju••••@gmail.com', code: 'MYA-1115', rm: 'Direct' }
+  { ini: 'NR', name: 'N. Ramesh', pan: 'AAHPR4821J', prods: ['AIF'], net: 9424574, cur: 12003735, mob: '9845021721', mail: 'n.ramesh.sample@gmail.com', code: 'MYA-1042', inc: '2024-03-18', created: '2024-03-20', rm: 'Direct' },
+  { ini: 'OE', name: 'Oceanview Energies Pvt Ltd', pan: 'AACCO7713K', prods: ['AIF'], net: 20000000, cur: 24419153, mob: '9790450108', mail: 'accounts@oceanview-sample.in', code: 'MYA-1057', inc: '2023-11-02', created: '2023-11-06', rm: 'Direct' },
+  { ini: 'EA', name: 'Elizabeth A.', pan: 'ANNPA2290R', prods: ['AIF'], net: 10000000, cur: 17031463, mob: '9944187345', mail: 'elizabeth.a.sample@yahoo.com', code: 'MYA-1063', inc: '2023-06-12', created: '2023-06-14', rm: 'Sub-broker · Chennai' },
+  { ini: 'BS', name: 'B. Sundaram', pan: 'CDRPS6604H', prods: ['PMS', 'AIF'], net: 10000000, cur: 17031463, mob: '9443276177', mail: 'b.sundaram.sample@gmail.com', code: 'MYA-1071', inc: '2022-09-27', created: '2022-09-29', rm: 'Direct' },
+  { ini: 'PN', name: 'P. Narayan', pan: 'AACPN5531Q', prods: ['AIF'], net: 20000000, cur: 29787512, mob: '9003641236', mail: 'p.narayan.sample@outlook.com', code: 'MYA-1088', inc: '2023-02-08', created: '2023-02-10', rm: 'Sub-broker · Bengaluru' },
+  { ini: 'RK', name: 'R. Krishnan', pan: 'AJKPK8817L', prods: ['PMS'], net: 9000000, cur: 12700000, mob: '9884512363', mail: 'r.krishnan.sample@gmail.com', code: 'MYA-1094', inc: '2023-05-08', created: '2023-05-09', rm: 'Direct' },
+  { ini: 'MV', name: 'Meera Venkat', pan: 'BFXPV3348M', prods: ['PMS', 'MF'], net: 8200000, cur: 11300000, mob: '9677235519', mail: 'meera.venkat.sample@gmail.com', code: 'MYA-1102', inc: '2023-11-07', created: '2023-11-08', rm: 'Sub-broker · Chennai' },
+  { ini: 'AS', name: 'Arjun Sethi', pan: 'CQZPS9902D', prods: ['PMS'], net: 7600000, cur: 10600000, mob: '9361884450', mail: 'arjun.sethi.sample@gmail.com', code: 'MYA-1115', inc: '2023-10-30', created: '2023-10-31', rm: 'Direct' }
 ];
 const D_ACTS = [
-  { name: 'M. Krishna', prod: 'AIF', scheme: '360 ONE India Private Equity Fund - Series 1A', type: 'Withdrawn', inc: '29 Sep 2020', date: '7 Jul 2027', amt: '₹26.71 L' },
-  { name: 'R. Krishnan', prod: 'PMS', scheme: '360 ONE Asset Management · Phoenix PMS', type: 'Withdrawn', inc: '8 May 2023', date: '22 Oct 2026', amt: '₹169.26' },
-  { name: 'Meera Venkat', prod: 'PMS', scheme: '360 ONE Asset Management · Phoenix PMS', type: 'Withdrawn', inc: '7 Nov 2023', date: '22 Oct 2026', amt: '₹178.56' },
-  { name: 'Arjun Sethi', prod: 'PMS', scheme: '360 ONE Asset Management · Phoenix PMS', type: 'Withdrawn', inc: '30 Oct 2023', date: '22 Oct 2026', amt: '₹184.14' },
-  { name: 'L. Prasad', prod: 'PMS', scheme: '360 ONE Asset Management · Phoenix PMS', type: 'Withdrawn', inc: '29 Mar 2023', date: '22 Oct 2026', amt: '₹234.36' }
+  { name: 'R. Krishnan', code: 'PHX0412', prod: 'PMS', amc: '360 ONE Asset Management', scheme: 'Phoenix PMS', type: 'Withdrawn', inc: '8 May 2023', date: '23 Nov 2026', amt: '₹169.26' },
+  { name: 'Meera Venkat', code: '7819425/11', prod: 'MF', amc: 'HDFC Mutual Fund', scheme: 'HDFC Flexi Cap Fund (G)', type: 'Purchase', inc: '10 Feb 2026', date: '19 Nov 2026', amt: '₹15.00 K' },
+  { name: 'B. Sundaram', code: 'ABK10854', prod: 'PMS', amc: 'Abakkus Asset Manager', scheme: 'Abakkus - All Cap Approach', type: 'Purchase', inc: '18 Nov 2026', date: '18 Nov 2026', amt: '₹50.00 L' },
+  { name: 'B. Sundaram', code: 'ABK10854', prod: 'PMS', amc: 'Abakkus Asset Manager', scheme: 'Abakkus - All Cap Approach', type: 'Investment Created', inc: '18 Nov 2026', date: '—', amt: '—' },
+  { name: 'Meera Venkat', code: '1001298392', prod: 'MF', amc: 'Parag Parikh Mutual Fund', scheme: 'Parag Parikh Flexi Cap Fund (G)', type: 'SIP Purchase', inc: '18 Dec 2025', date: '11 Nov 2026', amt: '₹15.00 K' },
+  { name: 'R. Krishnan', code: '70585642326', prod: 'SIF', amc: 'SBI Mutual Fund · Magnum SIF', scheme: 'Magnum Hybrid Long Short Fund', type: 'SIP Purchase', inc: '30 Dec 2025', date: '11 Nov 2026', amt: '₹25.00 K' },
+  { name: 'Arjun Sethi', code: 'PHX0498', prod: 'PMS', amc: '360 ONE Asset Management', scheme: 'Phoenix PMS', type: 'Withdrawn', inc: '30 Oct 2023', date: '7 Nov 2026', amt: '₹184.14' },
+  { name: 'P. Narayan', code: 'A2E0315', prod: 'AIF', amc: 'Abakkus Asset Manager', scheme: 'Four2Eight Opportunities Fund', type: 'Drawdown', inc: '8 Feb 2023', date: '6 Nov 2026', amt: '₹25.00 L' },
+  { name: 'Oceanview Energies Pvt Ltd', code: 'A2E0322', prod: 'AIF', amc: 'Abakkus Asset Manager', scheme: 'Four2Eight Opportunities Fund', type: 'Drawdown', inc: '2 Nov 2023', date: '6 Nov 2026', amt: '₹50.00 L' },
+  { name: 'N. Ramesh', code: 'MOI2210', prod: 'AIF', amc: 'Motilal Oswal Alternates', scheme: 'India Excellence Fund', type: 'Investment Created', inc: '5 Nov 2026', date: '—', amt: '—' },
+  { name: 'Meera Venkat', code: 'PHX0441', prod: 'PMS', amc: '360 ONE Asset Management', scheme: 'Phoenix PMS', type: 'Withdrawn', inc: '7 Nov 2023', date: '22 Oct 2026', amt: '₹178.56' },
+  { name: 'Elizabeth A.', code: '360PE118', prod: 'AIF', amc: '360 ONE Alternates', scheme: 'India Private Equity Fund - Series 1A', type: 'Distribution', inc: '12 Jun 2023', date: '15 Oct 2026', amt: '₹4.20 L' },
+  { name: 'R. Krishnan', code: '7819426/02', prod: 'MF', amc: 'HDFC Mutual Fund', scheme: 'HDFC Flexi Cap Fund (G)', type: 'Redemption', inc: '14 Mar 2024', date: '9 Oct 2026', amt: '₹1.20 L' },
+  { name: 'Arjun Sethi', code: '70585642390', prod: 'SIF', amc: 'Quant Mutual Fund · qSIF', scheme: 'qSIF Equity Long-Short Fund', type: 'Purchase', inc: '3 Oct 2026', date: '3 Oct 2026', amt: '₹10.00 L' },
+  { name: 'B. Sundaram', code: 'MRC0207', prod: 'PMS', amc: 'Marcellus Investment Managers', scheme: 'Consistent Compounders', type: 'Withdrawn', inc: '27 Sep 2022', date: '22 Sep 2026', amt: '₹2.10 L' },
+  { name: 'P. Narayan', code: 'A2E0315', prod: 'AIF', amc: 'Abakkus Asset Manager', scheme: 'Four2Eight Opportunities Fund', type: 'Drawdown', inc: '8 Feb 2023', date: '5 Aug 2026', amt: '₹20.00 L' }
 ];
 
 // ---------- state & routing ----------
@@ -787,7 +1196,7 @@ const INTERNAL = APP_MODE === 'internal';
 const S = { role: null, viewingAs: null, account: 'self', loginRole: INTERNAL ? 'distributor' : 'investor', method: INTERNAL ? 'email' : 'mobile', dest: '' };
 function portalBadge(){ return INTERNAL ? '' : `<div class="role" role="tablist" aria-label="I am an"><button type="button" role="tab" data-role="investor" aria-selected="${S.loginRole === 'investor'}">Investor</button><button type="button" role="tab" data-role="distributor" aria-selected="${S.loginRole === 'distributor'}">Distributor</button></div>`; }
 const INV_ROUTES = ['profile', 'announcements', 'holdings', 'home', 'pms', 'pms-scheme', 'mf', 'mf-scheme', 'sif', 'sif-scheme', 'aif', 'aif-scheme', 'gift', 'gift-scheme', 'txns', 'requests', 'family'];
-const DIST_ROUTES = ['d-home', 'd-investors', 'd-activities', 'd-requests'];
+const DIST_ROUTES = ['d-home', 'd-investors', 'd-activities', 'd-requests', 'd-earnings', 'd-birthdays'];
 function route(){ return (location.hash || '#login').slice(1); }
 function go(r){ if (location.hash.slice(1) === r) render(); else location.hash = r; }
 addEventListener('hashchange', render);
@@ -1434,32 +1843,116 @@ function famCapTiles(){
 
 // ---------- distributor views ----------
 function movRows(rows){ return rows.map(([l, d, a, p, up]) => `<tr><td><b>${l}</b> <span class="muted" style="font-size:12px">${d}</span></td><td class="r num"><b>${a}</b></td><td class="r num ${up ? 'up-t' : 'down-t'}"><b>${p}</b></td></tr>`).join(''); }
+function dhChart(vals, labels, lo, hi, fmt){
+  const W = 900, H = 250, pl = 70, pr = 18, pt = 14, pb = 32;
+  const X = i => pl + i * (W - pl - pr) / (vals.length - 1), Y = v => pt + (H - pt - pb) * (1 - (v - lo) / (hi - lo));
+  const pts = vals.map((v, i) => [X(i), Y(v)]);
+  let d = 'M' + pts[0][0] + ' ' + pts[0][1];
+  for (let i = 1; i < pts.length; i++){ const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], cx = (x0 + x1) / 2; d += ` C ${cx} ${y0}, ${cx} ${y1}, ${x1} ${y1}`; }
+  const ticks = []; for (let v = lo; v <= hi + 1e-9; v += (hi - lo) / 4) ticks.push(v);
+  return `<div class="bd-chartwrap"><svg viewBox="0 0 ${W} ${H}" class="bd-chart" role="img" aria-label="AUM growth">
+    ${ticks.map(t => `<line x1="${pl}" x2="${W - pr}" y1="${Y(t)}" y2="${Y(t)}" class="g"/><text x="${pl - 8}" y="${Y(t) + 4}" text-anchor="end" class="t">${fmt(t)}</text>`).join('')}
+    ${labels.map((l, i) => `<line x1="${X(i)}" x2="${X(i)}" y1="${pt}" y2="${H - pb}" class="g" style="opacity:.5"/><text x="${X(i)}" y="${H - 10}" text-anchor="middle" class="t">${l}</text>`).join('')}
+    <path d="${d} L ${X(vals.length - 1)} ${H - pb} L ${pl} ${H - pb} Z" class="a"/><path d="${d}" class="l"/>
+    ${pts.map((q, i) => `<circle cx="${q[0]}" cy="${q[1]}" r="${i === pts.length - 1 ? 5 : 3.5}" class="d"><title>${labels[i]}: ${fmt(vals[i])}</title></circle>`).join('')}</svg></div>`;
+}
+function dhTile(lbl, days, val, pct){ const up = !/^[−-]/.test(pct); return `<div class="bd-tile"><div class="bd-tile-h"><b>${lbl}</b><span>${days} days</span></div><div class="bd-tile-v ${up ? 'up' : 'down'}"><i>${up ? '▲' : '▼'}</i>${val}(${pct})</div></div>`; }
+const DH_IC = { aum: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 15h3"/>', net: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', inv: '<circle cx="12" cy="12" r="8.5"/><path d="M8.3 12.3l2.5 2.5 4.9-5.3"/>' };
+const dhIco = k => `<span class="bd-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${DH_IC[k]}</svg></span>`;
+const DH_OPTS = [['dom', 'PMS + MF + SIF Combined', '₹16.96 Cr AUM · 24 investors', 'grid'], ['aif', 'AIF', '₹117.48 Cr AUM · 50 investors', 'shield'], ['gift', 'GIFT IFSC', 'No investors yet', 'globe']];
+function dhSelect(view){
+  const cur = DH_OPTS.find(o => o[0] === view) || DH_OPTS[0];
+  return `<div class="dhs" id="dhs"><button type="button" class="dhs-btn" aria-haspopup="listbox" aria-expanded="false" onclick="dhsToggle(event)"><span class="dhs-ic">${svg(cur[3], 22, 1.8)}</span><span class="dhs-tx"><small>Viewing</small><b>${cur[1]}</b></span><span class="dhs-chev">${svg('down', 18, 2.2)}</span></button>
+    <div class="dhs-menu" role="listbox" aria-label="Products" hidden>${DH_OPTS.map(o => `<button type="button" role="option" aria-selected="${o[0] === view}" class="${o[0] === view ? 'on' : ''}" onclick="S.dhView='${o[0]}';render()"><span class="dhs-ic sm">${svg(o[3], 18, 1.8)}</span><span class="dhs-tx"><b>${o[1]}</b><small>${o[2]}</small></span>${o[0] === view ? `<span class="dhs-tick">${svg('check', 16, 2.4)}</span>` : ''}</button>`).join('')}</div></div>`;
+}
+function dhsToggle(e){ e.stopPropagation(); const w = document.getElementById('dhs'), m = w.querySelector('.dhs-menu'), b = w.querySelector('.dhs-btn'); m.hidden = !m.hidden; b.setAttribute('aria-expanded', String(!m.hidden)); }
+document.addEventListener('click', e => { const w = document.getElementById('dhs'); if (w && !e.target.closest('#dhs')){ w.querySelector('.dhs-menu').hidden = true; w.querySelector('.dhs-btn').setAttribute('aria-expanded', 'false'); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape'){ const w = document.getElementById('dhs'); if (w) w.querySelector('.dhs-menu').hidden = true; } });
+// ---------- birthday alerts (sample investors) ----------
+const BDAYS = [
+  { name: 'Meera Venkat', cre: 'R. Priya', city: 'India, Chennai', mob: '+91 96772 35519', mail: 'meera.venkat.sample@gmail.com', day: 26 },
+  { name: 'Arjun Sethi', cre: 'K. Arun', city: 'India, Bengaluru', mob: '+91 93618 84450', mail: 'arjun.sethi.sample@gmail.com', day: 26 },
+  { name: 'N. Ramesh', cre: 'R. Priya', city: 'India, Coimbatore', mob: '+91 98450 21721', mail: 'n.ramesh.sample@gmail.com', day: 27 },
+  { name: 'Elizabeth A.', cre: 'Sub-broker · Chennai', city: 'India, Chennai', mob: '+91 99441 87345', mail: 'elizabeth.a.sample@yahoo.com', day: 30 },
+  { name: 'P. Narayan', cre: 'Sub-broker · Bengaluru', city: 'India, Bengaluru', mob: '+91 90036 41236', mail: 'p.narayan.sample@outlook.com', day: 34 }
+];
+const BD_TODAY = 26, BD_DIST = 'Sthree Events';
+const bdDate = d => { const dt = new Date(2026, 10, d); return { mon: dt.toLocaleString('en-GB', { month: 'short' }).toUpperCase(), dd: dt.getDate(), long: dt.getDate() + ' ' + dt.toLocaleString('en-GB', { month: 'long' }) }; };
+const bdRel = d => d === BD_TODAY ? 'Today' : d === BD_TODAY + 1 ? 'Tomorrow' : 'In ' + (d - BD_TODAY) + ' days';
+function bdGroups(q){ const L = BDAYS.filter(b => b.day >= BD_TODAY && b.day <= BD_TODAY + 10 && (!q || b.name.toLowerCase().includes(q.toLowerCase()))); const g = {}; L.forEach(b => (g[b.day] = g[b.day] || []).push(b)); return Object.keys(g).map(Number).sort((a, b) => a - b).map(d => [d, g[d]]); }
+const bdPerson = b => `<div class="bd-pers"><span class="bd-av">${b.name[0]}</span><div class="grow"><div class="bd-pn"><b>${esc(b.name)} [CRE: ${esc(b.cre)}, Dist: ${BD_DIST}]</b>${b.day === BD_TODAY ? '<span class="bd-today">TODAY</span>' : ''}</div><small>${svg('pin', 12, 2)}${esc(b.city)}</small></div><button type="button" class="bd-wish" onclick="bdWish('${esc(b.name)}')">${svg('sign', 14, 2)}Send Wishes</button></div>`;
+function bdayCard(){
+  const todayL = BDAYS.filter(b => b.day === BD_TODAY), up = bdGroups('').filter(([d]) => d > BD_TODAY);
+  const upN = up.reduce((a, g) => a + g[1].length, 0);
+  return `<section class="card"><div class="card-h"><h3 class="bd-t" style="font-size:19px">Birthday Alerts</h3><span class="bd-uppill">Upcoming · ${upN}</span></div>
+    ${todayL.length ? `<div class="muted" style="font-size:13px">Today</div><div class="bd-plist">${todayL.map(bdPerson).join('')}</div>` : '<div class="dh-empty">No birthdays today.</div>'}
+    ${up.length ? `<div class="bd-sec">Upcoming birthdays</div><div class="bd-plist">${up.slice(0, 3).map(([d, L]) => { const D2 = bdDate(d); return `<a class="bd-up" href="#d-birthdays"><span class="bd-dt"><small>${D2.mon}</small><b>${D2.dd}</b></span><div class="grow"><b>${D2.long}</b> <small class="muted">· ${bdRel(d)}</small><div class="muted" style="font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${L.length} Birthday${L.length > 1 ? 's' : ''} — ${L.map(b => esc(b.name) + ' [CRE: ' + esc(b.cre) + ']').join(', ')}</div></div>${svg('arrowright', 16, 2)}</a>`; }).join('')}</div>` : ''}
+    <a class="bd-all" href="#d-birthdays">View All Birthdays ${svg('arrowright', 14, 2)}</a></section>`;
+}
+function bdWish(name){
+  const b = BDAYS.find(x => x.name === name), m = document.getElementById('bdModal'), digits = b.mob.replace(/\D/g, ''), msg = encodeURIComponent('Dear ' + b.name + ', wishing you a very happy birthday! Warm regards, ' + BD_DIST);
+  m.querySelector('.bdm-body').innerHTML = `<span class="bdm-cake">🎂</span><h3>Greet ${esc(b.name)}</h3><p class="muted">Send warm wishes directly via WhatsApp, Email, or SMS</p>
+    <div class="bdm-contact"><div class="bdm-ch"><span>Recipient contact</span><button type="button" class="bd-link" onclick="bdEdit()">Edit Number</button></div>
+      <div class="bdm-cv"><span class="bdm-cc">+91</span><b id="bdmNum">${esc(b.mob.replace('+91 ', ''))}</b><span class="muted" style="margin-left:auto;font-size:12.5px">${esc(b.mail)}</span></div>
+      <div class="bdm-edit" hidden><input id="bdmNumIn" class="finput" inputmode="tel" value="${esc(b.mob.replace('+91 ', ''))}" aria-label="Mobile number"><button type="button" class="btn brk-btn" onclick="bdSaveNum()">Save</button></div></div>
+    <a class="bdm-opt" href="https://wa.me/${digits}?text=${msg}" target="_blank" rel="noopener" onclick="toast('Opening WhatsApp in a new tab')"><span class="bdm-oi wa">${svg('phone', 18, 1.9)}</span><span class="grow"><b>WhatsApp</b><small class="bdm-n">${esc(b.mob)}</small></span><span class="bdm-ready">Ready</span></a>
+    <a class="bdm-opt" href="mailto:${esc(b.mail)}?subject=${encodeURIComponent('Happy Birthday!')}&body=${msg}" onclick="toast('Opening your email app')"><span class="bdm-oi em">${svg('mail', 18, 1.9)}</span><span class="grow"><b>Email</b><small>${esc(b.mail)}</small></span></a>
+    <a class="bdm-opt" href="sms:${digits}?body=${msg}" onclick="toast('Opening your messages app')"><span class="bdm-oi sm">${svg('sign', 18, 1.9)}</span><span class="grow"><b>SMS</b><small class="bdm-n">${esc(b.mob)}</small></span></a>
+    <div style="display:flex;justify-content:flex-end"><button type="button" class="btn ghost brk-btn" onclick="bdClose()">Cancel</button></div>`;
+  m.hidden = false; m.querySelector('.bdm-x').focus();
+}
+function bdEdit(){ const m = document.getElementById('bdModal'); m.querySelector('.bdm-edit').hidden = false; document.getElementById('bdmNumIn').focus(); }
+function bdSaveNum(){ const v = document.getElementById('bdmNumIn').value.replace(/[^\d ]/g, '').trim(); if (v.replace(/\D/g, '').length !== 10){ toast('Enter a 10-digit mobile number'); return; } const m = document.getElementById('bdModal'); document.getElementById('bdmNum').textContent = v; m.querySelectorAll('.bdm-n').forEach(n => n.textContent = '+91 ' + v); m.querySelectorAll('.bdm-opt').forEach(a2 => { a2.href = a2.href.replace(/(wa\.me\/|sms:)\d+/, '$1' + '91' + v.replace(/\D/g, '')); }); m.querySelector('.bdm-edit').hidden = true; toast('Number updated for this greeting'); }
+function bdClose(){ document.getElementById('bdModal').hidden = true; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape'){ const m = document.getElementById('bdModal'); if (m && !m.hidden) bdClose(); } });
+const BDP = { q: '', open: { [BD_TODAY]: true } };
+function bdPageList(){ const G = bdGroups(BDP.q); return G.map(([d, L]) => { const D2 = bdDate(d), t = d === BD_TODAY, tm = d === BD_TODAY + 1, o = !!BDP.open[d];
+  return `<div class="bdp-g${t ? ' today' : ''}"><button type="button" class="bdp-h" aria-expanded="${o}" onclick="BDP.open[${d}]=!BDP.open[${d}];bdpRefresh()"><span class="bd-dt${t ? ' on' : ''}"><small>${D2.mon}</small><b>${D2.dd}</b></span><span class="grow"><b style="font-size:16px">${D2.long}</b>${t ? ' <span class="bd-today">TODAY</span>' : tm ? ' <span class="bd-tom">TOMORROW</span>' : ` <span class="muted" style="font-size:12.5px">· ${bdRel(d)}</span>`}<small class="muted" style="display:block">${L.length} investor${L.length > 1 ? 's' : ''} celebrating</small></span><span class="bdp-chev">${svg('down', 18, 2)}</span></button>${o ? `<div class="bd-plist" style="padding:0 18px 18px">${L.map(bdPerson).join('')}</div>` : ''}</div>`; }).join('') || '<div class="dh-empty">No birthdays match your search.</div>'; }
+function bdpRefresh(){ const el = document.getElementById('bdpList'); if (el) el.innerHTML = bdPageList(); }
+V['d-birthdays'] = () => { const n = bdGroups('').filter(([d]) => d > BD_TODAY).reduce((a, g) => a + g[1].length, 0);
+  return `<div class="li-crumb"><a class="li-back" href="#d-home" aria-label="Back to dashboard">${svg('back', 16, 2)}</a><span class="li-bc"><a href="#d-home">Dashboard</a> / <b>Birthday Alerts</b></span></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap"><div><h2 style="margin:0;font-size:22px;font-weight:600">Birthday Alerts</h2><div class="muted" style="font-size:13px">View upcoming investor birthdays and strengthen client relationships.</div></div><span class="bdp-pill">🎁 ${n} upcoming in 10 days</span></div>
+  <section class="card" style="padding:16px"><div class="search">${svg('search', 18)}<input id="bdpQ" placeholder="Search by investor name..." value="${esc(BDP.q)}" oninput="BDP.q=this.value;bdpRefresh()" aria-label="Search by investor name"></div></section>
+  <div id="bdpList" style="display:flex;flex-direction:column;gap:14px">${bdPageList()}</div>`; };
 V['d-home'] = () => {
-  const months = ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
-  const vals = [17.2, 17.6, 17.1, 16.4, 16.9, 17.8, 18.1, 17.9, 17.4, 17.55, 17.0, 16.96];
-  const kpis = (aum, net, n, gain, day) => `<div class="grid g4">
-    <div class="hero" style="padding:18px;gap:6px"><span class="lbl">Current AUM</span><div class="num" style="font-size:26px;font-weight:600">${aum}</div>${day ? `<span class="pill up" style="align-self:flex-start">▲ ${day} today</span>` : ''}</div>
-    <div class="stat" style="padding:18px"><div class="l">Net AUM</div><div class="v num" style="font-size:24px">${net}</div></div>
-    <div class="stat" style="padding:18px"><div class="l">Gain on net AUM</div><div class="v num up-t" style="font-size:24px">${gain}</div></div>
-    <div class="stat" style="padding:18px"><div class="l">No. of investors</div><div class="v num" style="font-size:24px">${n}</div></div></div>`;
-  const dom = `${kpis('₹16.96 Cr', '₹12.94 Cr', 24, '₹4.02 Cr', '+0.72%')}
-    <div class="grid g3">${[['PMS', 'PMS', 24, '₹12.94 Cr', '₹16.96 Cr', '#FBF5E2', '#7A5F0E'], ['MF', 'Mutual Funds', 0, '₹0', '₹0', '#ECFDF5', '#065F46'], ['SIF', 'SIF', 0, '₹0', '₹0', '#FDF2F8', '#9D174D']].map(p => `<a href="#d-investors" class="card prodcard"><div style="display:flex;align-items:center;gap:12px"><span class="tile" style="background:${p[5]};color:${p[6]}">${p[0]}</span><b style="font-size:16px;flex:1">${p[1]}</b><span class="muted" style="font-size:13px">${p[2] ? p[2] + ' clients' : 'No clients yet'}</span></div><div style="display:flex;justify-content:space-between"><div><div class="muted" style="font-size:12px">Net invested</div><b class="num">${p[3]}</b></div><div style="text-align:right"><div class="muted" style="font-size:12px">Current</div><b class="num">${p[4]}</b></div></div></a>`).join('')}</div>
-    <div class="grid g-main"><section class="card"><div class="card-h"><h2>AUM Growth</h2><span class="side-note">Dec 2025 – Nov 2026</span></div>${lineChart(vals, months, 15, 19, v => '₹' + v.toFixed(0) + ' Cr')}</section>
-    <section class="card" data-tabgroup><div class="card-h"><h2>AUM movement</h2></div>${tabs('mv', [['a', 'AUM trend'], ['i', 'Inflow'], ['o', 'Outflow']])}
-      ${pane('a', `<div class="muted" style="font-size:12px">Investment valuation over time</div><table>${movRows([['MoM', '30 days', '₹58.64 L', '−3.3%', false], ['QoQ', '91 days', '₹1.10 Cr', '−6.1%', false], ['YoY', '365 days', '₹1.16 Cr', '−6.4%', false]])}</table>`, true)}
-      ${pane('i', `<div class="muted" style="font-size:12px">Total inflow ₹14.64 Cr</div><table>${movRows([['MoM', '30 days', '₹0.00', '+0.0%', true], ['QoQ', '91 days', '₹2.00 L', '+40.0%', true], ['YoY', '365 days', '₹4.49 Cr', '−97.4%', false]])}</table>`)}
-      ${pane('o', `<div class="muted" style="font-size:12px">Total outflow ₹1.69 Cr</div><table>${movRows([['MoM', '30 days', '₹2.00 L', '−94.8%', false], ['QoQ', '91 days', '₹33.26 L', '−89.8%', false], ['YoY', '365 days', '₹2.64 L', '+4.8%', true]])}</table>`)}
-    </section></div>`;
-  const aif = `${kpis('₹117.48 Cr', '₹75.34 Cr', 50, '₹42.14 Cr')}
-    <section class="hero"><span class="ring1"></span><span class="ring2"></span><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><span class="lbl">Capital overview · AIF</span><span class="tag">Committed ₹81.58 Cr</span></div><div class="capbar"><span style="width:97%;background:var(--gold)"></span></div><div class="grid g3" style="gap:10px"><div class="mini"><div class="l">Capital commitment</div><div class="v num">₹81.58 Cr</div></div><div class="mini"><div class="l">Capital called</div><div class="v num">₹79.15 Cr</div></div><div class="mini"><div class="l">Capital pending</div><div class="v num" style="color:var(--gold)">₹2.78 Cr</div></div></div></section>`;
-  const gift = `${kpis('$0.00', '$0.00', 0, '$0.00')}<section class="card empty"><span class="ic" style="background:#F5F3FF;color:#5B21B6">${svg('globe', 24, 1.8)}</span><b style="font-size:16px">No GIFT IFSC investors yet</b><span class="muted" style="max-width:46ch">When your clients invest in GIFT IFSC funds, their US dollar AUM, commitments and capital calls show here.</span></section>`;
-  const top = [['RK', 'R. Krishnan', 'PMS · AIF', '₹1.27 Cr'], ['MV', 'Meera Venkat', 'PMS', '₹1.13 Cr'], ['AS', 'Arjun Sethi', 'PMS · AIF', '₹1.06 Cr'], ['SS', 'S. Sridhar', 'PMS', '₹98.68 L'], ['VR', 'V. Rajagopal', 'PMS', '₹81.94 L']];
-  return `<div data-tabgroup style="display:flex;flex-direction:column;gap:20px">${tabs('dp', [['dom', 'PMS + MF + SIF'], ['aif', 'AIF'], ['gift', 'GIFT IFSC']], 'dark')}
-    ${pane('dom', `<div style="display:flex;flex-direction:column;gap:20px">${dom}</div>`, true)}${pane('aif', `<div style="display:flex;flex-direction:column;gap:20px">${aif}</div>`)}${pane('gift', `<div style="display:flex;flex-direction:column;gap:20px">${gift}</div>`)}</div>
-  <div class="grid g3">
-    <section class="card"><div class="card-h"><h2>Top investors</h2><a href="#d-investors" style="font-size:13px;font-weight:600">View all</a></div>${top.map((t, i) => `<button type="button" data-view-investor="${t[1]}" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:8px 0;border-top:${i ? '1px solid var(--line2)' : 'none'}"><span class="avatar" style="background:var(--line2);color:var(--ink);width:36px;height:36px">${t[0]}</span><div style="flex:1;min-width:0"><b>${t[1]}</b><div class="muted" style="font-size:12px">${t[2]}</div></div><b class="num">${t[3]}</b></button>`).join('')}</section>
-    <section class="card"><div class="card-h"><h2>Recent activity</h2><a href="#d-activities" style="font-size:13px;font-weight:600">View all</a></div>${D_ACTS.slice(1, 5).map((a, i) => `<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-top:${i ? '1px solid var(--line2)' : 'none'}"><span class="tile" style="background:#FEF2F2;color:var(--down);width:36px;height:36px">${svg('arrowdown', 16, 2)}</span><div style="flex:1;min-width:0"><b>${a.name}</b><div class="muted" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.type} · ${a.prod} · ${a.scheme}</div></div><div style="text-align:right"><b class="num">${a.amt}</b><div class="muted" style="font-size:11px">${a.date}</div></div></div>`).join('')}</section>
-    <section class="card"><div class="card-h"><h2>Birthday alerts</h2></div><div style="display:flex;align-items:center;gap:12px"><span class="tile" style="background:#FDF2F8;color:#9D174D">${svg('cake', 20, 1.8)}</span><span class="muted">No birthdays in the next 3 days.</span></div></section>
+  const view = S.dhView || 'dom';
+  const kpis = (aum, net, n, day) => `<div class="bd-kpis">
+    <div class="bd-kpi">${dhIco('aum')}<b class="num">${aum}</b><span>Current AUM</span>${day ? `<div class="bd-kpi-f"><span>Day changes</span><b class="${/^[−-]/.test(day) ? 'down-t' : 'up-t'}">${day}</b></div>` : ''}</div>
+    <div class="bd-kpi">${dhIco('net')}<b class="num">${net}</b><span>Net AUM</span></div>
+    <div class="bd-kpi">${dhIco('inv')}<b class="num">${n}</b><span>No. of Investors</span></div></div>`;
+  const prod = (t, sub, n, ni, cur, prodKey) => `<div class="bd-prod"><div><b class="bd-prod-t">${t}</b><div class="bd-prod-s">${sub}</div></div>
+      <div class="bd-kv"><span>Clients:</span><b class="num">${n}</b></div><div class="bd-kv"><span>Net Invested:</span><b class="num">${ni}</b></div><div class="bd-kv"><span>Current:</span><b class="num">${cur}</b></div>
+      <a class="bd-out" href="#d-investors">${svg('eye', 14, 2)}View all clients</a></div>`;
+  const months = ['Dec(25)', 'Jan(26)', 'Feb(26)', 'Mar(26)', 'Apr(26)', 'May(26)', 'Jun(26)', 'Jul(26)', 'Aug(26)', 'Sept(26)', 'Oct(26)', 'Nov(26)'];
+  const dom = `${kpis('₹16.96 Cr', '₹12.94 Cr', 24, '+0.72%')}
+    <section class="card"><h3 class="bd-t">Domestic Product-wise Breakdown</h3><div class="bd-prods three">${prod('PMS', 'PMS', 24, '₹12.94 Cr', '₹16.96 Cr')}${prod('MF', 'Mutual Fund', 0, '₹0', '₹0')}${prod('SIF', 'SIF', 0, '₹0', '₹0')}</div></section>
+    <section class="card"><h3 class="bd-t">AUM Trend</h3><p class="bd-s">Investment Valuation over time</p><div class="bd-tiles">${dhTile('MoM', 30, '₹58.64 L', '−3.3%')}${dhTile('QoQ', 91, '₹1.10 Cr', '−6.1%')}${dhTile('YoY', 365, '₹1.16 Cr', '−6.4%')}</div></section>
+    <div class="bd-two">
+      <section class="card"><h3 class="bd-t">Inflow</h3><p class="bd-s">Total: ₹14.64 Cr</p><div class="bd-tiles sm">${dhTile('MoM', 30, '₹0', '+0.0%')}${dhTile('QoQ', 91, '₹2.00 L', '+40.0%')}${dhTile('YoY', 365, '₹4.49 Cr', '−97.4%')}</div></section>
+      <section class="card"><h3 class="bd-t">Outflow</h3><p class="bd-s">Total: ₹1.69 Cr</p><div class="bd-tiles sm">${dhTile('MoM', 30, '₹2.00 L', '−94.8%')}${dhTile('QoQ', 91, '₹33.26 L', '−89.8%')}${dhTile('YoY', 365, '₹2.64 L', '+4.8%')}</div></section>
+    </div>
+    <section class="card"><div class="card-h"><h3 class="bd-t">AUM Growth</h3><span class="side-note">Dec 2025 – Nov 2026</span></div>${dhChart([17.2, 17.6, 17.1, 16.4, 16.9, 17.8, 18.1, 17.9, 17.4, 17.55, 17.0, 16.96], months, 15, 19, v => '₹' + v.toFixed(2) + ' Cr')}</section>`;
+  const snapRow = (l, v) => `<div class="dh-snap-row"><span>${l}</span><b class="num">${v}</b></div>`;
+  const snap = (sub, c, ni, cur, com, called, pend) => `<section class="card"><h3 class="bd-t" style="font-weight:500">Investor Snapshot</h3><div class="dh-snap">
+      <div class="dh-snap-c"><b class="dh-snap-t">Investor Portfolio Overview</b><div class="bd-prod-s">${sub}</div>${snapRow('Clients:', c)}${snapRow('Net Invested:', ni)}${snapRow('Current:', cur)}<a class="bd-out" href="#d-investors">${svg('eye', 14, 2)}View all clients</a></div>
+      <div class="dh-snap-c"><b class="dh-snap-t">Capital Overview</b><div class="bd-prod-s">Commitment and called value snapshots</div>${snapRow('Capital Commitment:', com)}${snapRow('Capital Called:', called)}${snapRow('Capital Pending:', pend)}<a class="bd-out" href="#d-investors">${svg('eye', 14, 2)}View all clients</a></div>
+    </div></section>`;
+  const aif = `${kpis('₹117.48 Cr', '₹75.34 Cr', 50)}${snap('Alternative Investment Fund', 50, '₹75.34 Cr', '₹117.48 Cr', '₹81.58 Cr', '₹79.15 Cr', '₹2.78 Cr')}`;
+  const gift = `${kpis('$0', '$0', 0)}${snap('GIFT ( Global Investment )', 0, '$0', '$0', '$0', '$0', '$0')}`;
+  const codeOf = n => (D_ACTS.find(x => x.name === n) || {}).code || '';
+  const VP = { dom: ['PMS', 'MF', 'SIF'], aif: ['AIF'], gift: ['GIFT IFSC'] }[view], VNAME = { dom: 'PMS, MF or SIF', aif: 'AIF', gift: 'GIFT IFSC' }[view];
+  const actL = D_ACTS.filter(a2 => VP.includes(a2.prod)).slice(0, 5);
+  const acts = actL.map(a2 => `<div class="bd-act"><span class="bd-av">${a2.name[0]}</span><div class="grow"><b>${esc(a2.name)} <small>(${esc(a2.code)})</small></b><div>${a2.type} • ${a2.prod} • ${esc(a2.amc)} - ${esc(a2.scheme)}</div></div><div class="r"><b class="num">${a2.amt}</b><div>${a2.date}</div></div></div>`).join('') || `<div class="dh-empty">No ${VNAME} activity yet.</div>`;
+  const top = [...D_INVESTORS].filter(v => v.prods.some(x => VP.includes(x))).sort((x, y) => y.cur - x.cur).slice(0, 5).map(v => `<button type="button" class="bd-act bd-actbtn" data-view-investor="${esc(v.name)}"><span class="bd-av">${v.name[0]}</span><div class="grow"><b>${esc(v.name)}</b><div>${v.mob}</div><div>${v.mail}</div></div><div class="r"><b class="num up-t">${cr(v.cur)}</b><div>AUM</div></div></button>`).join('') || `<div class="dh-empty">No ${VNAME} investors yet.</div>`;
+  return `<div class="bd">
+    <div class="bd-head dh-head">${dhSelect(view)}</div>
+    ${view === 'aif' ? aif : view === 'gift' ? gift : dom}
+    ${bdayCard()}
+    <div class="bd-two wide">
+      <section class="card"><div class="card-h"><h3 class="bd-t">Recent Activity</h3><a class="bd-link" href="#d-activities" onclick="DA.prod=${view === 'aif' ? "'AIF'" : view === 'gift' ? "'GIFT IFSC'" : "'all'"};DA.page=1">View All</a></div><div class="bd-list">${acts}</div></section>
+      <section class="card"><div class="card-h"><h3 class="bd-t">Top Investors</h3><a class="bd-link" href="#d-investors">View All</a></div><div class="bd-list">${top}</div></section>
+    </div>
+    <p class="muted" style="font-size:12px;margin:0">Sample data · investor names and contact details are sample values.</p>
   </div>`;
 };
 const PTAG = { PMS: ['#FBF5E2', '#7A5F0E'], MF: ['#ECFDF5', '#065F46'], SIF: ['#FDF2F8', '#9D174D'], AIF: ['#EFF6FF', '#1E3A8A'], 'GIFT IFSC': ['#F5F3FF', '#5B21B6'] };
@@ -1471,12 +1964,14 @@ function dinvFilter(box, apply){
   box.querySelectorAll('tbody tr').forEach(r => { const d = r.dataset;
     const ok = (!q || d.name.includes(q) || d.pan.includes(q)) && (!f.pan || d.pan.includes(f.pan)) && (!f.mail || d.mail.includes(f.mail)) && (!f.code || d.code.includes(f.code)) && (!f.mob || d.mob.includes(f.mob)) && (!f.prod || d.prods.split(',').includes(f.prod)) && (!f.rm || d.rm === f.rm);
     r.hidden = !ok; if (ok) n++; });
-  box.querySelector('.dinv-count').textContent = `Showing ${n} of ${D_INVESTORS.length} · investor names are sample, contact details masked`;
+  box.querySelector('.dinv-count').textContent = `Showing ${n} of ${D_INVESTORS.length} · investor names and contact details are sample data`;
   const active = Object.values(f).filter(Boolean).length; const b = box.querySelector('.fbadge'); b.textContent = active; b.hidden = !active;
 }
 function dinvClear(box){ box.querySelectorAll('.fpanel input, .fpanel select').forEach(i => { i.value = ''; }); box._f = {}; dinvFilter(box, true); }
 function dinvToggle(btn){ const box = btn.closest('[data-dinv]'), p = box.querySelector('.fpanel'), open = p.hidden; p.hidden = !open; btn.setAttribute('aria-expanded', String(open)); btn.querySelector('.ft').textContent = open ? 'Close Filters' : 'Filters'; btn.querySelector('.fi-open').hidden = open; btn.querySelector('.fi-close').hidden = !open; }
-V['d-investors'] = () => `<section class="card pf-card" data-dinv>
+V['d-investors'] = () => `<div class="li-crumb"><a class="li-back" href="#d-home" aria-label="Back to dashboard">${svg('back', 16, 2)}</a><span class="li-bc"><a href="#d-home">Dashboard</a> / <b>Investors</b></span></div>
+  <div><h2 style="margin:0;font-size:22px;font-weight:600">Investors</h2><div class="muted" style="font-size:13px">Manage Investors</div></div>
+  <section class="card pf-card" data-dinv>
   <div class="fbox">
     <div class="fbar"><div class="search" style="max-width:420px">${svg('search', 18)}<input id="di-search" placeholder="Search investors by name or PAN" oninput="dinvFilter(this.closest('[data-dinv]'), false)"></div>
       <button type="button" class="fbtn" aria-expanded="false" onclick="dinvToggle(this)"><span class="fi-open"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span><span class="fi-close" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span class="ft">Filters</span><span class="fbadge" hidden>0</span></button></div>
@@ -1492,26 +1987,519 @@ V['d-investors'] = () => `<section class="card pf-card" data-dinv>
       <div class="factions"><button type="button" class="btn ghost" style="height:40px" onclick="dinvClear(this.closest('[data-dinv]'))">Clear</button><button type="button" class="btn" style="height:40px" onclick="dinvFilter(this.closest('[data-dinv]'), true)">Apply</button></div>
     </div>
   </div>
-  <div class="tblwrap"><table><thead><tr><th>Name</th><th class="hide-sm">PAN</th><th class="hide-sm">Contact</th><th class="hide-sm">Net Investment</th><th>Current Value</th><th class="hide-sm">Invested Products</th><th class="r">Actions</th></tr></thead><tbody>
+  <div class="tblwrap li-wrap"><table class="li-tbl"><thead><tr><th style="width:36px"><input type="checkbox" aria-label="Select all investors" onclick="this.closest('table').querySelectorAll('tbody input[type=checkbox]').forEach(c => c.checked = this.checked)"></th><th>Investor</th><th>Contact</th><th>Identifiers</th><th>Inception</th><th>Status</th><th>Active Products</th><th class="r">Portfolio Value</th><th class="r">Actions</th></tr></thead><tbody>
   ${D_INVESTORS.map(v => `<tr data-name="${v.name.toLowerCase()}" data-pan="${v.pan.toLowerCase()}" data-mail="${v.mail.toLowerCase()}" data-mob="${v.mob.toLowerCase()}" data-code="${v.code.toLowerCase()}" data-prods="${v.prods.map(x => x.toLowerCase()).join(',')}" data-rm="${v.rm.toLowerCase()}">
-    <td><div style="display:flex;align-items:center;gap:10px"><span class="avatar" style="background:var(--line2);color:var(--ink)">${v.ini}</span><div><b>${v.name}</b><div class="muted" style="font-size:12px">${v.code}</div></div></div></td>
-    <td class="hide-sm muted num">${v.pan}</td>
-    <td class="hide-sm" style="font-size:13px;line-height:1.5">${v.mob}<div class="muted">${v.mail}</div></td>
-    <td class="hide-sm num"><span class="ccy">INR</span>${inr(v.net)}</td>
-    <td class="num"><span class="ccy">INR</span><b style="color:var(--gold-ink)">${inr(v.cur)}</b></td>
-    <td class="hide-sm"><div style="display:flex;gap:6px;flex-wrap:wrap">${v.prods.map(x => `<span class="cat" style="background:${PTAG[x][0]};color:${PTAG[x][1]}">${x}</span>`).join('')}</div></td>
+    <td><input type="checkbox" aria-label="Select ${v.name}"></td>
+    <td><b>${v.name}</b><div class="muted" style="font-size:12px">${v.code.replace('MYA-', 'MYALT')}</div></td>
+    <td style="line-height:1.5">${v.mail}<div class="muted" style="font-size:12px">${v.mob}</div></td>
+    <td class="num">${v.pan}</td>
+    <td class="num nowrap">${v.inc}</td>
+    <td><span class="li-st">Active</span><div class="muted" style="font-size:11.5px">Created: ${v.created}</div></td>
+    <td><div style="display:flex;gap:6px;flex-wrap:wrap">${v.prods.map(x => `<span class="cat" style="background:${PTAG[x][0]};color:${PTAG[x][1]}">${x}</span>`).join('')}</div></td>
+    <td class="r num"><b>${cr(v.cur)}</b></td>
     <td class="r"><div class="kebab"><button type="button" class="kebab-btn" aria-label="Actions for ${v.name}" aria-haspopup="true" aria-expanded="false" onclick="kebabToggle(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button><div class="kebab-menu" hidden><button type="button" data-view-investor="${v.name}">${svg('grid', 16)}View dashboard</button></div></div></td></tr>`).join('')}
-  </tbody></table></div><div class="muted dinv-count" style="font-size:12px">Showing ${D_INVESTORS.length} of ${D_INVESTORS.length} · investor names are sample, contact details masked</div></section>`;
-V['d-activities'] = () => `<div class="toolbar"><div class="search">${svg('search', 18)}<input id="da-search" placeholder="Search by investor name"></div><span class="chip">All products ▾</span><span class="chip">All transaction types ▾</span></div>
-  <section class="card"><div class="tblwrap"><table><thead><tr><th>Investor</th><th>Product</th><th class="hide-sm">AMC / Scheme</th><th class="hide-sm">Type</th><th class="hide-sm">Inception</th><th class="hide-sm">Order date</th><th class="r">Amount</th></tr></thead><tbody>
-  ${D_ACTS.map(a => `<tr><td><b>${a.name}</b></td><td><span class="cat" style="${a.prod === 'AIF' ? 'background:#EFF6FF;color:#1E3A8A' : ''}">${a.prod}</span></td><td class="hide-sm">${a.scheme}</td><td class="hide-sm down-t"><b>${a.type}</b></td><td class="hide-sm muted">${a.inc}</td><td class="hide-sm muted">${a.date}</td><td class="r num"><b>${a.amt}</b></td></tr>`).join('')}
-  </tbody></table></div></section>`;
+  </tbody></table></div><div class="muted dinv-count" style="font-size:12px">Showing ${D_INVESTORS.length} of ${D_INVESTORS.length} · investor names and contact details are sample data</div></section>`;
+const DA = { q: '', prod: 'all', type: 'all', page: 1, per: 8 };
+function daRows(){ const q = DA.q.toLowerCase(); return D_ACTS.filter(a2 => (!q || a2.name.toLowerCase().includes(q)) && (DA.prod === 'all' || a2.prod === DA.prod) && (DA.type === 'all' || a2.type === DA.type)); }
+function daBody(){
+  const L = daRows(), pages = Math.max(1, Math.ceil(L.length / DA.per)); if (DA.page > pages) DA.page = pages;
+  const P = L.slice((DA.page - 1) * DA.per, DA.page * DA.per);
+  const pg = n => `<button type="button" class="da-pg${n === DA.page ? ' on' : ''}" onclick="DA.page=${n};daRefresh()">${n}</button>`;
+  return `<div class="tblwrap da-wrap"><table class="da-tbl"><thead><tr><th>Investor Name</th><th>Product</th><th>AMC / Scheme</th><th>Activity Type</th><th>Amount</th><th>Inception Date</th><th>Order Date</th></tr></thead><tbody>
+    ${P.map(a2 => `<tr><td><b>${esc(a2.name)}</b><div class="muted" style="font-size:12px">${esc(a2.code)}</div></td><td><span class="da-prod">${a2.prod}</span></td><td><b class="da-amc">${esc(a2.amc)}</b><div class="muted" style="font-size:12px">${esc(a2.scheme)}</div></td><td>${a2.type}</td><td class="num"><b>${a2.amt}</b></td><td class="nowrap">${a2.inc}</td><td class="nowrap">${a2.date}</td></tr>`).join('') || '<tr><td colspan="7" class="muted" style="text-align:center;padding:24px">No activities match these filters.</td></tr>'}
+    </tbody></table></div>
+    <div class="da-pager"><button type="button" class="da-nav" ${DA.page === 1 ? 'disabled' : ''} onclick="DA.page--;daRefresh()">‹ Previous</button>${Array.from({ length: pages }, (_, i) => pg(i + 1)).join('')}<button type="button" class="da-nav" ${DA.page === pages ? 'disabled' : ''} onclick="DA.page++;daRefresh()">Next ›</button></div>`;
+}
+function daRefresh(){ const el = document.getElementById('daBody'); if (el) el.innerHTML = daBody(); }
+V['d-activities'] = () => {
+  const types = [...new Set(D_ACTS.map(a2 => a2.type))].sort();
+  return `<div class="li-crumb"><a class="li-back" href="#d-home" aria-label="Back to dashboard">${svg('back', 16, 2)}</a><span class="li-bc"><a href="#d-home">Dashboard</a> / <b>Activities</b></span></div>
+  <div><h2 style="margin:0;font-size:22px;font-weight:600">Activities</h2><div class="muted" style="font-size:13px">View and filter recent investor transaction activities</div></div>
+  <section class="card pf-card"><div class="da-f">
+      <input id="daQ" class="finput" placeholder="Search by investor name..." value="${esc(DA.q)}" oninput="DA.q=this.value;DA.page=1;daRefresh()" aria-label="Search by investor name">
+      <select id="daP" class="finput" onchange="DA.prod=this.value;DA.page=1;daRefresh()" aria-label="Product"><option value="all">All Products</option>${['PMS', 'MF', 'SIF', 'AIF', 'GIFT IFSC'].map(x => `<option${DA.prod === x ? ' selected' : ''}>${x}</option>`).join('')}</select>
+      <select id="daT" class="finput" onchange="DA.type=this.value;DA.page=1;daRefresh()" aria-label="Transaction type"><option value="all">All Transaction Types</option>${types.map(x => `<option${DA.type === x ? ' selected' : ''}>${x}</option>`).join('')}</select>
+    </div><div id="daBody">${daBody()}</div></section>`;
+};
 V['d-requests'] = () => requestsView('Manage purchases, redemptions and SIPs for your investors.');
+
+// ---------- distributor earnings (sample figures) ----------
+const BRK_LOGIN = { mobile: '+91 98410 56721', email: 'slakshmi@sthreeevents.in' };
+const BRK_DIST = { name: 'Sthree Events & Marketing', arn: 'ARN-145827', gstin: '33ABCFS4821F1Z5', pan: 'ABCFS4821Q', bank: 'HDFC Bank · A/c 50100234564521 · IFSC HDFC0001212', aadhaar: '5823 7461 4821', signer: 'S. Lakshmi (Proprietor)' };
+const BRK_TO = { name: 'MyAlternates Financial Services Pvt Ltd', gstin: '33AACCM5728K1ZX', place: 'Tamil Nadu (same state: CGST + SGST)' };
+const BRK_TYPES = { m: ['Monthly', '#EFF6FF', '#1E3A8A'], q: ['Quarterly', '#F5F3FF', '#5B21B6'], o: ['One-time', '#FFF7ED', '#9A3412'] };
+// st: ready (uploaded, invoice not signed) · signed (e-signed, payment processing) · paid
+const BRK = [
+  { id: 'BRK-2611-02', fy: 'FY 2027', pl: 'Jul – Sep 2026', title: 'AIF trail · Q2 FY 2027', period: 'Jul – Sep 2026', type: 'q', q: 'Q3', up: '18 Nov 2026', prods: ['AIF'], gross: 386200, st: 'await' },
+  { id: 'BRK-2611-01', fy: 'FY 2027', pl: 'Oct 2026', title: 'PMS + MF + SIF trail · October 2026', period: '01 – 31 Oct 2026', type: 'm', q: 'Q3', up: '12 Nov 2026', prods: ['PMS', 'MF', 'SIF'], gross: 124560, st: 'await', rev: { by: 'Operations team', on: '20 Nov 2026', old: 119560, why: 'Added missed brokerage for Meera Venkat (HDFC Flexi Cap Fund) for October 2026.' } },
+  { id: 'BRK-2610-03', fy: 'FY 2027', pl: 'Apr 2025 – Mar 2026', title: 'PMS performance fee share · FY 2026', period: 'Apr 2025 – Mar 2026', type: 'o', q: 'Q3', up: '21 Oct 2026', prods: ['PMS'], gross: 52300, st: 'ops', method: 'esign', via: 'mobile', signed: '23 Oct 2026, 11:42 AM', inv: 'SEM/26-27/014' },
+  { id: 'BRK-2610-01', fy: 'FY 2027', pl: 'Sep 2026', title: 'PMS + MF + SIF trail · September 2026', period: '01 – 30 Sep 2026', type: 'm', q: 'Q2', up: '10 Oct 2026', prods: ['PMS', 'MF', 'SIF'], gross: 118940, st: 'acc', method: 'esign', via: 'email', signed: '11 Oct 2026, 04:10 PM', inv: 'SEM/26-27/013', opsOk: '14 Oct 2026' },
+  { id: 'BRK-2609-01', fy: 'FY 2027', pl: 'Aug 2026', title: 'PMS + MF + SIF trail · August 2026', period: '01 – 31 Aug 2026', type: 'm', q: 'Q2', up: '09 Sep 2026', prods: ['PMS', 'MF', 'SIF'], gross: 111780, st: 'rej', method: 'upload', signed: '10 Sep 2026, 10:05 AM', inv: 'SE/INV/0912', file: 'SE-INV-0912.pdf', rejBy: 'Accounts team', rejOn: '16 Sep 2026', reason: 'GSTIN on the uploaded invoice does not match your registered GSTIN. Re-upload the corrected invoice or e-sign the system invoice.' },
+  { id: 'BRK-2608-01', fy: 'FY 2027', pl: 'Jul 2026', title: 'PMS + MF + SIF trail · July 2026', period: '01 – 31 Jul 2026', type: 'm', q: 'Q2', up: '11 Aug 2026', prods: ['PMS', 'MF', 'SIF'], gross: 109420, st: 'paid', signed: '12 Aug 2026, 12:30 PM', inv: 'SEM/26-27/011', paid: '25 Aug 2026', utr: 'HDFCR520260825301518' },
+  { id: 'BRK-2607-02', fy: 'FY 2027', pl: 'Apr – Jun 2026', title: 'AIF trail + upfront · Q1 FY 2027', period: 'Apr – Jun 2026', type: 'q', q: 'Q2', up: '20 Jul 2026', prods: ['AIF'], gross: 352900, st: 'paid', signed: '21 Jul 2026, 05:15 PM', inv: 'SEM/26-27/010', paid: '05 Aug 2026', utr: 'HDFCR520260805301563' },
+  { id: 'BRK-2607-01', fy: 'FY 2027', pl: 'Jun 2026', title: 'PMS + MF + SIF trail · June 2026', period: '01 – 30 Jun 2026', type: 'm', q: 'Q1', up: '10 Jul 2026', prods: ['PMS', 'MF', 'SIF'], gross: 104860, st: 'paid', signed: '11 Jul 2026, 09:50 AM', inv: 'SEM/26-27/009', paid: '23 Jul 2026', utr: 'HDFCR520260723301505' },
+  { id: 'BRK-2604-02', fy: 'FY 2026', pl: 'Jan – Mar 2026', title: 'AIF trail · Q4 FY 2026', period: 'Jan – Mar 2026', type: 'q', up: '18 Apr 2026', prods: ['AIF'], gross: 331450, st: 'paid', signed: '19 Apr 2026, 03:20 PM', inv: 'SEM/25-26/024', paid: '02 May 2026', utr: 'HDFCR520260502301529' },
+  { id: 'BRK-2604-01', fy: 'FY 2026', pl: 'Feb – Mar 2026', title: 'PMS + MF + SIF trail · February – March 2026', period: '01 Feb – 31 Mar 2026', type: 'm', up: '09 Apr 2026', prods: ['PMS', 'MF', 'SIF'], gross: 198320, st: 'paid', signed: '10 Apr 2026, 11:05 AM', inv: 'SEM/25-26/023', paid: '22 Apr 2026', utr: 'HDFCR520260422301574' },
+  { id: 'BRK-2602-01', fy: 'FY 2026', pl: 'Jan 2026', title: 'PMS + MF + SIF trail · January 2026', period: '01 – 31 Jan 2026', type: 'm', up: '10 Feb 2026', prods: ['PMS', 'MF', 'SIF'], gross: 97640, st: 'paid', signed: '11 Feb 2026, 10:40 AM', inv: 'SEM/25-26/022', paid: '24 Feb 2026', utr: 'HDFCR520260224301552' },
+  { id: 'BRK-2601-02', fy: 'FY 2026', pl: 'Oct – Dec 2025', title: 'AIF trail · Q3 FY 2026', period: 'Oct – Dec 2025', type: 'q', up: '16 Jan 2026', prods: ['AIF'], gross: 318700, st: 'paid', signed: '17 Jan 2026, 04:45 PM', inv: 'SEM/25-26/021', paid: '30 Jan 2026', utr: 'HDFCR520260130301538' },
+  { id: 'BRK-2601-01', fy: 'FY 2026', pl: 'Nov – Dec 2025', title: 'PMS + MF + SIF trail · November – December 2025', period: '01 Nov – 31 Dec 2025', type: 'm', up: '12 Jan 2026', prods: ['PMS', 'MF', 'SIF'], gross: 186900, st: 'paid', signed: '13 Jan 2026, 12:15 PM', inv: 'SEM/25-26/020', paid: '27 Jan 2026', utr: 'HDFCR520260127301511' }
+];
+const BRK_FY = { 'FY 2027': 'Apr 2026 – Mar 2027', 'FY 2026': 'Apr 2025 – Mar 2026' };
+const BRK_MON = 'JanFebMarAprMayJunJulAugSepOctNovDec';
+function brkEnd(pl){ const m = [...pl.matchAll(/([A-Z][a-z]{2}) (\d{4})/g)].pop(); return m ? +m[2] * 12 + BRK_MON.indexOf(m[1]) / 3 : 0; }
+function brkSel(){
+  const fy = S.brkFy || 'FY 2027', all = brkList(), inFy = all.filter(b => b.fy === fy);
+  const MON = BRK_MON, endKey = pl => { const m = [...pl.matchAll(/([A-Z][a-z]{2}) (\d{4})/g)].pop(); return m ? +m[2] * 12 + MON.indexOf(m[1]) / 3 : 0; }, startKey = pl => { const ms = [...pl.matchAll(/([A-Z][a-z]{2})(?: (\d{4}))?/g)], y = (ms.find(x => x[2]) || [])[2]; return ms[0] ? (+(ms[0][2] || y)) * 12 + MON.indexOf(ms[0][1]) / 3 : 0; };
+  const pers = [...new Set(inFy.map(b => b.pl))].sort((a, b) => endKey(b) - endKey(a) || startKey(b) - startKey(a)), pendP = inFy.filter(b => brkNeeds(b)).sort((x, y) => brkEnd(y.pl) - brkEnd(x.pl)).map(b => b.pl), def = pendP[0] || pers[0] || 'all', per = S.brkPl === 'all' ? 'all' : pers.includes(S.brkPl) ? S.brkPl : def;
+  const list = per === 'all' ? inFy : inFy.filter(b => b.pl === per);
+  const label = per === 'all' ? fy : per;
+  const sub = per === 'all' ? BRK_FY[fy] + ' · all uploaded periods' : fy + ' · ' + list.length + ' statement' + (list.length === 1 ? '' : 's') + ' uploaded for this period';
+  return { fy, per, pers, all, inFy, list, label, sub };
+}
+const BRK_SCHEMES = {
+  PMS: [['360 ONE Asset Management', 'Phoenix PMS', 0.0075, 'Trail'], ['Abakkus Asset Manager', 'All Cap Approach', 0.0080, 'Trail'], ['Marcellus Investment Managers', 'Consistent Compounders', 0.0070, 'Trail']],
+  MF: [['HDFC Mutual Fund', 'HDFC Flexi Cap Fund - Regular', 0.0085, 'Trail'], ['Parag Parikh Mutual Fund', 'Flexi Cap Fund - Regular', 0.0060, 'Trail']],
+  SIF: [['SBI Mutual Fund · Magnum SIF', 'Magnum Hybrid Long Short Fund', 0.0090, 'Trail'], ['Quant Mutual Fund · qSIF', 'qSIF Equity Long-Short Fund', 0.0085, 'Trail']],
+  AIF: [['360 ONE Alternates', 'India Private Equity Fund - Series 1A', 0.0100, 'Trail'], ['Abakkus Asset Manager', 'Four2Eight Opportunities Fund', 0.0125, 'Trail'], ['Motilal Oswal Alternates', 'India Excellence Fund', 0.0150, 'Upfront']]
+};
+function brkState(){ try { return JSON.parse(localStorage.getItem('mya-brk-signed') || '{}'); } catch (e) { return {}; } }
+function brkSave(st){ try { localStorage.setItem('mya-brk-signed', JSON.stringify(st)); } catch (e) {} }
+const brkNeeds = b => b.st === 'await' || b.st === 'rej';
+function brkItem(b){ const x = brkState()[b.id]; return x && brkNeeds(b) ? Object.assign({}, b, { st: 'ops', method: x.method, via: x.via, signed: x.signed, inv: x.inv, gst: x.gst, idate: x.idate, ref: x.ref, file: x.file, resub: b.st === 'rej' }) : b; }
+function brkList(){ return BRK.map(brkItem); }
+const brkTax = g => { g = Math.round(g); const gst = Math.round(g * 0.18), tds = Math.round(g * 0.02), cgst = Math.round(gst / 2); return { gst, cgst, sgst: gst - cgst, tds, total: g + gst, net: g + gst - tds }; };
+const inr2 = n => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
+// Deterministic break-up lines for a statement (sum = gross)
+function brkLines(b){
+  const inv = D_INVESTORS;
+  let seed = [...b.id].reduce((a, c) => a + c.charCodeAt(0), 0);
+  const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  const rows = [];
+  b.prods.forEach(pr => {
+    const pool = pr === 'SIF' ? inv.filter(v => v.prods.includes('PMS')).slice(1, 4) : inv.filter(v => v.prods.includes(pr)).concat(pr === 'MF' ? inv.filter(v => v.prods.includes('PMS')).slice(0, 3) : []);
+    pool.forEach((v, i) => { const sc = BRK_SCHEMES[pr][i % BRK_SCHEMES[pr].length];
+      const aum = Math.round(v.cur * (pr === 'MF' ? 0.18 : pr === 'SIF' ? 0.2 : 0.62 + rnd() * 0.3) / 1000) * 1000;
+      rows.push({ name: v.name, code: v.code, prod: pr, amc: sc[0], scheme: sc[1], aum, rate: sc[2], kind: b.type === 'o' ? 'Performance share' : sc[3], w: aum * sc[2] }); });
+  });
+  const W = rows.reduce((a, r) => a + r.w, 0); let acc = 0;
+  rows.forEach((r, i) => { r.amt = i === rows.length - 1 ? Math.round(b.gross - acc) : Math.round(b.gross * r.w / W); acc += r.amt; });
+  return rows;
+}
+const BRK_ST = { await: 'Waiting for e-sign / invoice', ops: 'Verification pending · Operations team', acc: 'Verification pending · Accounts team', paid: 'Payment processed', rej: 'Rejected' };
+function brkStatus(b){
+  const sub = b.st === 'await' ? (b.rev ? 'Revised by ' + b.rev.by + ' · ' + b.rev.on : 'Uploaded by Operations team · ' + b.up)
+    : b.st === 'ops' ? (b.resub ? 'Resubmitted · ' : '') + (b.method === 'upload' ? 'Invoice uploaded ' : 'e-Signed ') + b.signed.split(',')[0]
+    : b.st === 'acc' ? 'Approved by Operations · ' + b.opsOk
+    : b.st === 'paid' ? b.paid + (b.utr ? ' · UTR ' + b.utr : '')
+    : 'By ' + b.rejBy + ' · ' + b.rejOn;
+  return `<div class="brk-stw"><span class="brk-pill ${b.st}"><i></i>${BRK_ST[b.st]}</span><small>${sub}</small>${b.st === 'rej' ? `<div class="brk-rej">${svg('warn', 13, 2)}<span>${b.reason}</span></div>` : b.st === 'await' && b.rev ? `<div class="brk-rev">${svg('warn', 13, 2)}<span>Amount revised ${inr2(b.rev.old)} → ${inr2(b.gross)} · ${b.rev.why}</span></div>` : ''}</div>`;
+}
+function brkKbClose(el){ const k = el.closest('.kebab'); k.querySelector('.kebab-menu').hidden = true; k.querySelector('.kebab-btn').setAttribute('aria-expanded', 'false'); }
+const BRK_FULLM = { Jan: 'January', Feb: 'February', Mar: 'March', Apr: 'April', May: 'May', Jun: 'June', Jul: 'July', Aug: 'August', Sep: 'September', Oct: 'October', Nov: 'November', Dec: 'December' };
+function brkInvTitle(b){ const m = /^([A-Z][a-z]{2}) (\d{4})$/.exec(b.pl); return 'Invoice for the period (' + (m ? BRK_FULLM[m[1]] + ' ' + m[2] : b.pl.replace(/ – /g, '-')) + ')'; }
+function brkActs(b){
+  const need = brkNeeds(b);
+  const items = (need ? [[`brkOpen('${b.id}')`, 'sign', b.st === 'rej' ? 'Resubmit invoice' : 'e-Sign or upload invoice']] : [])
+    .concat([[`brkView('${b.id}')`, 'eye', need ? 'View draft invoice' : 'View invoice']])
+    .concat(need ? [] : [[`brkPdf('${b.id}')`, 'download', 'Download invoice']])
+    .concat([[`brkExcel('${b.id}')`, 'xls', 'Download break-up Excel']]);
+  return `<div class="kebab"><button type="button" class="kebab-btn${need ? ' need' : ''}" aria-label="Actions for ${b.id}" aria-haspopup="true" aria-expanded="false" onclick="kebabToggle(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>${need ? '<span class="kb-dot"></span>' : ''}</button>
+    <div class="kebab-menu" hidden>${items.map(([fn, ic, l], i) => `<button type="button" class="${need && i === 0 ? 'kb-main' : ''}" onclick="brkKbClose(this);${fn}">${ic === 'download' ? DL_IC : svg(ic, 16, 1.8)}${l}</button>`).join('')}</div></div>`;
+}
+V['d-earnings'] = () => {
+  if (!brkUnlocked()) return brkGate();
+  if (S.brkTab === 'inv') S.brkTab = 'stmt';
+  const tab = S.brkTab || 'dash', SEL = brkSel(), all = SEL.all, list = SEL.list, P = [SEL.per, SEL.label, SEL.sub];
+  const g = list.reduce((a, b) => a + b.gross, 0), t = brkTax(g);
+  const ready = all.filter(b => brkNeeds(b));
+  const byP = {}; list.forEach(b => brkLines(b).forEach(r => { byP[r.prod] = (byP[r.prod] || 0) + r.amt; }));
+  const byI = {}; list.forEach(b => brkLines(b).forEach(r => { const k = r.name; byI[k] = byI[k] || { name: r.name, code: r.code, prods: new Set(), aum: 0, amt: 0 }; byI[k].prods.add(r.prod); byI[k].amt += r.amt; }));
+  D_INVESTORS.forEach(v => { if (byI[v.name]) byI[v.name].aum = v.cur; });
+  const inv = Object.values(byI).sort((a, b) => b.amt - a.amt);
+  const tabsH = `<div class="brk-tabs" role="tablist">${[['dash', 'Dashboard'], ['fees', 'Overview'], ['stmt', 'History']].map(([k, l]) => `<button type="button" role="tab" aria-selected="${tab === k}" onclick="brkTab('${k}')">${l}${k === 'stmt' && ready.length ? `<span class="brk-badge">${ready.length}</span>` : ''}</button>`).join('')}</div>`;
+  const fys = [...new Set(all.map(b => b.fy))];
+  const perOpt = k => { const n = SEL.inFy.filter(b => k === 'all' || b.pl === k).length; const pd = k !== 'all' && SEL.inFy.some(b => b.pl === k && brkNeeds(b)); return `<option value="${k}"${k === SEL.per ? ' selected' : ''}>${k === 'all' ? 'All periods' : k + (n > 1 ? ' · ' + n + ' statements' : '') + (pd ? ' · Action needed' : '')}</option>`; };
+  const perH = `<section class="card brk-per"><div><div class="muted" style="font-size:12px">Showing</div><b style="font-size:17px">${tab === 'stmt' ? SEL.fy + ' · brokerage history' : P[1]}</b><div class="muted" style="font-size:12.5px">${tab === 'stmt' ? `${SEL.inFy.length} brokerages uploaded · ${SEL.inFy.filter(brkNeeds).length} need your action` : P[2]}</div></div>
+    <div class="brk-perbtns">
+      <label class="brk-dd"><span>Financial year</span><select onchange="brkFy(this.value)">${fys.map(f => `<option value="${f}"${f === SEL.fy ? ' selected' : ''}>${f} (${BRK_FY[f]})</option>`).join('')}</select></label>
+      ${tab === 'stmt' ? `<label class="brk-dd"><span>Status</span><select onchange="brkStF(this.value)">${[['all', 'All statuses'], ...Object.entries(BRK_ST)].map(([k, l]) => { const n = SEL.inFy.filter(b => k === 'all' || b.st === k).length; return `<option value="${k}"${k === (S.brkSt || 'all') ? ' selected' : ''}>${l} (${n})</option>`; }).join('')}</select></label>`
+        : `<label class="brk-dd"><span>Period uploaded</span><select onchange="brkPer(this.value)">${['all', ...SEL.pers].map(perOpt).join('')}</select></label>`}
+    </div></section>`;
+  const pend = ready.length ? `<div class="brk-alert" role="status"><span class="brk-alert-ic">${svg('sign', 18, 1.8)}</span><div style="flex:1;min-width:0"><span class="brk-alert-tag"><i></i>Action needed</span><b>${ready.length} brokerage${ready.length > 1 ? 's' : ''} waiting for your invoice</b><div class="muted" style="font-size:12.5px">Check the break-up, then e-sign our invoice or upload your own so the Operations team can verify it.</div></div><button type="button" class="btn brk-btn" onclick="S.brkSt='all';brkTab('stmt')">Review now</button></div>` : '';
+  const stmtRow = b => `<tr><td><div style="display:flex;gap:10px;align-items:flex-start"><span class="brk-doc">${svg('xls', 16, 1.8)}</span><div><b>${brkInvTitle(b)}</b><div class="muted" style="font-size:12px">Ref. ${b.id}</div></div></div></td>
+      <td class="hide-sm"><span class="cat" style="background:${BRK_TYPES[b.type][1]};color:${BRK_TYPES[b.type][2]}">${BRK_TYPES[b.type][0]}</span></td>
+      <td class="hide-sm muted" style="white-space:nowrap">${b.up}</td>
+      <td class="hide-sm"><div style="display:flex;gap:5px;flex-wrap:wrap">${b.prods.map(x => `<span class="cat" style="background:${PTAG[x][0]};color:${PTAG[x][1]}">${x}</span>`).join('')}</div></td>
+      <td class="r num"><b>${inr2(b.gross)}</b><div class="muted" style="font-size:11.5px">+ GST ${inr2(brkTax(b.gross).gst)}</div></td>
+      <td class="brk-stcell">${brkStatus(b)}</td><td class="r">${brkActs(b)}</td></tr>`;
+  const stmtTable = rows => rows.length ? `<div class="tblwrap"><table class="brk-tbl"><thead><tr><th>Invoice</th><th class="hide-sm">Type</th><th class="hide-sm">Uploaded</th><th class="hide-sm">Products</th><th class="r">Brokerage</th><th class="c">Status</th><th class="r">Actions</th></tr></thead><tbody>${rows.map(stmtRow).join('')}</tbody></table></div>` : '<p class="muted" style="margin:0;padding:18px;text-align:center">No brokerages match this filter.</p>';
+
+  const heroPend = all.filter(b => brkNeeds(b)).every(b => list.includes(b));
+  const fees = `${heroPend ? '' : pend}<div class="brk-top">
+    <section class="hero brk-hero">${(() => {
+      const pendL = list.filter(b => brkNeeds(b));
+      const latest = [...list].sort((x, y) => brkEnd(y.pl) - brkEnd(x.pl))[0];
+      const H = SEL.per !== 'all' ? list : pendL.length ? pendL : latest ? [latest] : [];
+      if (!H.length) return '<span class="lbl">No brokerage statements uploaded for this period yet.</span>';
+      const hg = H.reduce((a, b) => a + b.gross, 0), ht = brkTax(hg);
+      const need = H.filter(brkNeeds), last = H[0];
+      const mode = need.length === H.length ? 'pending' : H.every(b => b.st === 'paid') ? 'paid' : need.length ? 'mixed' : 'processing';
+      const per = [...new Set(H.map(b => b.pl))].join(', ');
+      const lbl = mode === 'pending' || mode === 'mixed' ? `<span class="brk-hlbl">${svg('sign', 14, 2)}Pending brokerage</span><span class="brk-hper">${per}</span>` : SEL.per === 'all' ? 'Last processed brokerage · ' + per : 'Brokerage for ' + per;
+      const chip = mode === 'pending' ? (need.every(b => b.st === 'rej') ? `<span class="brk-hchip rej">● Rejected by ${need[0].rejBy} · re-upload or e-sign again</span>` : `<span class="brk-hchip pend">● Waiting for e-sign or invoice upload${H.length > 1 ? ' · ' + H.length + ' brokerages' : ''}</span>`)
+        : mode === 'mixed' ? `<span class="brk-hchip pend">● ${need.length} of ${H.length} need e-sign or invoice upload</span>`
+        : mode === 'processing' ? `<span class="brk-hchip proc">● ${BRK_ST[last.st]}${last.st === 'acc' ? ' · approved by Operations ' + last.opsOk : ''}</span>`
+        : `<span class="brk-hchip paid">● Payment processed · ${last.paid}${H.length === 1 && last.utr ? ' · UTR ' + last.utr : ''}</span>`;
+      const firstReady = need[0];
+      const act1 = firstReady ? `<button type="button" class="btn brk-btn" onclick="brkOpen('${firstReady.id}')">${svg('sign', 15, 1.8)}${firstReady.st === 'rej' ? 'Resubmit invoice' : 'e-Sign or upload invoice'}${need.length > 1 ? ' · ' + firstReady.pl : ''}</button>`
+        : H.length === 1 ? `<button type="button" class="btn brk-btn" onclick="brkPdf('${last.id}')">${DL_IC}Invoice</button>` : '';
+      const xl = H.length === 1 ? `brkExcel('${last.id}')` : SEL.per === 'all' ? `brkExcelIds('${H.map(b => b.id).join(',')}')` : 'brkExcelAll()';
+      const fyG = SEL.inFy.reduce((a, b) => a + b.gross, 0), fyPend = SEL.inFy.filter(b => brkNeeds(b) && !H.includes(b));
+      const others = SEL.inFy.length > H.length ? `<div class="brk-hsum">${fyPend.length ? `<span class="brk-hmore">+ ${fyPend.length} more pending: ${fyPend.map(b => b.pl).join(', ')}</span> · ` : ''}${SEL.fy} so far: <b>${inr2(fyG)}</b> before GST from ${SEL.inFy.length} statements · <button type="button" onclick="brkTab('stmt')">view all</button></div>` : '';
+      return `<span class="ring1"></span><span class="ring2"></span>
+      <div class="brk-hlrow"><span class="lbl">${lbl}</span></div>
+      <div class="big num">${inr2(hg)}</div>
+      ${chip}
+      <div style="font-size:13px;color:var(--on-dark-2)">Before GST · ${H.length} statement${H.length === 1 ? '' : 's'} · ${H.map(b => b.title).join(' + ')}</div>
+      <span class="brk-rule"></span>
+      <div style="font-size:13.5px;color:#E5E7EB;line-height:1.6">Plus GST of ${inr2(ht.gst)}: invoice value <b>${inr2(ht.total)}</b><br>TDS u/s 194H at 2%: ${inr2(ht.tds)} · Net credit <b style="color:#F3D57A">${inr2(ht.net)}</b></div>
+      <div class="brk-hacts">${act1}<button type="button" class="btn ghost brk-btn dk" onclick="${xl}">${svg('xls', 15, 1.8)}Download break-up</button><button type="button" class="btn ghost brk-btn dk" onclick="brkTab('stmt')">History</button></div>
+      ${others}`;
+    })()}</section>
+    <div class="brk-stats">${[['PMS', 'PMS brokerage', 'Trail · paid monthly'], ['MF', 'Mutual fund brokerage', 'Trail · paid monthly'], ['SIF', 'SIF brokerage', 'Trail · paid monthly'], ['AIF', 'AIF brokerage', 'Trail + upfront · paid quarterly'], ['GIFT IFSC', 'GIFT IFSC brokerage', 'No investments yet']].map(([k, l, n]) => `<div class="stat brk-stat brk-p-${k.split(' ')[0].toLowerCase()}"><div class="l"><span class="brk-plbl"><i></i>${l}</span></div><div class="v num">${inr2(byP[k] || 0)}</div><div class="muted" style="font-size:12px">${n}</div></div>`).join('')}</div></div>
+    <section class="card pf-card"><div class="card-h"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2>By investor</h2><span class="brk-perchip">${svg('cal', 13, 2)}${P[1]}</span></div><span class="side-note">${inv.length} investor${inv.length === 1 ? '' : 's'} · ${inr2(g)} brokerage · investor names are sample</span></div>
+      ${brkInvTable(inv.slice(0, 5))}
+      <div class="brk-more"><span class="muted" style="font-size:12.5px">Showing ${Math.min(5, inv.length)} of ${inv.length}</span><button type="button" class="btn ghost brk-btn" onclick="brkInvAll()">View full list</button></div></section>`;
+
+  const histL = SEL.inFy.filter(b => (S.brkSt || 'all') === 'all' || b.st === S.brkSt).sort((x, y) => (brkNeeds(y) - brkNeeds(x)) || (brkEnd(y.pl) - brkEnd(x.pl)));
+  const stmt = `<section class="card pf-card"><div class="card-h"><h2>Processing Flow</h2><span class="side-note">Every brokerage uploaded by the Operations team · action needed first, then latest</span></div>
+      <div class="brk-steps">${[['1', 'Uploaded by Operations', 'Brokerage for the period with break-up Excel'], ['2', 'e-Sign or upload invoice', 'e-Sign our invoice with login OTP, or upload your own'], ['3', 'Operations verification', 'Operations team checks the invoice'], ['4', 'Accounts verification', 'Accounts team approves for payment'], ['5', 'Payment processed', 'Paid to your bank · UTR by email']].map(([n, h, d]) => `<div><span>${n}</span><b>${h}</b><small>${d}</small></div>`).join('')}</div>
+      ${stmtTable(histL)}</section>`;
+
+  const signedL = SEL.inFy.filter(b => !brkNeeds(b));
+  const invs = `<section class="card pf-card"><div class="card-h"><h2>Invoices submitted</h2><span class="side-note">e-Signed or uploaded by you · verification and payment status</span></div>
+      <div class="tblwrap"><table class="brk-tbl"><thead><tr><th>Invoice no.</th><th class="hide-sm">Statement</th><th class="hide-sm">Submitted</th><th class="r hide-sm">Before tax</th><th class="r hide-sm">GST</th><th class="r">Total</th><th class="c">Status</th><th class="r">Invoice</th></tr></thead><tbody>
+      ${signedL.map(b => { const x = brkTax(b.gross); return `<tr><td><b class="num">${b.inv}</b><div class="muted" style="font-size:11.5px">${b.method === 'upload' ? 'Uploaded by you' : 'e-Signed with OTP'}</div></td><td class="hide-sm">${b.title}<div class="muted" style="font-size:12px">${b.id}</div></td><td class="hide-sm muted">${b.signed}</td><td class="r hide-sm num">${inr2(b.gross)}</td><td class="r hide-sm num">${inr2(x.gst)}</td><td class="r num"><b>${inr2(x.total)}</b></td>
+        <td class="brk-stcell">${brkStatus(b)}</td><td class="r"><button type="button" class="btn ghost brk-btn" onclick="brkView('${b.id}')" title="Opens the invoice PDF in a new tab">${svg('eye', 16, 1.8)}View</button><button type="button" class="btn ghost brk-btn" onclick="brkPdf('${b.id}')" aria-label="Download invoice PDF">${DL_IC}</button></td></tr>`; }).join('')}
+      </tbody></table></div></section>`;
+
+  return `<div class="brk" data-earn><div class="brk-head">${tabsH}<span class="muted" style="font-size:12.5px">Values as of 25 Nov 2026</span></div>${tab === 'dash' ? pend + brkSince() : perH + (tab === 'fees' ? fees : tab === 'stmt' ? stmt : invs)}</div>`;
+};
+function brkInvRows(){
+  const SEL = brkSel(), byI = {};
+  SEL.list.forEach(b => brkLines(b).forEach(r => { byI[r.name] = byI[r.name] || { name: r.name, code: r.code, prods: new Set(), aum: 0, amt: 0 }; byI[r.name].prods.add(r.prod); byI[r.name].amt += r.amt; }));
+  D_INVESTORS.forEach(v => { if (byI[v.name]) byI[v.name].aum = v.cur; });
+  return { SEL, inv: Object.values(byI).sort((a, b) => b.amt - a.amt) };
+}
+function brkInvTable(rows){
+  return `<div class="tblwrap"><table class="brk-tbl"><thead><tr><th>Investor</th><th class="hide-sm">Products</th><th class="r hide-sm">Current value</th><th class="r">Brokerage</th></tr></thead><tbody>
+    ${rows.map(v => `<tr><td><b>${v.name}</b><div class="muted" style="font-size:12px">${v.code}</div></td><td class="hide-sm"><div style="display:flex;gap:5px;flex-wrap:wrap">${[...v.prods].map(x => `<span class="cat" style="background:${PTAG[x][0]};color:${PTAG[x][1]}">${x}</span>`).join('')}</div></td><td class="r hide-sm num">${cr(v.aum)}</td><td class="r num"><b>${inr2(v.amt)}</b></td></tr>`).join('') || '<tr><td colspan="4" class="muted" style="text-align:center;padding:18px">No brokerage in this period.</td></tr>'}
+    </tbody></table></div>`;
+}
+function brkInvAll(){
+  const { SEL, inv } = brkInvRows(), m = document.getElementById('brkInvModal'), tot = inv.reduce((a, v) => a + v.amt, 0);
+  m.querySelector('.brk-ititle').innerHTML = `By investor <span class="brk-perchip">${svg('cal', 13, 2)}${SEL.label}</span>`;
+  m.querySelector('.brk-isub').textContent = `${SEL.sub} · ${inv.length} investors · ${inr2(tot)} brokerage before GST`;
+  m.querySelector('.brk-ibody').innerHTML = brkInvTable(inv);
+  m.hidden = false; m.querySelector('.fs-close').focus();
+}
+function brkInvClose(){ document.getElementById('brkInvModal').hidden = true; }
+
+// MPIN gate: once per browser tab (sessionStorage clears when the tab or window is closed)
+let BRK_OK_MEM = false;
+function brkUnlocked(){ return BRK_OK_MEM; }
+function brkSetUnlocked(v){ BRK_OK_MEM = v; try { sessionStorage.removeItem('mya-earn-ok'); } catch (e) {} }
+function brkPinOf(){ return PINS.distributor || PINS[S.loginRole] || ''; }
+function brkGate(){
+  const has = !!brkPinOf();
+  setTimeout(() => document.getElementById('ep-0')?.focus(), 60);
+  return `<div class="brk" data-earn><section class="card brk-gate">
+    <span class="brk-gate-ic">${svg('lock', 26, 1.8)}</span>
+    <div><h2 style="margin:0;font-size:20px">Enter MPIN to view Earnings</h2><p class="muted" style="margin:6px 0 0;font-size:13.5px">Your brokerage, statements and invoices are protected. You need to enter it each time you open Earnings.</p></div>
+    <form class="brk-gate-form" onsubmit="event.preventDefault();brkUnlock()">
+      <div class="otp pin brk-pins">${[0, 1, 2, 3].map(i => `<input id="ep-${i}" type="password" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="MPIN digit ${i + 1}" oninput="brkPinIn(this, ${i})" onkeydown="brkPinKey(event, ${i})">`).join('')}</div>
+      <div class="brk-err" id="epErr" hidden></div>
+      <button type="submit" class="btn" style="height:48px;min-width:200px">Unlock Earnings</button>
+    </form>
+    <span class="muted" style="font-size:12px">${has ? 'Use the 4-digit MPIN you set for signing in.' : 'Demo: no MPIN saved on this browser, use 1234.'}</span>
+  </section></div>`;
+}
+function brkPinIn(el, i){ el.value = el.value.replace(/\D/g, '').slice(-1); if (el.value && i < 3) document.getElementById('ep-' + (i + 1)).focus(); if (i === 3 && el.value) brkUnlock(); }
+function brkPinKey(e, i){ if (e.key === 'Backspace' && !e.target.value && i > 0) document.getElementById('ep-' + (i - 1)).focus(); }
+function brkUnlock(){
+  const code = [0, 1, 2, 3].map(i => document.getElementById('ep-' + i).value).join(''), err = document.getElementById('epErr');
+  if (code.length < 4){ err.textContent = 'Enter all 4 digits.'; err.hidden = false; return; }
+  if (code !== (brkPinOf() || '1234')){
+    err.textContent = 'Incorrect MPIN. Please try again.'; err.hidden = false;
+    [0, 1, 2, 3].forEach(i => { document.getElementById('ep-' + i).value = ''; }); document.getElementById('ep-0').focus(); return;
+  }
+  brkSetUnlocked(true); const el = document.querySelector('[data-earn]'); if (el) el.outerHTML = V['d-earnings'](); toast('Earnings unlocked');
+}
+// ---------- since inception: investor / AMC / scheme ----------
+function brkSinceLines(){
+  return brkList().flatMap(b => brkLines(b).map(r => Object.assign({}, r, { b })));
+}
+function brkSince(){
+  const all = brkSinceLines(), f = S.brkSi || (S.brkSi = { inv: 'all', prod: 'all', amc: 'all', sch: 'all' }); if (!f.prod) f.prod = 'all';
+  const invs = [...new Set(all.map(r => r.name))].sort();
+  const byInv = all.filter(r => f.inv === 'all' || r.name === f.inv);
+  const byPrd = byInv.filter(r => f.prod === 'all' || r.prod === f.prod);
+  const amcs = [...new Set(byPrd.map(r => r.amc))].sort();
+  if (f.amc !== 'all' && !amcs.includes(f.amc)) f.amc = 'all';
+  const byAmc = byPrd.filter(r => f.amc === 'all' || r.amc === f.amc);
+  const schs = [...new Set(byAmc.map(r => r.scheme))].sort();
+  if (f.sch !== 'all' && !schs.includes(f.sch)) f.sch = 'all';
+  const L = byAmc.filter(r => f.sch === 'all' || r.scheme === f.sch);
+  const tot = L.reduce((a, r) => a + r.amt, 0);
+  const part = st => L.filter(r => st.includes(r.b.st)).reduce((a, r) => a + r.amt, 0);
+  const paid = part(['paid']), proc = part(['ops', 'acc']), pend = part(['await', 'rej']);
+  const pers = [...new Set(L.map(r => r.b.pl))].sort((a, b) => brkEnd(a) - brkEnd(b));
+  const perAmt = pers.map(pl => [pl, L.filter(r => r.b.pl === pl).reduce((a, r) => a + r.amt, 0)]);
+  const max = Math.max(1, ...perAmt.map(x => x[1]));
+  const first = pers[0], last = pers[pers.length - 1];
+  const grp = {}; L.forEach(r => { const k = r.name + '|' + r.amc + '|' + r.scheme; grp[k] = grp[k] || { name: r.name, code: r.code, amc: r.amc, scheme: r.scheme, prod: r.prod, pers: new Set(), amt: 0 }; grp[k].pers.add(r.b.pl); grp[k].amt += r.amt; });
+  const rows = Object.values(grp).sort((a, b) => b.amt - a.amt);
+  const sel = (id, label, val, opts, all) => sdd(id, label, val, opts.map(o => [o, o]), all, brkSiSet);
+  const focus = f.sch !== 'all' ? f.sch : f.amc !== 'all' ? f.amc : f.prod !== 'all' ? f.prod + ' · all AMCs and schemes' : f.inv !== 'all' ? f.inv : 'All investors, products, AMCs and schemes';
+  const shortPl = pl => pl.replace(/(\w{3})\w* (\d{4})/g, '$1 $2').replace(' 20', " '").replace(/ 20(\d\d)/g, " '$1");
+  return `<section class="card pf-card brk-si"><div class="card-h"><div><h2>Brokerage since inception</h2></div>
+      ${f.inv !== 'all' || f.prod !== 'all' || f.amc !== 'all' || f.sch !== 'all' ? '<button type="button" class="btn ghost brk-btn" onclick="brkSiReset()">Clear filters</button>' : ''}</div>
+    <div class="brk-si-f">${sel('siInv', 'Investor', f.inv, invs, 'All investors')}${sel('siPrd', 'Product', f.prod, ['PMS', 'MF', 'SIF', 'AIF', 'GIFT IFSC'], 'All products')}${sel('siAmc', 'AMC', f.amc, amcs, 'All AMCs')}${sel('siSch', 'Scheme', f.sch, schs, 'All schemes')}</div>
+    <div class="brk-si-focus">${svg('cal', 14, 2)}Showing <b>${esc(focus)}</b>${f.prod !== 'all' && (f.amc !== 'all' || f.sch !== 'all') ? ` in <b>${esc(f.prod)}</b>` : ''}${f.inv !== 'all' && (f.prod !== 'all' || f.amc !== 'all' || f.sch !== 'all') ? ` for <b>${esc(f.inv)}</b>` : ''}</div>
+    <div class="brk-si-cards">
+      <div class="brk-si-card main"><span>Total brokerage since inception</span><b class="num">${inr2(tot)}</b><small>${pers.length} period${pers.length === 1 ? '' : 's'} · ${rows.length} investment${rows.length === 1 ? '' : 's'} · before GST</small></div>
+      <div class="brk-si-card paid"><span><i></i>Paid to you</span><b class="num">${inr2(paid)}</b><small>${tot ? (paid / tot * 100).toFixed(1) : '0.0'}% of total</small></div>
+      <div class="brk-si-card proc"><span><i></i>In verification</span><b class="num">${inr2(proc)}</b><small>With Operations or Accounts</small></div>
+      <div class="brk-si-card pend"><span><i></i>Waiting for your invoice</span><b class="num">${inr2(pend)}</b><small>e-Sign, upload or resubmit</small></div>
+    </div>
+    ${perAmt.length ? `<div class="chart-cap"><b>Brokerage by period</b></div>` : ''}
+    ${perAmt.length ? `<div class="brk-si-chart" role="img" aria-label="Brokerage by period">${perAmt.map(([pl, v]) => `<div class="col" title="${esc(pl)}: ${inr2(v)}"><span class="val num">${v >= 1e5 ? '₹' + (v / 1e5).toFixed(1) + 'L' : '₹' + (v / 1e3).toFixed(1) + 'K'}</span><span class="bar" style="height:${Math.max(4, v / max * 100)}%"></span><span class="lab">${esc(shortPl(pl))}</span></div>`).join('')}</div>` : ''}
+    <div class="tblwrap brk-si-tbl"><table class="brk-tbl"><thead><tr><th>Investor</th><th>AMC · Scheme</th><th class="hide-sm">Product</th><th class="r hide-sm">Periods</th><th class="r">Brokerage since inception</th></tr></thead><tbody>
+      ${rows.map(v => `<tr><td><b>${esc(v.name)}</b><div class="muted" style="font-size:12px">${v.code}</div></td><td>${esc(v.scheme)}<div class="muted" style="font-size:12px">${esc(v.amc)}</div></td><td class="hide-sm"><span class="cat" style="background:${PTAG[v.prod][0]};color:${PTAG[v.prod][1]}">${v.prod}</span></td><td class="r hide-sm num">${v.pers.size}</td><td class="r num"><b>${inr2(v.amt)}</b></td></tr>`).join('') || `<tr><td colspan="5" class="muted" style="text-align:center;padding:18px">${f.prod !== 'all' ? 'No ' + esc(f.prod) + ' brokerage' + (f.inv !== 'all' ? ' for ' + esc(f.inv) : '') + ' yet.' : 'No brokerage for this selection.'}</td></tr>`}
+    </tbody></table></div>
+    <p class="muted" style="font-size:12px;margin:0">Sample figures. Covers all brokerage uploaded by the Operations team. Use Overview for a single year or period.</p>
+  </section>`;
+}
+
+// ---------- searchable dropdown: shows the first 6 options, search box filters the rest ----------
+const SDD = {}, SDD_MAX = 6;
+function sdd(id, label, val, opts, allTxt, fn){
+  SDD[id] = { opts, allTxt, fn, val };
+  const cur = val === 'all' ? allTxt : ((opts.find(o => o[0] === val) || [0, val])[1]);
+  return `<div class="sdd" id="sdd-${id}"><span class="sdd-l" id="sddl-${id}">${label}</span><button type="button" class="sdd-btn${val !== 'all' ? ' on' : ''}" id="${id}" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="sddl-${id} ${id}" onclick="sddToggle(event,'${id}')"><span>${esc(cur)}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="sdd-pop" hidden><div class="sdd-q"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="text" placeholder="Search ${label.toLowerCase()}" aria-label="Search ${label}" oninput="sddList('${id}', this.value)" onkeydown="sddKey(event,'${id}')"></div><ul class="sdd-ul" role="listbox" aria-label="${label}"></ul><div class="sdd-more"></div></div></div>`;
+}
+function sddList(id, q){
+  const d = SDD[id], wrap = document.getElementById('sdd-' + id); if (!d || !wrap) return;
+  q = (q || '').trim().toLowerCase();
+  const hit = d.opts.filter(o => !q || String(o[1]).toLowerCase().includes(q)), shown = q ? hit.slice(0, 50) : hit.slice(0, SDD_MAX);
+  const li = (v, t) => `<li><button type="button" role="option" aria-selected="${d.val === v}" class="${d.val === v ? 'sel' : ''}" onclick="sddPick('${id}', ${JSON.stringify(v).replace(/"/g, '&quot;')})">${esc(t)}</button></li>`;
+  wrap.querySelector('.sdd-ul').innerHTML = (q ? '' : li('all', d.allTxt)) + shown.map(o => li(o[0], o[1])).join('') || '<li class="sdd-none">No match</li>';
+  wrap.querySelector('.sdd-more').textContent = q ? (hit.length > 50 ? `Showing 50 of ${hit.length} matches` : `${hit.length} match${hit.length === 1 ? '' : 'es'}`) : (d.opts.length > SDD_MAX ? `Showing ${SDD_MAX} of ${d.opts.length} · type to search` : '');
+}
+function sddClose(){ document.querySelectorAll('.sdd-pop').forEach(p => { if (!p.hidden){ p.hidden = true; p.parentNode.querySelector('.sdd-btn').setAttribute('aria-expanded', 'false'); } }); }
+function sddToggle(e, id){
+  e.stopPropagation(); const w = document.getElementById('sdd-' + id), p = w.querySelector('.sdd-pop'), open = p.hidden; sddClose();
+  if (!open) return; p.hidden = false; w.querySelector('.sdd-btn').setAttribute('aria-expanded', 'true');
+  const inp = p.querySelector('input'); inp.value = ''; sddList(id, ''); inp.focus();
+}
+function sddKey(e, id){
+  if (e.key === 'Escape'){ sddClose(); document.getElementById(id)?.focus(); }
+  if (e.key === 'Enter'){ e.preventDefault(); const b = document.querySelector('#sdd-' + id + ' .sdd-ul button'); if (b) b.click(); }
+  if (e.key === 'ArrowDown'){ e.preventDefault(); document.querySelector('#sdd-' + id + ' .sdd-ul button')?.focus(); }
+}
+function sddPick(id, v){ const d = SDD[id]; sddClose(); d.fn(id, v); }
+document.addEventListener('click', e => { if (!e.target.closest('.sdd')) sddClose(); });
+function brkSiSet(id, v){ const f = S.brkSi; if (id === 'siInv'){ f.inv = v; f.amc = 'all'; f.sch = 'all'; } else if (id === 'siPrd'){ f.prod = v; f.amc = 'all'; f.sch = 'all'; } else if (id === 'siAmc'){ f.amc = v; f.sch = 'all'; } else f.sch = v; brkRefresh(); setTimeout(() => document.getElementById(id)?.focus(), 0); }
+function brkSiReset(){ S.brkSi = { inv: 'all', prod: 'all', amc: 'all', sch: 'all' }; brkRefresh(); }
+function brkRefresh(){ const el = document.querySelector('[data-earn]'); if (el) el.outerHTML = V['d-earnings'](); }
+function brkTab(k){ S.brkTab = k; brkRefresh(); }
+function brkStF(k){ S.brkSt = k; brkRefresh(); }
+function brkPer(k){ S.brkPl = k; brkRefresh(); }
+function brkFy(f){ S.brkFy = f; S.brkPl = null; brkRefresh(); }
+
+// ---------- files: Excel (real .xlsx, no library) + signed PDF ----------
+function brkSaveBlob(name, blob, okMsg){
+  const viaAnchor = () => { try { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500); toast(okMsg); } catch (e) { toast('Download is not available in this view'); } };
+  if (!(window.claude && typeof window.claude.use === 'function')) { viaAnchor(); return; }
+  window.claude.use('downloads').then(dl => {
+    if (!dl) { toast('Download is not available in this view'); return; }
+    return dl.save({ filename: name, data: blob }).then(() => toast(okMsg)).catch(e => { const c = e && e.code; toast(c === 'declined' ? 'Download cancelled' : c === 'rate_limited' ? 'Please wait a moment and try again' : 'Download is not available in this view'); });
+  });
+}
+const CRC_T = (() => { const t = []; for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = u => { let c = 0xFFFFFFFF; for (let i = 0; i < u.length; i++) c = CRC_T[(c ^ u[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+function zipStore(files){
+  const enc = new TextEncoder(), parts = [], cen = []; let off = 0;
+  const u16 = n => [n & 255, (n >> 8) & 255], u32 = n => [n & 255, (n >> 8) & 255, (n >> 16) & 255, (n >>> 24) & 255];
+  files.forEach(([name, text]) => {
+    const nb = enc.encode(name), db = enc.encode(text), c = crc32(db);
+    const head = [0x50, 0x4b, 3, 4, ...u16(20), ...u16(0), ...u16(0), ...u16(0), ...u16(0x21), ...u32(c), ...u32(db.length), ...u32(db.length), ...u16(nb.length), ...u16(0)];
+    parts.push(new Uint8Array(head), nb, db);
+    cen.push(new Uint8Array([0x50, 0x4b, 1, 2, ...u16(20), ...u16(20), ...u16(0), ...u16(0), ...u16(0), ...u16(0x21), ...u32(c), ...u32(db.length), ...u32(db.length), ...u16(nb.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(off)]), nb);
+    off += head.length + nb.length + db.length;
+  });
+  const cl = cen.reduce((a, x) => a + x.length, 0);
+  return new Blob([...parts, ...cen, new Uint8Array([0x50, 0x4b, 5, 6, 0, 0, 0, 0, ...u16(files.length), ...u16(files.length), ...u32(cl), ...u32(off), 0, 0])], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+}
+function xlsx(sheets){
+  const x = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const col = i => { let s = ''; i++; while (i){ const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; };
+  const sheetXml = ({ rows, widths, boldRows = [] }) => `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>${widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${rows.map((r, ri) => `<row r="${ri + 1}">${r.map((v, ci) => { const ref = col(ci) + (ri + 1), st = boldRows.includes(ri) ? ' s="1"' : (typeof v === 'number' ? ' s="2"' : ''); return v === '' || v == null ? '' : typeof v === 'number' ? `<c r="${ref}"${st}><v>${v}</v></c>` : `<c r="${ref}" t="inlineStr"${st}><is><t xml:space="preserve">${x(v)}</t></is></c>`; }).join('')}</row>`).join('')}</sheetData></worksheet>`;
+  const files = [
+    ['[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((s, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`],
+    ['_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ['xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((s, i) => `<sheet name="${x(s.name)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('')}</sheets></workbook>`],
+    ['xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((s, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+    ['xl/styles.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="#,##0"/></numFmts><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFBF5E2"/></patternFill></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="3"><xf/><xf fontId="1" fillId="2" applyFont="1" applyFill="1"/><xf numFmtId="164" applyNumberFormat="1"/></cellXfs></styleSheet>`],
+    ...sheets.map((s, i) => [`xl/worksheets/sheet${i + 1}.xml`, sheetXml(s)])
+  ];
+  return zipStore(files);
+}
+function brkSheets(items){
+  const head = ['Statement ID', 'Statement', 'Period', 'Investor', 'Account code', 'Product', 'AMC', 'Scheme', 'Avg. AUM (INR)', 'Rate % p.a.', 'Brokerage type', 'Brokerage (INR)'];
+  const rows = [head];
+  items.forEach(b => brkLines(b).forEach(r => rows.push([b.id, b.title, b.period, r.name, r.code, r.prod, r.amc, r.scheme, r.aum, (r.rate * 100).toFixed(2) + '%', r.kind, r.amt])));
+  const g = items.reduce((a, b) => a + b.gross, 0), t = brkTax(g);
+  rows.push([], ['', '', '', '', '', '', '', '', '', '', 'Total brokerage', Math.round(g)]);
+  const sum = [['MyAlternates · Brokerage statement'], ['Distributor', BRK_DIST.name], ['ARN', BRK_DIST.arn], ['Generated on', '25 Nov 2026'], [],
+    ['Statement ID', 'Statement', 'Type', 'Period', 'Uploaded', 'Brokerage (INR)', 'GST 18% (INR)', 'Invoice value (INR)', 'TDS 2% (INR)', 'Net credit (INR)'],
+    ...items.map(b => { const x = brkTax(b.gross); return [b.id, b.title, BRK_TYPES[b.type][0], b.period, b.up, Math.round(b.gross), x.gst, x.total, x.tds, x.net]; }),
+    [], ['Total', '', '', '', '', Math.round(g), t.gst, t.total, t.tds, t.net], [], ['Sample data for the demo.']];
+  return [{ name: 'Summary', rows: sum, widths: [16, 40, 12, 22, 14, 16, 15, 18, 13, 16], boldRows: [0, 5, sum.length - 3] },
+          { name: 'Break-up', rows, widths: [14, 36, 20, 26, 13, 9, 30, 38, 16, 11, 18, 16], boldRows: [0, rows.length - 1] }];
+}
+function brkExcel(id){ const b = brkList().find(x => x.id === id); brkSaveBlob(`${b.id}-Brokerage-Breakup.xlsx`, xlsx(brkSheets([b])), 'Break-up Excel downloaded · ' + b.id); }
+function brkExcelIds(ids){ const L = brkList().filter(b => ids.split(',').includes(b.id)); brkSaveBlob('Brokerage-Breakup-' + [...new Set(L.map(b => b.pl))].join('-').replace(/[^A-Za-z0-9]+/g, '-') + '.xlsx', xlsx(brkSheets(L)), 'Break-up Excel downloaded'); }
+function brkExcelAll(){ const SEL = brkSel(), list = SEL.list;
+  if (!list.length){ toast('No statements in this period'); return; }
+  brkSaveBlob('Brokerage-Breakup-' + SEL.label.replace(/[^A-Za-z0-9]+/g, '-') + '.xlsx', xlsx(brkSheets(list)), 'Break-up Excel downloaded · ' + SEL.label); }
+function brkPdfLines(b){
+  const t = brkTax(b.gross), c = v => v.replace(/₹/g, 'INR '), draft = brkNeeds(b);
+  return [(draft ? 'DRAFT TAX INVOICE - ' : 'TAX INVOICE - ') + (draft ? 'invoice no. to be entered at e-sign' : b.inv), BRK_DIST.name + ' | ' + BRK_DIST.arn + ' | GSTIN ' + (b.gst || BRK_DIST.gstin).replace(/•/g, 'X'), 'Bill to: ' + BRK_TO.name + ' | GSTIN ' + BRK_TO.gstin.replace(/•/g, 'X'), '',
+    'Distribution brokerage: ' + b.title, 'Statement ' + b.id + ' | Period ' + b.period, '',
+    'Taxable value: ' + c(inr2(b.gross)), 'CGST 9%: ' + c(inr2(t.cgst)), 'SGST 9%: ' + c(inr2(t.sgst)), 'Invoice total: ' + c(inr2(t.total)), '',
+    'Payment to: ' + BRK_DIST.bank.replace(/•/g, 'X'), '',
+    draft ? 'Signature: pending e-sign' : b.method === 'upload' ? 'Invoice uploaded by the distributor' + (b.file ? ' (' + b.file + ')' : '') : 'e-Signed by ' + BRK_DIST.signer + ' with OTP on registered ' + (b.via || 'mobile'), draft ? '' : 'Submitted on ' + b.signed + (b.ref ? ' | eSign ref ' + b.ref : ''), '', 'Sample invoice generated by the MyAlternates demo.'];
+}
+function brkView(id){
+  const b = brkList().find(x => x.id === id), blob = fsPdf(brkPdfLines(b)), url = URL.createObjectURL(blob), w = window.open(url, '_blank');
+  if (!w) brkSaveBlob((b.inv || b.id).replace(/[\/\s]/g, '-') + '-Invoice.pdf', blob, 'Pop-up blocked · invoice downloaded instead');
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+function brkPdf(id){
+  const b = brkList().find(x => x.id === id), lines = brkPdfLines(b);
+  brkSaveBlob(`${b.inv.replace(/\//g, '-')}-Signed-Invoice.pdf`, fsPdf(lines), 'Signed invoice downloaded · ' + b.inv);
+}
+
+// ---------- invoice: e-sign with login OTP or upload own invoice (demo) ----------
+function brkNextInv(){ const used = brkList().filter(b => b.inv && b.inv.includes('/26-27/')).map(b => +b.inv.split('/').pop()); return 'SEM/26-27/' + String(Math.max(...used) + 1).padStart(3, '0'); }
+function brkOpen(id){
+  const b = brkList().find(x => x.id === id), t = brkTax(b.gross), m = document.getElementById('brkModal');
+  m.dataset.id = id; m.dataset.inv = brkNextInv(); m.dataset.step = '1';
+  m.querySelector('.brk-mtitle').textContent = 'e-Sign or upload invoice · ' + b.id;
+  m.querySelector('.brk-mbody').innerHTML = `
+    ${b.st === 'await' && b.rev ? `<div class="brk-rejbox brk-revbox">${svg('warn', 16, 2)}<div><b>Brokerage revised by ${b.rev.by} on ${b.rev.on}</b><div>Reason: ${b.rev.why}</div><div class="muted" style="font-size:12px;margin-top:2px">Please e-sign or upload your invoice for the revised amount.</div></div></div>` : ''}
+    ${b.st === 'rej' ? `<div class="brk-rejbox">${svg('warn', 16, 2)}<div><b>Rejected by ${b.rejBy} on ${b.rejOn}</b><div>${b.reason}</div></div></div>` : ''}
+    <ol class="brk-prog"><li class="on">Review invoice</li><li>e-Sign with OTP</li><li>Done</li></ol>
+    <div class="brk-s1">
+      <div class="brk-dets"><div><span>Distributor</span><b>${BRK_DIST.name}</b></div><div><span>Period</span><b>${b.period}</b><small>${b.title}</small></div><div><span>Statement</span><b>${b.id}</b><small>Uploaded ${b.up}</small></div><div><span>Products</span><b>${b.prods.join(', ')}</b></div><div class="full"><span>Bill to</span><b>${BRK_TO.name}</b></div></div>
+      <p class="muted" style="font-size:12.5px;margin:0">${svg('eye', 14, 1.8)} Amounts, tax and bank details are in the invoice PDF. Open <b>View PDF</b> to check them before you e-sign or upload.</p>
+      <div class="brk-mfoot"><button type="button" class="btn ghost brk-btn" onclick="brkView('${b.id}')">${svg('eye', 15, 1.8)}View PDF</button><button type="button" class="btn ghost brk-btn" onclick="brkExcel('${b.id}')">${svg('xls', 15, 1.8)}Break-up Excel</button><span style="flex:1"></span><button type="button" class="btn ghost brk-btn" onclick="brkUpOpen('${b.id}')">${svg('upload', 15, 1.8)}Upload your invoice</button><button type="button" class="btn brk-btn" onclick="brkStep2()">${svg('sign', 15, 1.8)}e-Sign this invoice</button></div>
+      <p class="muted brk-choice">Happy with our invoice? <b>e-Sign</b> it with an OTP. Prefer your own? <b>Upload</b> your invoice PDF instead, no e-sign needed.</p>
+    </div>
+    <div class="brk-s2" hidden>
+      <div class="brk-esign"><span class="brk-es-ic">${svg('shield', 22, 1.8)}</span><div><b>e-Sign with OTP</b><div class="muted" style="font-size:13px">We send a one-time password to the mobile number or email you use to sign in.</div></div></div>
+      <div class="brk-via" role="radiogroup" aria-label="Send OTP to"><label><input type="radio" name="brkVia" value="mobile" checked><span>${svg('phone', 15, 1.8)}Mobile<b>${BRK_LOGIN.mobile}</b></span></label><label><input type="radio" name="brkVia" value="email"><span>${svg('mail', 15, 1.8)}Email<b>${BRK_LOGIN.email}</b></span></label></div>
+      ${brkGstInfo()}${brkInvFields('es')}${brkGstDemo(b.id, 'es')}
+      <label class="brk-consent"><input type="checkbox" id="brkConsent" onchange="document.getElementById('brkSend').disabled=!this.checked"><span>I confirm the invoice details are correct and consent to sign the invoice for ${b.period} electronically with OTP verification.</span></label>
+      <button type="button" class="btn brk-btn" id="brkSend" disabled onclick="brkSendOtp()">Send OTP</button>
+      <div class="brk-otp" hidden><label for="brkOtp" style="font-size:13px;font-weight:600">Enter the 6-digit OTP</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><input id="brkOtp" class="finput" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6-digit OTP" style="max-width:180px;font-size:16px"><button type="button" class="btn brk-btn" onclick="brkSign()">${svg('sign', 15, 1.8)}Sign invoice</button></div>
+        <div class="muted" style="font-size:12px">Demo: use OTP <b>123456</b>. OTP sent to <span id="brkViaTo"></span> · valid for 10 minutes.</div><div class="brk-err" hidden>That OTP is not correct. Please try again.</div></div>
+      <div class="brk-mfoot"><button type="button" class="btn ghost brk-btn" onclick="brkStep1()">Back to invoice</button></div>
+    </div>
+    <div class="brk-s3" hidden></div>`;
+  m.hidden = false; m.querySelector('.fs-close').focus();
+}
+function brkProg(n){ document.querySelectorAll('#brkModal .brk-prog li').forEach((li, i) => { li.classList.toggle('on', i < n); }); }
+function brkStep1(){ const m = document.getElementById('brkModal'); m.querySelector('.brk-s1').hidden = false; m.querySelector('.brk-s2').hidden = true; brkProg(1); }
+function brkStep2(){ const m = document.getElementById('brkModal'); m.querySelector('.brk-s1').hidden = true; m.querySelector('.brk-s2').hidden = false; brkProg(2); }
+const brkHasGst = () => !S.brkNoGst && !!BRK_DIST.gstin;
+function brkGstToggle(id, mode){ S.brkNoGst = !S.brkNoGst; if (mode === 'up') brkUpOpen(id); else { brkOpen(id); brkStep2(); } }
+const brkGstInfo = () => brkHasGst() ? `<div class="brk-gstinfo">${svg('shield', 15, 1.8)}<span>GSTIN <b>${BRK_DIST.gstin}</b> · from your MyAlternates profile</span></div>` : `<div class="brk-gstinfo">${svg('shield', 15, 1.8)}<span>Not GST-registered as per your MyAlternates profile · no invoice number needed</span></div>`;
+const brkGstDemo = (id, mode) => `<button type="button" class="linkbtn muted-link" style="font-size:12px" onclick="brkGstToggle('${id}','${mode}')">Demo: view as a distributor ${brkHasGst() ? 'without' : 'with'} GST</button>`;
+const brkInvFields = pre => `<div class="brk-up-grid">${brkHasGst() ? `<label>Invoice number *<input id="${pre}No" class="finput" placeholder="e.g. SE/INV/1024" autocomplete="off"></label>` : ''}<label>Invoice date *<input id="${pre}Date" class="finput" type="date" value="2026-11-25"></label></div>`;
+const brkFmtD = v => { const [y, m, d] = v.split('-'); return new Date(+y, +m - 1, +d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); };
+function brkSendOtp(){ const m = document.getElementById('brkModal'), n = document.getElementById('esNo'), dt = document.getElementById('esDate');
+  if (n && !n.value.trim()){ toast('Enter your invoice number'); n.focus(); return; }
+  if (!dt.value){ toast('Choose the invoice date'); dt.focus(); return; }
+  m.dataset.gst = brkHasGst() ? BRK_DIST.gstin : ''; m.dataset.inv = n ? n.value.trim() : 'INV-' + m.dataset.id; m.dataset.idate = brkFmtD(dt.value); if (n) n.readOnly = true; dt.readOnly = true; m.querySelector('.brk-otp').hidden = false; document.getElementById('brkSend').textContent = 'Resend OTP'; const via = (m.querySelector('input[name=brkVia]:checked') || {}).value || 'mobile'; m.dataset.via = via; document.getElementById('brkViaTo').textContent = BRK_LOGIN[via]; document.getElementById('brkOtp').focus(); toast('OTP sent to your registered ' + (via === 'email' ? 'email' : 'mobile')); }
+function brkSign(){
+  const m = document.getElementById('brkModal'), v = document.getElementById('brkOtp').value.trim();
+  if (v !== '123456'){ m.querySelector('.brk-err').hidden = false; return; }
+  const id = m.dataset.id, st = brkState(), ref = 'ESN' + Date.now().toString().slice(-9);
+  st[id] = { method: 'esign', via: m.dataset.via || 'mobile', signed: '25 Nov 2026, ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }).toUpperCase(), inv: m.dataset.inv, gst: m.dataset.gst, idate: m.dataset.idate, ref }; brkSave(st);
+  const b = brkList().find(x => x.id === id);
+  m.querySelector('.brk-s2').hidden = true; brkProg(3);
+  const s3 = m.querySelector('.brk-s3'); s3.hidden = false;
+  s3.innerHTML = `<div class="brk-done"><span class="brk-done-ic">${svg('check', 30, 2.4)}</span><h3>Invoice e-signed</h3>
+    <p class="muted">Invoice <b>${b.inv}</b> for ${b.period} was signed on ${b.signed} (reference ${ref}).</p>
+    <span class="brk-pill ops"><i></i>Verification pending · Operations team</span>
+    <p class="muted" style="font-size:12.5px">Next: Accounts team approval, then payment. You get an email at each step.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button type="button" class="btn brk-btn" onclick="brkPdf('${id}')">${DL_IC}Download invoice</button><button type="button" class="btn ghost brk-btn" onclick="brkClose()">Done</button></div></div>`;
+  brkRefresh();
+}
+function brkUpOpen(id){
+  const b = brkList().find(x => x.id === id), t = brkTax(b.gross), m = document.getElementById('brkModal');
+  m.dataset.id = id;
+  m.querySelector('.brk-mtitle').textContent = (b.st === 'rej' ? 'Re-upload invoice for ' : 'Upload invoice for ') + b.id;
+  m.querySelector('.brk-mbody').innerHTML = `
+    ${b.st === 'await' && b.rev ? `<div class="brk-rejbox brk-revbox">${svg('warn', 16, 2)}<div><b>Brokerage revised by ${b.rev.by} on ${b.rev.on}</b><div>Reason: ${b.rev.why}</div><div class="muted" style="font-size:12px;margin-top:2px">Please e-sign or upload your invoice for the revised amount.</div></div></div>` : ''}
+    ${b.st === 'rej' ? `<div class="brk-rejbox">${svg('warn', 16, 2)}<div><b>Rejected by ${b.rejBy} on ${b.rejOn}</b><div>${b.reason}</div></div></div>` : ''}
+    <div class="brk-up-sum"><div class="brk-dets"><div><span>Distributor</span><b>${BRK_DIST.name}</b></div><div><span>Period</span><b>${b.period}</b><small>${b.title}</small></div><div><span>Statement</span><b>${b.id}</b><small>Uploaded ${b.up}</small></div><div><span>Products</span><b>${b.prods.join(', ')}</b></div><div class="full"><span>Bill to</span><b>${BRK_TO.name}</b></div></div>
+      <p class="muted" style="font-size:12.5px;margin:0">${svg('eye', 14, 1.8)} Amounts, tax and bank details are in the invoice PDF. Open <b>View PDF</b> to check them before you e-sign or upload.</p></div>
+    <form class="brk-up-form" onsubmit="event.preventDefault();brkUpSubmit()">
+      ${brkGstInfo()}${brkInvFields('up')}
+      <label class="brk-drop"><input id="upFile" type="file" accept="application/pdf,.pdf" onchange="brkUpFile(this)"><span class="brk-drop-ic">${svg('upload', 22, 1.8)}</span><b id="upFileName">Choose your invoice PDF</b><small>PDF only · up to 5 MB</small></label>
+      <label class="brk-consent"><input type="checkbox" id="upOk"><span>My invoice matches the amounts in the MyAlternates invoice PDF${brkHasGst() ? ' and carries my GSTIN ' + BRK_DIST.gstin : ''}.</span></label>
+      <div class="brk-err" id="upErr" hidden></div>
+      <div class="brk-mfoot"><button type="button" class="btn ghost brk-btn" onclick="brkOpen('${b.id}')">Back to our invoice</button><button type="button" class="btn ghost brk-btn" onclick="brkView('${b.id}')">${svg('eye', 15, 1.8)}View PDF</button><span class="muted" style="font-size:12px">No e-sign needed when you upload your own invoice. ${brkGstDemo(b.id, 'up')}</span><span style="flex:1"></span><button type="submit" class="btn brk-btn">${svg('upload', 15, 1.8)}Submit invoice</button></div>
+    </form>
+    <div class="brk-s3" hidden></div>`;
+  m.hidden = false; m.querySelector('.fs-close').focus();
+}
+function brkUpFile(el){ const f = el.files && el.files[0], n = document.getElementById('upFileName'), e = document.getElementById('upErr');
+  if (!f){ n.textContent = 'Choose your invoice PDF'; return; }
+  if (!/\.pdf$/i.test(f.name)){ el.value = ''; e.textContent = 'Please choose a PDF file.'; e.hidden = false; n.textContent = 'Choose your invoice PDF'; return; }
+  if (f.size > 5 * 1024 * 1024){ el.value = ''; e.textContent = 'The file is larger than 5 MB.'; e.hidden = false; n.textContent = 'Choose your invoice PDF'; return; }
+  e.hidden = true; n.textContent = f.name + ' · ' + (f.size / 1024).toFixed(0) + ' KB'; }
+function brkUpSubmit(){
+  const m = document.getElementById('brkModal'), id = m.dataset.id, e = document.getElementById('upErr');
+  const nEl = document.getElementById('upNo'), dEl = document.getElementById('upDate'), no = nEl ? nEl.value.trim() : 'INV-' + id, gst = brkHasGst() ? BRK_DIST.gstin : '', f = document.getElementById('upFile').files[0], ok = document.getElementById('upOk').checked;
+  const err = t => { e.textContent = t; e.hidden = false; };
+  if (nEl && !no) return err('Enter your invoice number.');
+  if (!dEl.value) return err('Choose the invoice date.');
+  if (!f) return err('Attach your invoice PDF.');
+  if (!ok) return err('Please confirm the invoice amount' + (gst ? ' and GSTIN.' : '.'));
+  const st = brkState(); st[id] = { method: 'upload', inv: no, gst, idate: brkFmtD(dEl.value), file: f.name, signed: '25 Nov 2026, ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }).toUpperCase() }; brkSave(st);
+  m.querySelector('.brk-up-form').hidden = true; m.querySelector('.brk-up-sum').hidden = true; m.querySelectorAll('.brk-rejbox').forEach(x => x.hidden = true);
+  const s3 = m.querySelector('.brk-s3'); s3.hidden = false;
+  s3.innerHTML = `<div class="brk-done"><span class="brk-done-ic">${svg('check', 30, 2.4)}</span><h3>Invoice uploaded</h3>
+    <p class="muted">${nEl ? 'Invoice <b>' + no + '</b>' : 'Your invoice'} dated ${brkFmtD(dEl.value)} (${f.name}) was submitted for ${id}.</p>
+    <span class="brk-pill ops"><i></i>Verification pending · Operations team</span>
+    <p class="muted" style="font-size:12.5px">Next: Accounts team approval, then payment. You get an email at each step.</p>
+    <button type="button" class="btn ghost brk-btn" onclick="brkClose()">Done</button></div>`;
+  brkRefresh();
+}
+function brkClose(){ document.getElementById('brkModal').hidden = true; }
+function brkResetDemo(){ brkSave({}); brkRefresh(); toast('Earnings demo reset'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape'){ const m = document.getElementById('brkModal'); if (m && !m.hidden) brkClose(); const im = document.getElementById('brkInvModal'); if (im && !im.hidden) brkInvClose(); } });
 
 // ---------- shell ----------
 const INV_NAV = [['home', 'Dashboard', 'grid'], ['pms', 'PMS', 'PMS'], ['mf', 'Mutual Funds', 'MF'], ['sif', 'SIF', 'SIF'], ['aif', 'AIF', 'AIF'], ['gift', 'GIFT IFSC', 'GIFT'], ['txns', 'Transactions', 'swap'], ['requests', 'Service Requests', 'req'], ['announcements', 'Alerts', 'bell'], ['profile', 'My Profile', 'user'], ['holdings', 'Preview products', 'act']];
-const DIST_NAV = [['d-home', 'Dashboard', 'grid'], ['d-investors', 'Investors', 'users'], ['d-activities', 'Activities', 'act'], ['d-requests', 'Service Requests', 'req']];
-const TITLES = { home: 'Dashboard', pms: 'PMS Portfolio', 'pms-scheme': 'Scheme details', mf: 'Mutual Funds', 'mf-scheme': 'Scheme details', 'sif-scheme': 'Strategy details', sif: 'SIF Portfolio', aif: 'AIF Portfolio', 'aif-scheme': 'Scheme details', gift: 'GIFT IFSC Portfolio', 'gift-scheme': 'Scheme details', txns: 'Transactions', requests: 'Service Requests', holdings: 'Preview products', announcements: 'Alerts', profile: 'My Profile', family: 'Family · Combined', 'd-home': 'Dashboard Overview', 'd-investors': 'Investors', 'd-activities': 'Activities', 'd-requests': 'Service Requests' };
+const DIST_NAV = [['d-home', 'Dashboard', 'grid'], ['d-investors', 'Investors', 'users'], ['d-earnings', 'Earnings', 'rupee'], ['d-activities', 'Activities', 'act'], ['d-requests', 'Service Requests', 'req']];
+const TITLES = { 'd-earnings': 'Earnings', 'd-birthdays': 'Birthday Alerts', home: 'Dashboard', pms: 'PMS Portfolio', 'pms-scheme': 'Scheme details', mf: 'Mutual Funds', 'mf-scheme': 'Scheme details', 'sif-scheme': 'Strategy details', sif: 'SIF Portfolio', aif: 'AIF Portfolio', 'aif-scheme': 'Scheme details', gift: 'GIFT IFSC Portfolio', 'gift-scheme': 'Scheme details', txns: 'Transactions', requests: 'Service Requests', holdings: 'Preview products', announcements: 'Alerts', profile: 'My Profile', family: 'Family · Combined', 'd-home': 'Dashboard Overview', 'd-investors': 'Investors', 'd-activities': 'Activities', 'd-requests': 'Service Requests' };
 const PARENT = { 'pms-scheme': ['pms', 'PMS Portfolio'], 'mf-scheme': ['mf', 'Mutual Funds'], 'sif-scheme': ['sif', 'SIF Portfolio'], 'aif-scheme': ['aif', 'AIF Portfolio'], 'gift-scheme': ['gift', 'GIFT IFSC Portfolio'] };
 const PCOL = { pms: ['#FBF5E2', '#7A5F0E'], mf: ['#ECFDF5', '#065F46'], sif: ['#FDF2F8', '#9D174D'], aif: ['#EFF6FF', '#1E3A8A'], gift: ['#F5F3FF', '#5B21B6'] };
 function activeNav(r){ return PARENT[r] ? PARENT[r][0] : (r === 'family' ? 'home' : r); }
@@ -1537,7 +2525,7 @@ function shell(r, body){
           ${famMembers().map(m => `<button type="button" data-member="${m.id}"><span class="avatar" style="background:var(--line2);color:var(--ink)">${m.ini}</span><span><div class="mname">${m.name} <span class="msub">· ${m.rel}</span></div><div class="msub">${cr(m.value)} · ${m.products}</div></span><span class="sel ${S.account === m.id ? 'on' : ''}"></span></button>`).join('')}
         </div></div><a class="iconbtn bellbtn" href="#announcements" aria-label="Alerts, ${annCount()} need attention">${svg('bell', 20, 1.8)}${annCount() ? `<span class="bdot">${annCount()}</span>` : ''}</a>${themeBtn}${profBtn}`;
   const chips = dist ? '' : `<nav class="chiprow" aria-label="Products">${[['home', 'Dashboard'], ['pms', 'PMS'], ['mf', 'MF'], ['sif', 'SIF'], ['aif', 'AIF'], ['gift', 'GIFT IFSC'], ['holdings', 'Preview']].filter(([k]) => (!PCOL[k] || visHeld(k)) && !(k === 'home' && singleMode())).map(([k, l]) => `<a href="#${k}" ${k === act ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>`;
-  const bottomItems = dist ? [['d-home', 'Dashboard', 'grid'], ['d-investors', 'Investors', 'users'], ['d-activities', 'Activities', 'act'], ['d-requests', 'Requests', 'req']] : [['home', 'Dashboard', 'grid'], ['txns', 'Transactions', 'swap'], ['requests', 'Requests', 'req'], ['signout', 'Sign out', 'out']];
+  const bottomItems = dist ? [['d-home', 'Dashboard', 'grid'], ['d-investors', 'Investors', 'users'], ['d-earnings', 'Earnings', 'rupee'], ['d-activities', 'Activities', 'act'], ['d-requests', 'Requests', 'req']] : [['home', 'Dashboard', 'grid'], ['txns', 'Transactions', 'swap'], ['requests', 'Requests', 'req'], ['signout', 'Sign out', 'out']];
   const banner = (S.viewingAs ? `<div class="banner">${svg('users', 18)}<span>Viewing <b>${esc(S.viewingAs)}</b>'s portfolio as distributor (sample data)</span><a href="#d-investors" data-exit-view>Back to investors</a></div>` : '');
   return `<div class="app">
     <aside class="side">${'<div class="brand">' + MYA_SVG + '</div>'}${sideNav}
@@ -1575,7 +2563,7 @@ function loginView(){
 function otpView(){
   return authFrame(`<a href="#login" style="display:flex;align-items:center;gap:6px;font-weight:600">${svg('back', 18, 2)}Back</a>
     ${S.resetting ? '<div class="banner" style="padding:10px 12px;font-size:13px">Resetting your MPIN · verify it is you with an OTP</div>' : ''}
-    <div><h2>Verify OTP</h2><p class="muted" style="margin:6px 0 0">Enter the 6-digit code sent to <b style="color:var(--ink)">${esc(S.dest || '+91 98XXXXXX10')}</b></p></div>
+    <div><h2>Verify OTP</h2><p class="muted" style="margin:6px 0 0">Enter the 6-digit code sent to <b style="color:var(--ink)">${esc(S.dest || '+91 98765 43210')}</b></p></div>
     <form id="otpForm" style="display:flex;flex-direction:column;gap:14px"><div class="otp" id="otpBoxes">${[0, 1, 2, 3, 4, 5].map(i => `<input id="otp-${i}" inputmode="numeric" maxlength="1" aria-label="Digit ${i + 1}" autocomplete="one-time-code">`).join('')}</div>
     <div class="err" id="otpErr"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><span class="muted" style="font-size:14px">Didn't get it? <b style="color:var(--ink);font-weight:500">Resend in 0:30</b></span><span class="demo">Demo OTP 123456</span></div>
@@ -1621,7 +2609,7 @@ function setTheme(t){ document.documentElement.dataset.theme = t; try { localSto
 function toggleTheme(){ setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
 document.documentElement.dataset.theme = getTheme();
 const RM_IMG = `<svg viewBox="0 0 120 120" role="img" aria-label="Relationship manager photo"><defs><linearGradient id="rmbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2A3245"/><stop offset="1" stop-color="#0F141F"/></linearGradient><linearGradient id="rmsuit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8C65A"/><stop offset="1" stop-color="#B8962E"/></linearGradient></defs><rect width="120" height="120" fill="url(#rmbg)"/><path d="M18 120c2-24 18-36 42-36s40 12 42 36z" fill="url(#rmsuit)"/><path d="M50 84l10 14 10-14z" fill="#F7F3E8"/><rect x="52" y="64" width="16" height="20" rx="6" fill="#C98F6B"/><ellipse cx="60" cy="50" rx="19" ry="22" fill="#D9A27E"/><path d="M40 48c0-16 9-25 21-25 13 0 20 9 20 22-5-6-12-9-22-10-6 4-12 8-19 13z" fill="#1E1A17"/><path d="M40 47c-3 14 1 32 4 40 2-10 1-24-4-40zM80 46c3 14-1 32-4 40-2-10-1-24 4-40z" fill="#1E1A17"/></svg>`;
-const PROFILE = { name: 'Sai Kumar', pan: 'ABCPK••••F', dob: '14 Mar 1988', mobile: '+91 98765 43210', email: 'saikumar.t••••@gmail.com', address: ['Flat 402, Lakeview Residency', 'Road No. 12, Banjara Hills', 'Hyderabad, Telangana 500034'], code: 'MYA-1001', tax: 'Resident Individual', kyc: 'Verified', since: '20 Aug 2021', bank: 'HDFC Bank · ••••4521', nominee: 'Test (Spouse)' };
+const PROFILE = { name: 'Sai Kumar', pan: 'ABCPK1234F', dob: '14 Mar 1988', mobile: '+91 98765 43210', email: 'saikumar.demo@gmail.com', address: ['Flat 402, Lakeview Residency', 'Road No. 12, Banjara Hills', 'Hyderabad, Telangana 500034'], code: 'MYA-1001', tax: 'Resident Individual', kyc: 'Verified', since: '20 Aug 2021', bank: 'HDFC Bank · A/c 50100234564521', nominee: 'Test (Spouse)' };
 const RM = { name: 'Priya Raghavan', role: 'Senior Relationship Manager', branch: 'MyAlternates · Hyderabad', mobile: '+91 90000 12345', email: 'priya.r@myalternates.com', hours: 'Mon – Sat · 10:00 AM – 7:00 PM', exp: '9 yrs', clients: 'PMS · AIF · GIFT IFSC' };
 function themeSwitch(){ const d = getTheme() === 'dark'; return `<div class="theme-seg" role="radiogroup" aria-label="Theme"><button type="button" role="radio" aria-checked="${!d}" onclick="setTheme('light')">${svg('sun', 16, 2)}Light</button><button type="button" role="radio" aria-checked="${d}" onclick="setTheme('dark')">${svg('moon', 16, 2)}Dark</button></div>`; }
 V.profile = () => {
@@ -1659,11 +2647,11 @@ function render(){
   if (r === 'login'){ const useMpin = hasPin(S.loginRole) && !S.useOtp && !S.resetting; root.innerHTML = useMpin ? mpinView() : loginView(); if (useMpin) setTimeout(() => document.getElementById('pin-0')?.focus(), 50); }
   else if (r === 'setmpin'){ root.innerHTML = setMpinView(); setTimeout(() => document.getElementById('pin-0')?.focus(), 50); }
   else if (r === 'otp') { root.innerHTML = otpView(); setTimeout(() => document.getElementById('otp-0')?.focus(), 50); }
-  else root.innerHTML = shell(r, (V[r] || V.home)());
+  else { if (r !== 'd-earnings') brkSetUnlocked(false); root.innerHTML = shell(r, (V[r] || V.home)()); }
   window.scrollTo(0, 0);
 }
 function toast(msg){ const t = document.getElementById('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, 3200); }
-function signOut(){ S.role = null; S.viewingAs = null; S.account = 'self'; S.useOtp = false; S.resetting = false; S.otpOk = null; location.replace('#login'); render(); }
+function signOut(){ brkSetUnlocked(false); S.role = null; S.viewingAs = null; S.account = 'self'; S.useOtp = false; S.resetting = false; S.otpOk = null; location.replace('#login'); render(); }
 
 document.addEventListener('click', e => {
   const t = e.target;
@@ -1692,7 +2680,7 @@ document.addEventListener('submit', e => {
   e.preventDefault();
   if (e.target.id === 'loginForm'){
     const v = (document.getElementById('login-in')?.value || '').trim();
-    if (S.method === 'mobile'){ const d = v.replace(/\D/g, ''); S.dest = '+91 ' + (d.length >= 4 ? 'XXXXXX' + d.slice(-4) : '98XXXXXX10'); }
+    if (S.method === 'mobile'){ const d = v.replace(/\D/g, ''); S.dest = '+91 ' + (d.length === 10 ? d.slice(0, 5) + ' ' + d.slice(5) : d || '98765 43210'); }
     else if (S.method === 'email') S.dest = v || 'your email address';
     else S.dest = 'your registered mobile and email';
     go('otp');
